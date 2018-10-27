@@ -1,10 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js">
+
+    </script>
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
 <body>
+<canvas id="canvas" width="500" height="500" style="float: right;"></canvas>
 <p>This is the latest output: <span id="latest"></span></p>
 <p>This is all the output:</p>
 <ul id="output"></ul>
@@ -12,7 +16,64 @@
 </body>
 
 <script>
-    var latest = document.getElementById('latest');
+
+    var canvas=document.getElementById("canvas");
+    var ctxBg=canvas.getContext("2d");
+    var ctxWall=canvas.getContext("2d");
+    var canvasWidth=canvas.width;
+    var canvasHeight=canvas.height;
+
+    var colCount=4;
+    var rowCount=3;
+    var cellSize=100;
+
+    var walls=[
+        {direction:'vertical',startY:0,endY:0,X:3,fill:'green'},
+        {direction:'horizontal',startX:0,endX:0,Y:2,fill:'yellow'},
+        {direction:'vertical',startY:1,endY:1,X:3,fill:'red'}
+    ];
+
+    drawGrid();
+    drawAllWalls(walls);
+
+    function drawAllWalls(walls){
+        for(var i=0;i<walls.length;i++){
+            var w=walls[i];
+            ctxWall.fillStyle=w.fill;
+            if(w.direction=='horizontal'){
+                for(var x=w.startX;x<=w.endX;x++){
+                    ctxWall.fillRect(x*cellSize,w.Y*cellSize,cellSize,cellSize)
+                }
+            }else{
+                for(var y=w.startY;y<=w.endY;y++){
+                    ctxWall.fillRect(w.X*cellSize,y*cellSize,cellSize,cellSize)
+                    function timeThree(){
+                        ctxWall.fillRect(w.X*cellSize,y*cellSize,cellSize,cellSize)
+                    }
+
+                }
+                setTimeout(timeThree,3000);
+            }
+        }
+    }
+
+
+
+
+    function drawGrid(){
+        ctxBg.beginPath();
+        for(var x=0;x<colCount+1;x++){
+            ctxBg.moveTo(x*cellSize,0);
+            ctxBg.lineTo(x*cellSize,rowCount*cellSize);
+        }
+        for(var y=0;y<rowCount+1;y++){
+            ctxBg.moveTo(0,y*cellSize,0);
+            ctxBg.lineTo(colCount*cellSize,y*cellSize);
+        }
+        ctxBg.stroke();
+    }
+
+   var latest = document.getElementById('latest');
     var output = document.getElementById('output');
 
     var xhr = new XMLHttpRequest();
@@ -45,6 +106,9 @@
             clearInterval(timer);
             latest.textContent = 'Done';
         }
-    }, 1000);
+    }, 10000);
+
+
+
 </script>
 </html>
