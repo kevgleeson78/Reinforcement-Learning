@@ -4,7 +4,6 @@ from time import sleep
 
 from flask import Flask, render_template
 
-from math import sqrt
 
 app = Flask(__name__)
 
