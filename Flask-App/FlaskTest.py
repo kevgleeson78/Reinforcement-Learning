@@ -17,11 +17,10 @@ def index():
 @app.route('/stream_sqrt')
 def stream():
     def generate():
-        for i in range(50):
+        for i in range(5000):
             yield '{}\n'.format(i)
-            sleep(.1)
+            sleep(.01)
 
     return app.response_class(generate(), mimetype='text/plain')
-
 
 app.run()

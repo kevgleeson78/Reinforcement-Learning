@@ -57,18 +57,15 @@ function drawShape(x , y,colour){
 }
 for(let i = 0; i< 4;i++) {
 
-    setTimeout(function () {
+        setTimeout(function () {
 
             context.clearRect(0, 0, 500, 500);
             drawBoard();
             drawShape(3, 0, 'green');
             drawShape(3, 1, 'red');
+            drawShape(i, 0, 'yellow');
 
-            drawShape(i, 2, 'yellow');
-
-    },  i * 1000);
-
-
+        }, i * 1000);
 }
 
 
@@ -113,7 +110,7 @@ for(let i = 0; i< 4;i++) {
             clearInterval(timer);
             latest.textContent = 'Done';
         }
-    }, 10000);
+    }, 100);
 
 
 
