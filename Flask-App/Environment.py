@@ -2,6 +2,7 @@ from copy import deepcopy
 from time import sleep
 import numpy as np
 import np.random as random
+import pandas as pd
 # Adapted from Source
 #  https://medium.com/@curiousily/solving-an-mdp-with-q-learning-from-scratch-deep-reinforcement-learning-for-hackers-part-1-45d1d360c120
 
@@ -9,7 +10,7 @@ AGENT = "A"
 GOAL = "G"
 EMPTY = "*"
 
-grid = [AGENT , EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, GOAL]
+grid = [AGENT, EMPTY, EMPTY, EMPTY, EMPTY, GOAL]
 
 for row in grid:
     print(' '.join(row))
@@ -77,29 +78,29 @@ def act(state, action):
 
     return State(grid=new_grid, agent_pos=p), reward, is_done
 
+# random.seed(42) # for reproducibility
 
 
-random.seed(42) # for reproducibility
+N_STATES = 1
 
-N_STATES = 10
-N_EPISODES = 2000
+N_EPISODES = 1000
 
-MAX_EPISODE_STEPS = 1000
+MAX_EPISODE_STEPS = 20
 
-MIN_ALPHA = 0.02
+MIN_ALPHA = 0.5
 
 alphas = np.linspace(1.0, MIN_ALPHA, N_EPISODES)
+# print(alphas)
 gamma = .2
-eps = 0.3
+eps = 0.2
 
 q_table = dict()
-
 
 def q(state, action=None):
 
     if state not in q_table:
         q_table[state] = np.zeros(len(ACTIONS))
-
+    print(q_table[state][action])
     if action is None:
         return q_table[state]
 
@@ -126,13 +127,14 @@ for e in range(N_EPISODES):
         total_reward += reward
 
         q(state)[action] = q(state, action) + \
-                           alpha * (reward + gamma *  np.max(q(next_state)) - q(state, action))
+                           alpha * (reward + gamma * np.max(q(next_state)) - q(state, action))
         state = next_state
         number_of_steps +=_
         print(action, state, "step number->", number_of_steps)
-        sleep(.05)
+        sleep(.5)
 
         if done:
             break
     print(f"Episode {e + 1}: total reward -> {total_reward}")
     print("Total_steps ->", number_of_steps)
+
