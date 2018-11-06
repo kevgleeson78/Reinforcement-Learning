@@ -1,3 +1,79 @@
+<!doctype html>
+<title>Send javascript with template demo</title>
+<style>
+    #data {
+        text-align: center;
+    }
+</style>
+<script src="http://code.jquery.com/jquery-latest.js"></script>
+<canvas id="canvas" width="500px" height="500px" style="float: right;"></canvas>
+
+
+
+
+<script>
+
+
+
+    // Box width
+    var bw = 400;
+    // Box height
+    var bh = 400;
+    col = 3;
+    row = 4;
+    gridX = bh/row;
+    gridY = bw/col;
+    // Padding
+    var p = 10;
+
+    var canvas = document.getElementById("canvas");
+    var context = canvas.getContext("2d");
+    function drawBoard(){
+        for (var x = 0; x <= bw; x += gridX) {
+            context.moveTo(0.5 + x + p, p);
+            context.lineTo(0.5 + x + p, bh + p);
+        }
+
+
+        for (var x = 0; x <= bh ; x += gridY) {
+            context.moveTo(p, 0.5 + x + p);
+            context.lineTo(bw + p, 0.5 + x + p);
+        }
+
+        context.strokeStyle = "black";
+        context.stroke();
+    }
+
+
+
+    function drawShape(x , y,colour){
+        context.strokeRect(p + gridX,p,gridX,gridY);
+        context.fillStyle = colour;
+        context.fillRect(p + gridX * x,p+ gridY * y,gridX,gridY);
+    }
+</script>
+
+{% for i in data: %}
+    <script>
+        var m  = {{ i }};
+
+
+        setTimeout(function () {
+
+            context.clearRect(0, 0, 500, 500);
+            drawBoard();
+            drawShape(3, 0, 'green');
+            drawShape(3, 1, 'red');
+            drawShape(m, 0, 'yellow');
+
+        }, m );
+
+
+
+
+    </script>
+{% endfor %}
+<!--
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -68,20 +144,11 @@ for(let i = 0; i< 4;i++) {
         }, i * 1000);
 }
 
-
-
-
-
-
-
-
-
-
    var latest = document.getElementById('latest');
     var output = document.getElementById('output');
 
     var xhr = new XMLHttpRequest();
-    xhr.open('GET', '{{ url_for('stream') }}');
+    xhr.open('GET', '{ url_for('stream') }}');
     xhr.send();
     var position = 0;
 
@@ -116,3 +183,4 @@ for(let i = 0; i< 4;i++) {
 
 </script>
 </html>
+-->
