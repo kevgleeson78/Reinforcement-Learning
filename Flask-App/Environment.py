@@ -2,18 +2,20 @@ from copy import deepcopy
 from time import sleep
 import numpy as np
 import np.random as random
-import pandas as pd
+import sys
+
 # Adapted from Source
 #  https://medium.com/@curiousily/solving-an-mdp-with-q-learning-from-scratch-deep-reinforcement-learning-for-hackers-part-1-45d1d360c120
 
 AGENT = "A"
 GOAL = "G"
 EMPTY = "*"
+TRAP = "#"
 
-grid = [AGENT, EMPTY, EMPTY, EMPTY, EMPTY, GOAL]
+grid = [TRAP, EMPTY, EMPTY, EMPTY, EMPTY, AGENT, EMPTY, EMPTY, EMPTY, EMPTY, GOAL]
 
-for row in grid:
-    print(' '.join(row))
+#for row in grid:
+#print(' '.join(row))
 
 
 class State:
@@ -32,29 +34,34 @@ class State:
         return f"State(grid={self.grid}, agent_pos={self.agent_pos})"
 
 
+f = open("test.txt","w+")
+
+
 LEFT = 0
 RIGHT = 1
 
 ACTIONS = [LEFT, RIGHT]
 
-start_state = State(grid=grid, agent_pos=[0])
+start_state = State(grid=grid, agent_pos=[5])
 
 
 def act(state, action):
 
     def new_agent_pos(state, action):
         p = deepcopy(state.agent_pos)
-       # print(len(p))
+        # print(len(p))
         if action == RIGHT:
             p[0] = max(len(state.grid[0]) - 1, p[0] + 1)
         elif action == LEFT:
-            p[0] =  max(0,p[0]-1)
+            p[0] = max(0,p[0]-1)
         else:
             raise ValueError(f"Unknown action {action}")
         return p
 
     p = new_agent_pos(state, action)
-   ## print(p)
+    f.write("%d\n" % (p[0]))
+    print(p[0])
+    sys.stdout.flush()
     grid_item = state.grid[p[0]]
 
     new_grid = deepcopy(state.grid)
@@ -62,6 +69,10 @@ def act(state, action):
 
     if grid_item == GOAL:
         reward = 1000
+        is_done = True
+        new_grid[p[0]] += AGENT
+    elif grid_item == TRAP:
+        reward = -1000
         is_done = True
         new_grid[p[0]] += AGENT
     elif grid_item == EMPTY:
@@ -78,29 +89,22 @@ def act(state, action):
 
     return State(grid=new_grid, agent_pos=p), reward, is_done
 
-# random.seed(42) # for reproducibility
-
-
-N_STATES = 1
-
-N_EPISODES = 1000
-
+    f.close()
+N_STATES = 4
+N_EPISODES = 5000
 MAX_EPISODE_STEPS = 20
-
 MIN_ALPHA = 0.5
-
 alphas = np.linspace(1.0, MIN_ALPHA, N_EPISODES)
 # print(alphas)
 gamma = .2
 eps = 0.2
-
 q_table = dict()
 
 def q(state, action=None):
 
     if state not in q_table:
         q_table[state] = np.zeros(len(ACTIONS))
-    print(q_table[state][action])
+    ## print(q_table[state][action])
     if action is None:
         return q_table[state]
 
@@ -129,12 +133,13 @@ for e in range(N_EPISODES):
         q(state)[action] = q(state, action) + \
                            alpha * (reward + gamma * np.max(q(next_state)) - q(state, action))
         state = next_state
+
         number_of_steps +=_
         print(action, state, "step number->", number_of_steps)
-        sleep(.5)
+        #sleep(.25)
 
         if done:
             break
-    print(f"Episode {e + 1}: total reward -> {total_reward}")
-    print("Total_steps ->", number_of_steps)
+#  print(f"Episode {e + 1}: total reward -> {total_reward}")
+#  print("Total_steps ->", number_of_steps)
 
