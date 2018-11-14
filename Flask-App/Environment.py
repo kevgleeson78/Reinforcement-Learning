@@ -2,6 +2,7 @@ from copy import deepcopy
 from time import sleep
 import numpy as np
 import np.random as random
+import os.path
 import sys
 
 # Adapted from Source
@@ -33,8 +34,11 @@ class State:
     def __str__(self):
         return f"State(grid={self.grid}, agent_pos={self.agent_pos})"
 
+# Adapted from https://stackoverflow.com/questions/8024248/telling-python-to-save-a-txt-file-to-a-certain-directory-on-windows-and-mac
+completeName = os.path.join("static/", "test.txt")
 
-f = open("test.txt","w+")
+
+f = open(completeName,"w+")
 
 
 LEFT = 0
@@ -61,7 +65,7 @@ def act(state, action):
     p = new_agent_pos(state, action)
     f.write("%d\n" % (p[0]))
     print(p[0])
-    sys.stdout.flush()
+
     grid_item = state.grid[p[0]]
 
     new_grid = deepcopy(state.grid)
@@ -89,9 +93,10 @@ def act(state, action):
 
     return State(grid=new_grid, agent_pos=p), reward, is_done
 
-    f.close()
+
+
 N_STATES = 4
-N_EPISODES = 5000
+N_EPISODES = 500
 MAX_EPISODE_STEPS = 20
 MIN_ALPHA = 0.5
 alphas = np.linspace(1.0, MIN_ALPHA, N_EPISODES)
@@ -140,6 +145,7 @@ for e in range(N_EPISODES):
 
         if done:
             break
+f.close()
 #  print(f"Episode {e + 1}: total reward -> {total_reward}")
 #  print("Total_steps ->", number_of_steps)
 

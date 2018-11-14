@@ -47,7 +47,7 @@ def index():
 def stream():
     def generate():
         for i in range(5000):
-            yield '{}\n'.format(i)
+            yield '{}n'.format(i)
             sleep(.01)
 
     return app.response_class(generate(), mimetype='text/plain')
