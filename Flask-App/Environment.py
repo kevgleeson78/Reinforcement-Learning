@@ -96,7 +96,7 @@ def act(state, action):
 
 
 N_STATES = 4
-N_EPISODES = 500
+N_EPISODES = 100
 MAX_EPISODE_STEPS = 20
 MIN_ALPHA = 0.5
 alphas = np.linspace(1.0, MIN_ALPHA, N_EPISODES)

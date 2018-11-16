@@ -18,11 +18,11 @@
     // Box width
     var bw = 400;
     // Box height
-    var bh = 400;
-    col = 3;
-    row = 4;
-    gridX = bh/row;
-    gridY = bw/col;
+    var bh = 100;
+    col = 1;
+    row = 11;
+    gridX = bw/row;
+    gridY = bh/col;
     // Padding
     var p = 10;
 
@@ -51,6 +51,7 @@
         context.fillStyle = colour;
         context.fillRect(p + gridX * x,p+ gridY * y,gridX,gridY);
     }
+
 </script>
 
 {% for i in data: %}
@@ -61,9 +62,10 @@
         setTimeout(function () {
 
             context.clearRect(0, 0, 500, 500);
+
             drawBoard();
-            drawShape(3, 0, 'green');
-            drawShape(3, 1, 'red');
+            drawShape(10, 0, 'green');
+            drawShape(0, 0, 'red');
             drawShape(m, 0, 'yellow');
 
         }, m );

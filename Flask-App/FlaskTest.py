@@ -18,14 +18,20 @@ def stream_template(template_name, **context):
 
 @app.route('/')
 def index():
+    f = open('static/test.txt', 'r')
+    lines = f.readlines()
+
     def g():
-        for i in range(4):
-            time.sleep(1)  # an artificial delay
-            yield i
+        for i in lines:
+            conv_int = int(i)
+            time.sleep(.03)  # an artificial delay
+            yield conv_int
+    f.close()
     return Response(stream_template('index.html', data=g()))
 
 
 if __name__ == "__main__":
+
     app.run(host='localhost', port=23423)
 # Adapted from https://stackoverflow.com/questions/31948285/display-data-streamed-from-a-flask-view-as-it-updates
 """
