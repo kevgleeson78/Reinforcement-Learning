@@ -13,7 +13,7 @@ GOAL = "G"
 EMPTY = "*"
 TRAP = "#"
 
-grid = [TRAP, EMPTY, EMPTY, EMPTY, EMPTY, AGENT, EMPTY, EMPTY, EMPTY, EMPTY, GOAL]
+grid = [TRAP, EMPTY, EMPTY, EMPTY, AGENT, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, GOAL]
 
 #for row in grid:
 #print(' '.join(row))
@@ -46,7 +46,7 @@ RIGHT = 1
 
 ACTIONS = [LEFT, RIGHT]
 
-start_state = State(grid=grid, agent_pos=[5])
+start_state = State(grid=grid, agent_pos=[4])
 
 
 def act(state, action):
@@ -94,15 +94,15 @@ def act(state, action):
     return State(grid=new_grid, agent_pos=p), reward, is_done
 
 
-
 N_STATES = 4
-N_EPISODES = 100
-MAX_EPISODE_STEPS = 20
+
+N_EPISODES = 2000
+MAX_EPISODE_STEPS = 15
 MIN_ALPHA = 0.5
 alphas = np.linspace(1.0, MIN_ALPHA, N_EPISODES)
 # print(alphas)
-gamma = .2
-eps = 0.2
+gamma = 0.2
+eps = 0.6
 q_table = dict()
 
 def q(state, action=None):
