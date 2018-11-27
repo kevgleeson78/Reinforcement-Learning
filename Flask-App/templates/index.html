@@ -15,12 +15,13 @@
 <script>
 
     alertFunc();
+
     // Box width
     var bw = 400;
     // Box height
-    var bh = 100;
-    col = 1;
-    row = 11;
+    var bh = 400;
+    col = 5;
+    row = 4;
     gridX = bw/row;
     gridY = bh/col;
     // Padding
@@ -54,26 +55,28 @@
 
 </script>
 
-{% for i in data: %}
+{% for i in data %}
     <script>
-        var m  = {{ i }};
 
-
+        var x  = {{i}}
+       // var y =
+       // var z =
         setTimeout(function () {
 
             context.clearRect(0, 0, 500, 500);
-
             drawBoard();
-            drawShape(10, 0, 'green');
-            drawShape(0, 0, 'red');
-            drawShape(m, 0, 'yellow');
 
-        }, m );
+            drawShape(2,  0, 'green');
+            drawShape(2, 1, 'red');
+            drawShape(x, 0,'yellow');
+
+        } );
 
 
 
 
     </script>
+
 {% endfor %}
 </html>
 <!--

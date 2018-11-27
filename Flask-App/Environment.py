@@ -1,10 +1,8 @@
-from copy import deepcopy
-from time import sleep
-import numpy as np
-import np.random as random
-import os.path
-import sys
 
+from copy import deepcopy
+import numpy as np
+import random
+import os.path
 # Adapted from Source
 #  https://medium.com/@curiousily/solving-an-mdp-with-q-learning-from-scratch-deep-reinforcement-learning-for-hackers-part-1-45d1d360c120
 
@@ -13,8 +11,7 @@ GOAL = "G"
 EMPTY = "*"
 TRAP = "#"
 
-grid = [TRAP, EMPTY, EMPTY, EMPTY, AGENT, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, GOAL]
-
+grid = [EMPTY, EMPTY, EMPTY, EMPTY, AGENT, EMPTY, EMPTY, EMPTY, EMPTY,  GOAL]
 #for row in grid:
 #print(' '.join(row))
 
@@ -96,13 +93,13 @@ def act(state, action):
 
 N_STATES = 4
 
-N_EPISODES = 2000
-MAX_EPISODE_STEPS = 15
+N_EPISODES = 200
+MAX_EPISODE_STEPS = 20
 MIN_ALPHA = 0.5
 alphas = np.linspace(1.0, MIN_ALPHA, N_EPISODES)
 # print(alphas)
-gamma = 0.2
-eps = 0.6
+gamma = 0.9
+eps = 0.2
 q_table = dict()
 
 def q(state, action=None):
@@ -148,4 +145,14 @@ for e in range(N_EPISODES):
 f.close()
 #  print(f"Episode {e + 1}: total reward -> {total_reward}")
 #  print("Total_steps ->", number_of_steps)
+
+
+
+
+
+
+#################################################################################################################
+
+
+
 

@@ -23,9 +23,9 @@ def index():
 
     def g():
         for i in lines:
-            conv_int = int(i)
-            time.sleep(.1)  # an artificial delay
-            yield conv_int
+                conv_int_x = int(i)
+                time.sleep(.2)  # an artificial delay
+                yield conv_int_x
     f.close()
     return Response(stream_template('index.html', data=g()))
 
