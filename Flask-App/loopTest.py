@@ -9,9 +9,11 @@ EMPTY = "*"
 TRAP = "#"
 
 grid = [
-    [EMPTY, EMPTY, GOAL],
-    [EMPTY, EMPTY, TRAP],
-    [AGENT, EMPTY, EMPTY],
+    [EMPTY, EMPTY, EMPTY, GOAL],
+    [EMPTY, EMPTY, EMPTY, TRAP],
+    [EMPTY, EMPTY, EMPTY, EMPTY],
+    [EMPTY, EMPTY, EMPTY, EMPTY],
+    [AGENT, EMPTY, EMPTY, EMPTY],
 
 ]
 
@@ -48,7 +50,7 @@ RIGHT = 3
 ACTIONS = [UP, DOWN, LEFT, RIGHT]
 
 
-start_state = State(grid=grid, agent_pos=[2, 0])
+start_state = State(grid=grid, agent_pos=[4, 0])
 
 
 def act(state, action):
@@ -70,7 +72,7 @@ def act(state, action):
 
     p = new_agent_pos(state, action)
     f.write("%d," % (p[0]))
-    f.write("%d\n" % (p[1]))
+    f.write("%d," % (p[1]))
     grid_item = state.grid[p[0]][p[1]]
 
     new_grid = deepcopy(state.grid)
@@ -101,9 +103,9 @@ def act(state, action):
 #random.seed(42) # for reproducibility
 
 N_STATES = 20
-N_EPISODES = 3
+N_EPISODES = 2000
 
-MAX_EPISODE_STEPS = 8
+MAX_EPISODE_STEPS = 200
 
 MIN_ALPHA = 0.02
 
