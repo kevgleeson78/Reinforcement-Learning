@@ -14,7 +14,6 @@ grid = [
     [EMPTY, EMPTY, EMPTY, EMPTY],
     [EMPTY, EMPTY, EMPTY, EMPTY],
     [AGENT, EMPTY, EMPTY, EMPTY],
-
 ]
 
 for row in grid:
@@ -107,11 +106,11 @@ N_EPISODES = 2000
 
 MAX_EPISODE_STEPS = 200
 
-MIN_ALPHA = 0.02
+MIN_ALPHA = 0.1
 
 alphas = np.linspace(1.0, MIN_ALPHA, N_EPISODES)
-gamma = 1.0
-eps = 0.2
+gamma = .8
+eps = .09
 
 q_table = dict()
 
@@ -144,7 +143,7 @@ for e in range(N_EPISODES):
         action = choose_action(state)
         next_state, reward, done = act(state, action)
         total_reward += reward
-
+        print(q_table)
         q(state)[action] = q(state, action) + \
                            alpha * (reward + gamma *  np.max(q(next_state)) - q(state, action))
         state = next_state

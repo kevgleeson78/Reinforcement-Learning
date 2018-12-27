@@ -1,7 +1,7 @@
 
 #!/usr/bin/env python
 import time
-from flask import Flask, Response
+from flask import Flask, Response, request
 
 app = Flask(__name__)
 
@@ -28,6 +28,13 @@ def index():
                 yield conv_int_x
     f.close()
     return Response(stream_template('index.html', data=g()))
+
+
+@app.route('/', methods=['POST'])
+def my_form_post():
+    text = request.form['text']
+    processed_text = text.upper()
+    return processed_text
 
 
 if __name__ == "__main__":

@@ -10,7 +10,10 @@
 <canvas id="canvas" width="500px" height="500px" style="float: right;"></canvas>
 <div id="div1"></div>
 
-
+<form method="POST">
+    <input name="text">
+    <input type="submit">
+</form>
 </body>
 <script>
 
@@ -73,7 +76,7 @@
                         drawShape(3, 1, 'red');
                         drawShape(y1, x1,'yellow');
                             $("body").append("Pos: " + x1 + "  "+y1);
-                        }, i *500);
+                        }, i *80);
 
 
 
