@@ -10,8 +10,8 @@
 <canvas id="canvas" width="500px" height="500px" style="float: right;"></canvas>
 <div id="div1"></div>
 
-<form method="POST">
-    <input name="text">
+<form action="/test">
+
     <input type="submit">
 </form>
 </body>
@@ -57,10 +57,12 @@
             context.fillStyle = colour;
             context.fillRect(p + gridX * x,p+ gridY * y,gridX,gridY);
         }
+
         $.ajax({
 
             url: "/static/test.txt",
             dataType: "text",
+            cache: false,
             success: function (data) {
                 var arr =   data.split(/,/g).slice(0);
 
@@ -76,7 +78,7 @@
                         drawShape(3, 1, 'red');
                         drawShape(y1, x1,'yellow');
                             $("body").append("Pos: " + x1 + "  "+y1);
-                        }, i *80);
+                        }, i *50);
 
 
 

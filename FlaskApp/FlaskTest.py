@@ -1,7 +1,8 @@
 
 #!/usr/bin/env python
 import time
-from flask import Flask, Response, request
+from flask import Flask, Response, request, redirect, render_template
+from ipython_genutils.py3compat import execfile
 
 app = Flask(__name__)
 
@@ -24,17 +25,17 @@ def index():
     def g():
         for i in lines:
                 conv_int_x = int(i)
-                time.sleep(.2)  # an artificial delay
+               # time.sleep(.2)  # an artificial delay
                 yield conv_int_x
     f.close()
     return Response(stream_template('index.html', data=g()))
 
 
-@app.route('/', methods=['POST'])
+@app.route('/test')
 def my_form_post():
-    text = request.form['text']
-    processed_text = text.upper()
-    return processed_text
+    from FlaskApp import loopTest
+    loopTest.init()
+    return render_template('index.html')
 
 
 if __name__ == "__main__":
