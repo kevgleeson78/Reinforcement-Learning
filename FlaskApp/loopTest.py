@@ -9,9 +9,9 @@ AGENT = "A"
 GOAL = "G"
 EMPTY = "*"
 TRAP = "#"
-test = 0
-
-
+episodes_form = 0
+max_steps_form = 0
+per_step_cost = 0
 grid = [
     [EMPTY, EMPTY, EMPTY, GOAL],
     [EMPTY, EMPTY, EMPTY, TRAP],
@@ -98,13 +98,13 @@ def init():
             f.write("%d," % (start_state.agent_pos[1]))
             new_grid[p[0]][p[1]] += AGENT
         elif grid_item == EMPTY:
-            reward = -1
+            reward = int(per_step_cost)
             is_done = False
             old = state.agent_pos
             new_grid[old[0]][old[1]] = EMPTY
             new_grid[p[0]][p[1]] = AGENT
         elif grid_item == AGENT:
-            reward = -1
+            reward = int(per_step_cost)
             is_done = False
         else:
             raise ValueError(f"Unknown grid item {grid_item}")
@@ -117,10 +117,10 @@ def init():
 
     N_STATES = 20
 
-    N_EPISODES = int(test)
+    N_EPISODES = int(episodes_form)
 
 
-    MAX_EPISODE_STEPS = 200
+    MAX_EPISODE_STEPS = int(max_steps_form)
 
     MIN_ALPHA = 0.1
 

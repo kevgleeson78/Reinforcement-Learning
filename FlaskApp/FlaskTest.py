@@ -35,7 +35,9 @@ def index():
 
 def test():
     from FlaskApp import loopTest
-    loopTest.test = request.form.get("episode")
+    loopTest.episodes_form = request.form.get("episode")
+    loopTest.max_steps_form = request.form.get("max_steps")
+    loopTest.per_step_cost = request.form.get("per_step_cost")
     loopTest.init()
 
     return render_template('index.html')
