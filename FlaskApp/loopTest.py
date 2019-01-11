@@ -3,11 +3,13 @@ import numpy as np
 import random
 import os.path
 
+from FlaskApp import FlaskTest
+
 AGENT = "A"
 GOAL = "G"
 EMPTY = "*"
 TRAP = "#"
-
+test = 0
 
 
 grid = [
@@ -37,9 +39,11 @@ class State:
     def __str__(self):
         return f"State(grid={self.grid}, agent_pos={self.agent_pos})"
 
-def init():
-    completeName = os.path.join("static/", "test.txt")
 
+def init():
+
+
+    completeName = os.path.join("static/", "test.txt")
 
     f = open(completeName,"w+")
 
@@ -112,7 +116,9 @@ def init():
     #random.seed(42) # for reproducibility
 
     N_STATES = 20
-    N_EPISODES = 20
+
+    N_EPISODES = int(test)
+
 
     MAX_EPISODE_STEPS = 200
 
@@ -165,3 +171,5 @@ def init():
         print(f"Episode {e + 1}: total reward -> {total_reward}")
 
     f.close()
+
+

@@ -31,11 +31,15 @@ def index():
     return Response(stream_template('index.html', data=g()))
 
 
-@app.route('/test')
-def my_form_post():
+@app.route('/test', methods=['GET', 'POST'])
+
+def test():
     from FlaskApp import loopTest
+    loopTest.test = request.form.get("episode")
     loopTest.init()
+
     return render_template('index.html')
+
 
 
 if __name__ == "__main__":
