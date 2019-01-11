@@ -165,7 +165,9 @@ def init():
             state = next_state
             number_of_steps +=_
             print(action, state, "step number->", number_of_steps +1)
-
+            if number_of_steps +1 == MAX_EPISODE_STEPS:
+                f.write("%d," % (start_state.agent_pos[0]))
+                f.write("%d," % (start_state.agent_pos[1]))
             if done:
                 break
         print(f"Episode {e + 1}: total reward -> {total_reward}")
