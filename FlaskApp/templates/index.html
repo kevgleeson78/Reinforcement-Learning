@@ -7,15 +7,12 @@
 
 </head>
 <body>
-{% for table in tables %}
-    {{titles[loop.index]}}
-    {{ table|safe }}
-{% endfor %}
+
 <form action="/test" method="post">
-    Epsilon: <input type="text" name="epsilon"> </br>
-    Gamma: <input type="text" name="gamma"> </br>
-    Number of Episodes: <input type="text" name="episode"> </br>
-    Max number of steps: <input type="text" name="max_steps"> </br>
+    Epsilon: <input type="number" name="epsilon" min="0" max="1" step=".01" value=".09"> </br>
+    Gamma: <input type="number" name="gamma" min="0" max="1" step=".01" value=".8"> </br>
+    Number of Episodes: <input type="number" name="episode" min="0" max="2000" step="10" value="100"> </br>
+    Max number of steps: <input type="number" name="max_steps" min="0" max="100" step="5" value="10"> </br>
     Per Step cost: <input type="text" name="per_step_cost"> </br>
     Goal Reward: <input type="text" name="goal_reward"> </br>
     <input type="submit" name= "form">

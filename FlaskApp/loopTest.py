@@ -162,7 +162,9 @@ def init():
 
         for _ in range(MAX_EPISODE_STEPS):
 
-
+            test = pd.DataFrame(list(q_table.values()))
+            with open('static/Dataframe.csv', 'a') as f1:
+                test.to_csv(f1, sep='\t', header='\t')
             number_of_steps = 0
             action = choose_action(state)
             next_state, reward, done = act(state, action)
@@ -179,9 +181,9 @@ def init():
                 f.write("%d," % (start_state.agent_pos[1]))
             if done:
                 break
-        test = pd.DataFrame(list(q_table.values()))
-        print(test)
-        test.to_csv("static/Dataframe.csv", sep='\t', encoding='utf-8')
+
+       # print(test)
+       # test.to_csv("static/Dataframe.csv", sep='\t', encoding='utf-8')
         print(f"Episode {e + 1}: total reward -> {total_reward}")
 
     f.close()
