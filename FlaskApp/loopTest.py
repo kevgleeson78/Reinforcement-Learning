@@ -2,7 +2,7 @@ from copy import deepcopy
 import numpy as np
 import random
 import os.path
-
+import pandas as pd
 from FlaskApp import FlaskTest
 
 AGENT = "A"
@@ -12,6 +12,10 @@ TRAP = "#"
 episodes_form = 0
 max_steps_form = 0
 per_step_cost = 0
+goal_reward = 0
+gamma_form = 0
+epsilon_form = 0
+
 grid = [
     [EMPTY, EMPTY, EMPTY, GOAL],
     [EMPTY, EMPTY, EMPTY, TRAP],
@@ -92,7 +96,7 @@ def init():
             f.write("%d," % (start_state.agent_pos[1]))
             new_grid[p[0]][p[1]] += AGENT
         elif grid_item == GOAL:
-            reward = 1000
+            reward = int(goal_reward)
             is_done = True
             f.write("%d," % (start_state.agent_pos[0]))
             f.write("%d," % (start_state.agent_pos[1]))
@@ -126,8 +130,8 @@ def init():
 
     alphas = np.linspace(1.0, MIN_ALPHA, N_EPISODES)
 
-    gamma = .8
-    eps = .09
+    gamma = float(gamma_form)#.8
+    eps = float(epsilon_form)#.09
     q_table1 = np.zeros((N_STATES,len(ACTIONS)))
     print (q_table1)
     q_table = dict()
@@ -157,13 +161,15 @@ def init():
         alpha = alphas[e]
 
         for _ in range(MAX_EPISODE_STEPS):
+
+
             number_of_steps = 0
             action = choose_action(state)
             next_state, reward, done = act(state, action)
             total_reward += reward
             # print(q_table)
             q(state)[action] = q(state, action) + \
-                               alpha * (reward + gamma * np.max(q(next_state)) - q(state, action))
+                               alpha * (reward + gamma * np.max(q(next_state, action)) - q(state, action))
             state = next_state
             number_of_steps +=_
             print(action, state, "step number->", number_of_steps +1)
@@ -173,11 +179,11 @@ def init():
                 f.write("%d," % (start_state.agent_pos[1]))
             if done:
                 break
-
-        print(f"Episode {e + 1}: total reward -> {total_reward}")
-        import pandas as pd
         test = pd.DataFrame(list(q_table.values()))
         print(test)
+        test.to_csv("static/Dataframe.csv", sep='\t', encoding='utf-8')
+        print(f"Episode {e + 1}: total reward -> {total_reward}")
+
     f.close()
 
 

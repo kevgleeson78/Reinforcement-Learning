@@ -7,15 +7,23 @@
 
 </head>
 <body>
-<canvas id="canvas" width="500px" height="500px" style="float: right;"></canvas>
-<div id="div1"></div>
-
+{% for table in tables %}
+    {{titles[loop.index]}}
+    {{ table|safe }}
+{% endfor %}
 <form action="/test" method="post">
+    Epsilon: <input type="text" name="epsilon"> </br>
+    Gamma: <input type="text" name="gamma"> </br>
     Number of Episodes: <input type="text" name="episode"> </br>
     Max number of steps: <input type="text" name="max_steps"> </br>
     Per Step cost: <input type="text" name="per_step_cost"> </br>
+    Goal Reward: <input type="text" name="goal_reward"> </br>
     <input type="submit" name= "form">
 </form>
+<canvas id="canvas" width="500px" height="500px" style="float: right;"></canvas>
+<div id="div1"></div>
+
+
 </body>
 <script>
 
@@ -104,7 +112,7 @@ updateFunc();
 
 
 </script>
-
+</html>
 <!--
 <!DOCTYPE html>
 <html lang="en">

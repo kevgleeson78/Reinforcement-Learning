@@ -38,6 +38,9 @@ def test():
     loopTest.episodes_form = request.form.get("episode")
     loopTest.max_steps_form = request.form.get("max_steps")
     loopTest.per_step_cost = request.form.get("per_step_cost")
+    loopTest.goal_reward = request.form.get("goal_reward")
+    loopTest.gamma_form = request.form.get("gamma")
+    loopTest.epsilon_form = request.form.get("epsilon")
     loopTest.init()
 
     return render_template('index.html')
