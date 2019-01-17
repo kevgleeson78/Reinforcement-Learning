@@ -146,13 +146,14 @@ def init():
 
         return q_table[state][action]
 
-
     def choose_action(state):
         if random.uniform(0, 1) < eps:
             return random.choice(ACTIONS)
         else:
             return np.argmax(q(state))
 
+    if os.path.exists("static/Dataframe.csv"):
+        os.remove('static/Dataframe.csv')
 
     for e in range(N_EPISODES):
 
@@ -163,13 +164,20 @@ def init():
         for _ in range(MAX_EPISODE_STEPS):
 
             test = pd.DataFrame(list(q_table.values()))
-            with open('static/Dataframe.csv', 'a') as f1:
-                test.to_csv(f1, sep='\t', header='\t')
+
+
+
+
             number_of_steps = 0
             action = choose_action(state)
             next_state, reward, done = act(state, action)
+            with open('static/Dataframe.csv', 'a') as f1:
+                test.to_csv(f1, sep='\t', header='\t')
+                f1.write("%d," % next_state.agent_pos[0])
+                f1.write("%d," % next_state.agent_pos[1])
+                f1.close()
             total_reward += reward
-            # print(q_table)
+            print(state.agent_pos[0])
             q(state)[action] = q(state, action) + \
                                alpha * (reward + gamma * np.max(q(next_state, action)) - q(state, action))
             state = next_state
@@ -177,8 +185,8 @@ def init():
             print(action, state, "step number->", number_of_steps +1)
 
             if number_of_steps +1 == MAX_EPISODE_STEPS:
-                f.write("%d," % (start_state.agent_pos[0]))
-                f.write("%d," % (start_state.agent_pos[1]))
+                f.write("%d," % (state.agent_pos[0]))
+                f.write("%d," % (state.agent_pos[1]))
             if done:
                 break
 
