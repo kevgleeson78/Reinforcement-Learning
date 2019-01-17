@@ -172,9 +172,12 @@ def init():
             action = choose_action(state)
             next_state, reward, done = act(state, action)
             with open('static/Dataframe.csv', 'a') as f1:
+
                 test.to_csv(f1, sep='\t', header='\t')
-                f1.write("%d," % next_state.agent_pos[0])
-                f1.write("%d," % next_state.agent_pos[1])
+                f1.write("\n")
+                f1.write("\t%d\t" % next_state.agent_pos[0])
+                f1.write("%d" % next_state.agent_pos[1])
+                f1.write("\n")
                 f1.close()
             total_reward += reward
             print(state.agent_pos[0])
