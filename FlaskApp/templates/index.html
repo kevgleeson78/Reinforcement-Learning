@@ -20,7 +20,7 @@
 <canvas id="canvas" width="500px" height="500px" style="float: right;"></canvas>
 <div id="div1"></div>
 
-
+<div id="dialog"></div>
 </body>
 <script>
 
@@ -64,6 +64,40 @@
             context.fillStyle = colour;
             context.fillRect(p + gridX * x,p+ gridY * y,gridX,gridY);
         }
+        // AJAX in the data file
+        $.ajax({
+            type: "GET",
+            url: "static/Dataframe.csv",
+            dataType: "text",
+            cache: false,
+            success: function(data) {
+                var arr1 = data.split(/\r\n|\n|\r/);
+
+
+                for (let i = 0; i < arr1.length; i++) {
+
+                        arr1[i].split(',');
+
+
+
+
+                }
+
+
+                console.log(arr1);
+
+
+
+
+
+
+            }
+
+
+        });
+
+
+
 
         $.ajax({
 
@@ -95,6 +129,7 @@
                 $("#div1").text(data);
             }
         });
+
 
 
     }

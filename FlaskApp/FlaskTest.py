@@ -2,6 +2,7 @@
 #!/usr/bin/env python
 import time
 from flask import Flask, Response, request, redirect, render_template
+import pandas as pd
 from ipython_genutils.py3compat import execfile
 
 app = Flask(__name__)
