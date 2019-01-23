@@ -183,9 +183,14 @@ def init():
             if number_of_steps +1 == MAX_EPISODE_STEPS:
                 f.write("%d," % (state.agent_pos[0]))
                 f.write("%d," % (state.agent_pos[1]))
+
             with open('static/Dataframe.csv', 'a') as f1:
 
-                test.to_csv(f1,header=None)
+
+                f1.write(test.to_csv(header=None))
+
+
+
 
                 f1.close()
             if done:

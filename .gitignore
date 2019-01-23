@@ -106,3 +106,6 @@ venv.bak/
 #intellij
 .idea/
 
+# Generated Files
+.txt
+.csv

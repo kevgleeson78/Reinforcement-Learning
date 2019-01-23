@@ -8,28 +8,13 @@ from ipython_genutils.py3compat import execfile
 app = Flask(__name__)
 
 
-def stream_template(template_name, **context):
-    # http://flask.pocoo.org/docs/patterns/streaming/#streaming-from-templates
-    app.update_template_context(context)
-    t = app.jinja_env.get_template(template_name)
-    rv = t.stream(context)
-    # uncomment if you don't need immediate reaction
-    ##rv.enable_buffering(5)
-    return rv
+
 
 
 @app.route('/')
 def index():
-    f = open('static/test.txt', 'r')
-    lines = f.readlines()
 
-    def g():
-        for i in lines:
-                conv_int_x = int(i)
-               # time.sleep(.2)  # an artificial delay
-                yield conv_int_x
-    f.close()
-    return Response(stream_template('index.html', data=g()))
+    return render_template('index.html')
 
 
 @app.route('/test', methods=['GET', 'POST'])

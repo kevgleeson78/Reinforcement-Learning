@@ -71,29 +71,26 @@
             dataType: "text",
             cache: false,
             success: function(data) {
-                var arr1 = data.split(/\r\n|\n|\r/);
+                var data =data;
+                    result = data.split(/\r\n|\n|\r/).reduce((r, s) => {
+                        var array = s.split(',').map(Number);
+                        if (!array[0]) {
+                            r.push([]);
+                        }
+                        r[r.length - 1].push(...array);
+                        return r;
+                    }, []);
+                for(let i=0; i<result.length -1; i++){
+                    window.setTimeout(function () {
+                        x1 = result[i];
 
 
-                for (let i = 0; i < arr1.length; i++) {
 
-                        arr1[i].split(',');
-
-
-
-
+                        $("body").append(x1);
+                    }, i * 50);
                 }
 
-
-                console.log(arr1);
-
-
-
-
-
-
             }
-
-
         });
 
 
@@ -119,10 +116,7 @@
                         drawShape(3, 1, 'red');
                         drawShape(y1, x1,'yellow');
                             $("body").append("Pos: " + x1 + "  "+y1);
-                        }, i *50);
-
-
-
+                        }, i * 50);
                     }
 
                 console.log(arr);
