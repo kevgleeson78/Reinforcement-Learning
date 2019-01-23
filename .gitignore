@@ -107,4 +107,4 @@ venv.bak/
 .idea/
 
 # Folder holding Generated Files
-static/
+/static
