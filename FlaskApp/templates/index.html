@@ -70,6 +70,7 @@
             url: "static/Dataframe.csv",
             dataType: "text",
             cache: false,
+            async: true,
             success: function(data) {
                 var data =data;
                     result = data.split(/\r\n|\n|\r/).reduce((r, s) => {
@@ -86,10 +87,12 @@
 
 
 
-                        $("body").append(x1);
-                    }, i * 50);
-                }
+                        $("#dialog").append(x1);
 
+                    }, i * 200);
+
+                }
+            console.log(result);
             }
         });
 
@@ -101,6 +104,7 @@
             url: "/static/test.txt",
             dataType: "text",
             cache: false,
+            async: true,
             success: function (data) {
                 var arr =   data.split(/,/g).slice(0);
 
@@ -116,7 +120,7 @@
                         drawShape(3, 1, 'red');
                         drawShape(y1, x1,'yellow');
                             $("body").append("Pos: " + x1 + "  "+y1);
-                        }, i * 50);
+                        }, i * 200);
                     }
 
                 console.log(arr);
