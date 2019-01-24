@@ -81,17 +81,19 @@
                         r[r.length - 1].push(...array);
                         return r;
                     }, []);
+
                 for(let i=0; i<result.length -1; i++){
-                    window.setTimeout(function () {
-                        x1 = result[i];
+                    var qt = result[i];
+                        window.setTimeout(function () {
 
 
+                                $("#dialog").append(qt + '</br>');
 
-                        $("#dialog").append(x1);
 
-                    }, i * 200);
+                        }, i * 200);
 
-                }
+                    }
+
             console.log(result);
             }
         });
