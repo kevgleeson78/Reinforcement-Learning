@@ -81,20 +81,26 @@
                         r[r.length - 1].push(...array);
                         return r;
                     }, []);
+                    var test5;
+                for(let i=0; i<result.length; i++){
 
-                for(let i=0; i<result.length -1; i++){
-                    var qt = result[i];
-                        window.setTimeout(function () {
+                    window.setTimeout(function () {
+                        for(j=0; j< (result[i].length-1) / 5; j++){
+                            test5 = result[i].slice(j * 5, (j + 1) * 5);
+                            if(test5[0]==0){
+                                $('#dialog').empty();
+                            }
+                            $('#dialog').append(test5 + '</br>');
+
+                        }
+
+                    },i * 30);
 
 
-                                $("#dialog").append(qt + '</br>');
-
-
-                        }, i * 200);
 
                     }
 
-            console.log(result);
+
             }
         });
 
@@ -121,12 +127,12 @@
                         drawShape(3,  0, 'green');
                         drawShape(3, 1, 'red');
                         drawShape(y1, x1,'yellow');
-                            $("body").append("Pos: " + x1 + "  "+y1);
-                        }, i * 200);
+                          //  $("body").append("Pos: " + x1 + "  "+y1);
+                        }, i * 30);
                     }
 
                 console.log(arr);
-                $("#div1").text(data);
+               // $("#div1").text(data);
             }
         });
 
