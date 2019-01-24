@@ -117,7 +117,7 @@ def init():
 
 
 
-    #random.seed(42) # for reproducibility
+    random.seed(42) # for reproducibility
 
     N_STATES = 20
 
@@ -157,16 +157,13 @@ def init():
 
     for e in range(N_EPISODES):
 
-        state = start_state
+
         total_reward = 0
         alpha = alphas[e]
-
+        state = start_state
         for _ in range(MAX_EPISODE_STEPS):
 
             test = pd.DataFrame(list(q_table.values()))
-
-
-
 
             number_of_steps = 0
             action = choose_action(state)
@@ -186,11 +183,7 @@ def init():
 
             with open('static/Dataframe.csv', 'a') as f1:
 
-
                 f1.write(test.to_csv(header=None))
-
-
-
 
                 f1.close()
             if done:
