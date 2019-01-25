@@ -4,7 +4,31 @@
 <title>Send javascript with template demo</title>
 
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <style>
+        #customers {
+            font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+            border-collapse: collapse;
+            width: 50%;
+            float: left;
+        }
 
+        #customers td, #customers th {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+
+        #customers tr:nth-child(even){background-color: #f2f2f2;}
+
+        #customers tr:hover {background-color: #ddd;}
+
+        #customers th {
+            padding-top: 12px;
+            padding-bottom: 12px;
+            text-align: left;
+            background-color: #4CAF50;
+            color: white;
+        }
+    </style>
 </head>
 <body>
 
@@ -17,7 +41,7 @@
     Goal Reward: <input type="text" name="goal_reward"> </br>
     <input type="submit" name= "form">
 </form>
-<table style="float: left;">
+<table id="customers">
     <caption>Q-TABLE</caption>
     <tr>
         <th>State</th>
@@ -107,7 +131,7 @@
 
 
 
-                    },i * 30);
+                    },i * 50);
 
 
 
@@ -140,7 +164,7 @@
                             drawShape(3, 1, 'red');
                             drawShape(y1, x1,'yellow');
                           //  $("body").append("Pos: " + x1 + "  "+y1);
-                        }, i * 30);
+                        }, i * 50);
                     }
 
                 console.log(arr);
