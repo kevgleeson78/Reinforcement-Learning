@@ -4,7 +4,7 @@ import random
 import os.path
 import pandas as pd
 from FlaskApp import FlaskTest
-
+WALL = "W"
 AGENT = "A"
 GOAL = "G"
 EMPTY = "*"
@@ -17,11 +17,14 @@ gamma_form = 0
 epsilon_form = 0
 
 grid = [
-    [EMPTY, EMPTY, EMPTY, GOAL],
-    [EMPTY, EMPTY, EMPTY, TRAP],
-    [EMPTY, EMPTY, EMPTY, EMPTY],
-    [EMPTY, EMPTY, EMPTY, EMPTY],
-    [AGENT, EMPTY, EMPTY, EMPTY],
+    [EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, GOAL],
+    [EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, TRAP],
+    [EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY],
+    [EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY],
+    [EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY],
+    [EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY],
+    [EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY],
+    [AGENT, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY],
 ]
 
 for row in grid:
@@ -59,7 +62,7 @@ def init():
     ACTIONS = [UP, DOWN, LEFT, RIGHT]
 
 
-    start_state = State(grid=grid, agent_pos=[4, 0])
+    start_state = State(grid=grid, agent_pos=[7, 0])
     f.write("%d," % (start_state.agent_pos[0]))
     f.write("%d," % (start_state.agent_pos[1]))
 
@@ -119,7 +122,7 @@ def init():
 
     random.seed(42) # for reproducibility
 
-    N_STATES = 20
+    N_STATES = 99
 
     N_EPISODES = int(episodes_form)
 
@@ -133,7 +136,7 @@ def init():
     gamma = float(gamma_form)#.8
     eps = float(epsilon_form)#.09
     q_table1 = np.zeros((N_STATES,len(ACTIONS)))
-    print (q_table1)
+  ##  print (q_table1)
     q_table = dict()
 
     def q(state, action=None):
@@ -157,13 +160,17 @@ def init():
 
     for e in range(N_EPISODES):
 
-
         total_reward = 0
         alpha = alphas[e]
         state = start_state
         for _ in range(MAX_EPISODE_STEPS):
 
             test = pd.DataFrame(list(q_table.values()))
+            with open('static/Dataframe.csv', 'a') as f1:
+
+             f1.write(test.to_csv(header=None))
+
+             f1.close()
 
             number_of_steps = 0
             action = choose_action(state)
@@ -178,21 +185,16 @@ def init():
             print(action, state, "step number->", number_of_steps +1)
 
             if number_of_steps +1 == MAX_EPISODE_STEPS:
-                f.write("%d," % (state.agent_pos[0]))
-                f.write("%d," % (state.agent_pos[1]))
+                f.write("%d," % (start_state.agent_pos[0]))
+                f.write("%d," % (start_state.agent_pos[1]))
 
-            with open('static/Dataframe.csv', 'a') as f1:
 
-                f1.write(test.to_csv(header=None))
-
-                f1.close()
             if done:
                 break
 
-       # print(test)
-       # test.to_csv("static/Dataframe.csv", sep='\t', encoding='utf-8')
+
+        # print(test)
+        # test.to_csv("static/Dataframe.csv", sep='\t', encoding='utf-8')
         print(f"Episode {e + 1}: total reward -> {total_reward}")
 
     f.close()
-
-

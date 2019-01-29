@@ -33,12 +33,12 @@
 <body>
 
 <form action="/test" method="post">
-    Epsilon: <input type="number" name="epsilon" min="0" max="1" step=".01" value=".09"> </br>
-    Gamma: <input type="number" name="gamma" min="0" max="1" step=".01" value=".8"> </br>
-    Number of Episodes: <input type="number" name="episode" min="0" max="2000" step="1" value="100"> </br>
-    Max number of steps: <input type="number" name="max_steps" min="0" max="100" step="5" value="10"> </br>
-    Per Step cost: <input type="text" name="per_step_cost"> </br>
-    Goal Reward: <input type="text" name="goal_reward"> </br>
+    Epsilon: <input type="number" name="epsilon" min="0" max="1" step=".01" value=".09"> <br/>
+    Gamma: <input type="number" name="gamma" min="0" max="1" step=".01" value=".8"> <br/>
+    Number of Episodes: <input type="number" name="episode" min="0" max="2000" step="1" value="100"> <br/>
+    Max number of steps: <input type="number" name="max_steps" min="0" max="100" step="5" value="10"> <br/>
+    Per Step cost: <input type="text" name="per_step_cost"> <br/>
+    Goal Reward: <input type="text" name="goal_reward"> <br/>
     <input type="submit" name= "form">
 </form>
 <table id="customers">
@@ -52,22 +52,22 @@
     </tr>
 
 </table>
-<canvas id="canvas" width="500px" height="500px" style="float: right;"></canvas>
+<canvas id="canvas" width="650px" height="650px" style="float: right;"></canvas>
 <div id="div1"></div>
 
 <div id="dialog"></div>
-</body>
+
 <script>
 
 
 
     function updateFunc() {
         // Box width
-        var bw = 400;
+        var bw = 600;
         // Box height
-        var bh = 400;
-        col = 5;
-        row = 4;
+        var bh = 600;
+        col = 8;
+        row = 8;
         gridX = bw/row;
         gridY = bh/col;
         // Padding
@@ -77,6 +77,7 @@
         var context = canvas.getContext("2d");
         //context.transform(1, 0, 0, -1, 0, canvas.height)
         function drawBoard(){
+
             for (var x = 0; x <= bw; x += gridX) {
                 context.moveTo(0.5 + x + p, p);
                 context.lineTo(0.5 + x + p, bh + p);
@@ -99,6 +100,7 @@
             context.fillStyle = colour;
             context.fillRect(p + gridX * x,p+ gridY * y,gridX,gridY);
         }
+        var test5;
         // AJAX in the data file
         $.ajax({
             type: "GET",
@@ -116,7 +118,7 @@
                         r[r.length - 1].push(...array);
                         return r;
                     }, []);
-                    var test5;
+
                 for(let i=0; i<result.length; i++){
 
                     window.setTimeout(function () {
@@ -125,7 +127,7 @@
                             if(test5[0]==0){
                                 $('.data').remove();
                             }
-                            $('table').append('<tr class="data"><td>'+test5[0] + '</td><td>'+test5[1] + '</td></td><td>'+test5[2] + '</td></td><td>'+test5[3] + '</td></td><td>'+test5[4] + '</td></tr>');
+                            $('table').append('<tr class="data"><td>'+test5[0] + '</td><td>'+test5[1] + '</td><td>'+test5[2] + '</td><td>'+test5[3] + '</td><td>'+test5[4] + '</td></tr>');
 
                         }
 
@@ -157,14 +159,19 @@
                         window.setTimeout(function () {
                         x1 = arr[i];
                         y1 = arr[i+1];
-                            context.clearRect(0, 0, 500, 500);
+
+                            context.clearRect(0, 0, 650, 650);
 
                             drawBoard();
-                            drawShape(3,  0, 'green');
-                            drawShape(3, 1, 'red');
+
+                            drawShape(7,  0, 'green');
+                            drawShape(7, 1, 'red');
+
                             drawShape(y1, x1,'yellow');
+
                           //  $("body").append("Pos: " + x1 + "  "+y1);
                         }, i * 50);
+
                     }
 
                 console.log(arr);
@@ -186,6 +193,7 @@ updateFunc();
 
 
 </script>
+</body>
 </html>
 <!--
 <!DOCTYPE html>
