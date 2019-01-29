@@ -17,11 +17,12 @@ gamma_form = 0
 epsilon_form = 0
 
 grid = [
-    [EMPTY, EMPTY, TRAP, EMPTY, GOAL],
-    [TRAP, EMPTY, EMPTY, EMPTY, TRAP],
-    [EMPTY, EMPTY, TRAP, EMPTY, EMPTY],
-    [EMPTY, TRAP, EMPTY, EMPTY, EMPTY],
-    [AGENT, EMPTY, EMPTY, EMPTY, EMPTY],
+    [EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, GOAL],
+    [EMPTY, TRAP, EMPTY, EMPTY, EMPTY, TRAP],
+    [EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY],
+    [EMPTY, TRAP, EMPTY, EMPTY, EMPTY, EMPTY],
+    [EMPTY, EMPTY, TRAP, EMPTY, TRAP, EMPTY],
+    [AGENT, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY],
 ]
 
 for row in grid:
@@ -59,7 +60,7 @@ def init():
     ACTIONS = [UP, DOWN, LEFT, RIGHT]
 
 
-    start_state = State(grid=grid, agent_pos=[4, 0])
+    start_state = State(grid=grid, agent_pos=[5, 0])
     f.write("%d," % (start_state.agent_pos[0]))
     f.write("%d," % (start_state.agent_pos[1]))
 
@@ -118,9 +119,9 @@ def init():
 
 
 
-    random.seed(42) # for reproducibility
+    #random.seed(42) # for reproducibility
 
-    N_STATES = 24
+  #  N_STATES = 24
 
     N_EPISODES = int(episodes_form)
 
@@ -133,7 +134,7 @@ def init():
 
     gamma = float(gamma_form)#.8
     eps = float(epsilon_form)#.09
-    q_table1 = np.zeros((N_STATES,len(ACTIONS)))
+   # q_table1 = np.zeros((N_STATES,len(ACTIONS)))
   ##  print (q_table1)
     q_table = dict()
 
