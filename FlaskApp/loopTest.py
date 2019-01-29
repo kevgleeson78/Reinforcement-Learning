@@ -17,14 +17,11 @@ gamma_form = 0
 epsilon_form = 0
 
 grid = [
-    [EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, GOAL],
-    [EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, TRAP],
-    [EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY],
-    [EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY],
-    [EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY],
-    [EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY],
-    [EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY],
-    [AGENT, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY],
+    [EMPTY, EMPTY, EMPTY, EMPTY, GOAL],
+    [EMPTY, EMPTY, EMPTY, EMPTY, TRAP],
+    [EMPTY, EMPTY, EMPTY, EMPTY, EMPTY],
+    [EMPTY, EMPTY, EMPTY, EMPTY, EMPTY],
+    [EMPTY, EMPTY, EMPTY, EMPTY, EMPTY],
 ]
 
 for row in grid:
@@ -62,13 +59,14 @@ def init():
     ACTIONS = [UP, DOWN, LEFT, RIGHT]
 
 
-    start_state = State(grid=grid, agent_pos=[7, 0])
+    start_state = State(grid=grid, agent_pos=[4, 0])
     f.write("%d," % (start_state.agent_pos[0]))
     f.write("%d," % (start_state.agent_pos[1]))
 
     def act(state, action):
 
         def new_agent_pos(state, action):
+
             p = deepcopy(state.agent_pos)
 
             if action == UP:
@@ -122,7 +120,7 @@ def init():
 
     random.seed(42) # for reproducibility
 
-    N_STATES = 99
+    N_STATES = 24
 
     N_EPISODES = int(episodes_form)
 
