@@ -3,7 +3,7 @@ import numpy as np
 import random
 import os.path
 import pandas as pd
-from FlaskApp import FlaskTest
+
 WALL = "W"
 AGENT = "A"
 GOAL = "G"
@@ -47,7 +47,6 @@ class State:
 
 def init():
 
-
     completeName = os.path.join("static/", "test.txt")
 
     f = open(completeName,"w+")
@@ -58,7 +57,6 @@ def init():
     RIGHT = 3
 
     ACTIONS = [UP, DOWN, LEFT, RIGHT]
-
 
     start_state = State(grid=grid, agent_pos=[5, 0])
     f.write("%d," % (start_state.agent_pos[0]))
@@ -83,7 +81,6 @@ def init():
             return p
 
         p = new_agent_pos(state, action)
-
 
         f.write("%d," % (p[0]))
         f.write("%d," % (p[1]))
@@ -117,11 +114,9 @@ def init():
 
         return State(grid=new_grid, agent_pos=p), reward, is_done
 
+    # random.seed(42) # for reproducibility
 
-
-    #random.seed(42) # for reproducibility
-
-  #  N_STATES = 24
+    # N_STATES = 24
 
     N_EPISODES = int(episodes_form)
 
@@ -161,15 +156,9 @@ def init():
 
         total_reward = 0
         alpha = alphas[e]
+        print(alpha)
         state = start_state
         for _ in range(MAX_EPISODE_STEPS):
-
-            test = pd.DataFrame(list(q_table.values()))
-            with open('static/Dataframe.csv', 'a') as f1:
-
-             f1.write(test.to_csv(header=None))
-
-             f1.close()
 
             number_of_steps = 0
             action = choose_action(state)
@@ -187,11 +176,14 @@ def init():
                 f.write("%d," % (start_state.agent_pos[0]))
                 f.write("%d," % (start_state.agent_pos[1]))
 
+            test = pd.DataFrame(list(q_table.values()))
+            with open('static/Dataframe.csv', 'a') as f1:
 
+                f1.write(test.to_csv(header=None))
+
+                f1.close()
             if done:
                 break
-
-
         # print(test)
         # test.to_csv("static/Dataframe.csv", sep='\t', encoding='utf-8')
         print(f"Episode {e + 1}: total reward -> {total_reward}")
