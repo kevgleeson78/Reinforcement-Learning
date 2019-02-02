@@ -4,7 +4,7 @@ import random
 import os.path
 import pandas as pd
 
-WALL = "W"
+
 AGENT = "A"
 GOAL = "G"
 EMPTY = "*"
@@ -17,7 +17,7 @@ gamma_form = 0
 epsilon_form = 0
 
 grid = [
-    [EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, GOAL],
+    [EMPTY, EMPTY, EMPTY, TRAP, EMPTY, GOAL],
     [EMPTY, TRAP, EMPTY, EMPTY, EMPTY, TRAP],
     [EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY],
     [EMPTY, TRAP, EMPTY, EMPTY, EMPTY, EMPTY],
@@ -123,7 +123,7 @@ def init():
 
     MAX_EPISODE_STEPS = int(max_steps_form)
 
-    MIN_ALPHA = 0.1
+    MIN_ALPHA = 0.0
 
     alphas = np.linspace(1.0, MIN_ALPHA, N_EPISODES)
 
@@ -158,6 +158,8 @@ def init():
         alpha = alphas[e]
         print(alpha)
         state = start_state
+
+
         for _ in range(MAX_EPISODE_STEPS):
 
             number_of_steps = 0
@@ -165,7 +167,7 @@ def init():
             next_state, reward, done = act(state, action)
 
             total_reward += reward
-            print(state.agent_pos[0])
+           # print(state.agent_pos[0])
             q(state)[action] = q(state, action) + \
                                alpha * (reward + gamma * np.max(q(next_state, action)) - q(state, action))
             state = next_state
@@ -173,19 +175,46 @@ def init():
             print(action, state, "step number->", number_of_steps +1)
 
             if number_of_steps +1 == MAX_EPISODE_STEPS:
-                f.write("%d," % (start_state.agent_pos[0]))
-                f.write("%d," % (start_state.agent_pos[1]))
+                f.write("%d," % (state.agent_pos[0]))
+                f.write("%d," % (state.agent_pos[1]))
 
             test = pd.DataFrame(list(q_table.values()))
+            # To remove a row with all zero values in a dataframe
+            # Every terminal state was adding a new row with all zero  values
+            # Adapted from https://stackoverflow.com/questions/20490274/how-to-reset-index-in-a-pandas-data-frame
+            # Adapted from https://stackoverflow.com/questions/22649693/drop-rows-with-all-zeros-in-pandas-data-frame
+            test = test[(test.T != 0).any()].reset_index(drop=True)
+
             with open('static/Dataframe.csv', 'a') as f1:
 
                 f1.write(test.to_csv(header=None))
 
                 f1.close()
+
             if done:
                 break
-        # print(test)
+
         # test.to_csv("static/Dataframe.csv", sep='\t', encoding='utf-8')
         print(f"Episode {e + 1}: total reward -> {total_reward}")
-
     f.close()
+
+
+
+    with open('static/test.txt','r') as f3:
+        import re
+        t = f3.readline()
+        t1 = re.split(',',t)
+        composite_list = [t1[x:x+2] for x in range(0, len(t1),2)]
+        unique_data = [list(x) for x in set(tuple(x) for x in composite_list)]
+
+        print(composite_list)
+
+
+        df = pd.read_csv('static/Dataframe.csv')
+        # this line creates a new column, which is a Pandas series.
+
+        # we then add the series to the dataframe, which holds our parsed CSV file
+        df['NewColumn'] = pd.Series(composite_list)
+
+        # save the dataframe to CSV
+        df.to_csv('static/Dataframe.csv',header=None,index=None)

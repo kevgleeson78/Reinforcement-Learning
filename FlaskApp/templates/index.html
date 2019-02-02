@@ -100,7 +100,7 @@
             context.fillStyle = colour;
             context.fillRect(p + gridX * x,p+ gridY * y,gridX,gridY);
         }
-        var test5;
+        var test5=[];
         // AJAX in the data file
         $.ajax({
             type: "GET",
@@ -127,10 +127,11 @@
                             if(test5[0]==0){
                                 $('.data').remove();
                             }
+
                             $('table').append('<tr class="data"><td>'+test5[0] + '</td><td>'+test5[1] + '</td><td>'+test5[2] + '</td><td>'+test5[3] + '</td><td>'+test5[4] + '</td></tr>');
 
-                        }
 
+                        }
 
 
                     },i*40);
@@ -145,7 +146,6 @@
 
 
 
-
         $.ajax({
 
             url: "/static/test.txt",
@@ -155,7 +155,8 @@
             success: function (data) {
                 var arr =   data.split(/,/g).slice(0);
 
-                    for(let i=0; i<arr.length -2; i+=2){
+
+                for(let i=0; i<arr.length -2; i+=2){
                         window.setTimeout(function () {
                         x1 = arr[i];
                         y1 = arr[i+1];
@@ -165,6 +166,7 @@
                             drawBoard();
 
                             drawShape(5,  0, 'green');
+                            drawShape(3,  0, 'red');
                             drawShape(5, 1, 'red');
                             drawShape(1, 1, 'red');
 
@@ -178,7 +180,8 @@
 
                     }
 
-                console.log(arr);
+
+                //console.log($.unique(position));
                // $("#div1").text(data);
             }
         });
