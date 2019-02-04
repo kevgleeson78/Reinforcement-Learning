@@ -61,7 +61,8 @@
 
 
 
-    function updateFunc() {
+
+        var arrays = [], size = 2;
         // Box width
         var bw = 600;
         // Box height
@@ -76,6 +77,7 @@
         var canvas = document.getElementById("canvas");
         var context = canvas.getContext("2d");
         //context.transform(1, 0, 0, -1, 0, canvas.height)
+
         function drawBoard(){
 
             for (var x = 0; x <= bw; x += gridX) {
@@ -102,6 +104,7 @@
         }
         var test5=[];
         // AJAX in the data file
+
         $.ajax({
             type: "GET",
             url: "static/Dataframe.csv",
@@ -128,7 +131,7 @@
                                 $('.data').remove();
                             }
 
-                            $('table').append('<tr class="data"><td>'+test5[0] + '</td><td>'+test5[1] + '</td><td>'+test5[2] + '</td><td>'+test5[3] + '</td><td>'+test5[4] + '</td></tr>');
+                            $('table').append('<tr class="data"><td>'+test5[0] + '</td><td>'+test5[1] + '</td><td>'+test5[2] + '</td><td>'+test5[3] + '</td><td>'+test5[4] + '</td><td>'+arrays[j]+ '</td></tr>');
 
 
                         }
@@ -184,17 +187,34 @@
                 //console.log($.unique(position));
                // $("#div1").text(data);
             }
+
         });
+        $.ajax({
+
+            url: "/static/test.txt",
+            dataType: "text",
+            cache: false,
+            async: true,
+            success: function (data) {
+                var arrt = data.split(/,/g).slice(0);
+
+
+                while (arrt.length > 0) {
+                    arrays.push(arrt.splice(0, size));
+                }
+                console.log(arrays);
+            }
+
+            });
 
 
 
-    }
 
 
 
 
 
-updateFunc();
+
 
 
 
