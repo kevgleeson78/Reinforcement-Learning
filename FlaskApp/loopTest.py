@@ -1,3 +1,4 @@
+import json
 from collections import OrderedDict
 from copy import deepcopy
 import numpy as np
@@ -157,7 +158,7 @@ def init():
 
         total_reward = 0
         alpha = alphas[e]
-        print(alpha)
+        #print(alpha)
         state = start_state
 
 
@@ -202,5 +203,9 @@ def init():
 
     f.close()
 
+    with open('static/alpha.json', 'w') as al:
 
+        datlist = alphas.tolist()
+        dftest = pd.DataFrame(datlist)
 
+        al.write(dftest.to_json())
