@@ -2,7 +2,7 @@
 <html>
 <head>
     <title>Send javascript with template demo</title>
-
+    <script src="https://d3js.org/d3.v4.min.js"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
     <style>
         #customers {
@@ -236,7 +236,7 @@
                     */
                     if(arrays[x][0] == terminal[y][0] && arrays[x][1] == terminal[y][1]){
                         arrays.splice(x, 1);
-                        console.log(arrays);
+                        //console.log(arrays);
                     }
                 }
             }
@@ -254,7 +254,9 @@
 
 
 
-
+    d3.json("/static/alpha.json", function(data) {
+        console.log(data);
+    });
 
 
 
