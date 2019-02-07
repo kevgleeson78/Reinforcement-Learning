@@ -153,7 +153,7 @@ def init():
 
     if os.path.exists("static/Dataframe.csv"):
         os.remove('static/Dataframe.csv')
-
+    reward_list = []
     for e in range(N_EPISODES):
 
         total_reward = 0
@@ -197,15 +197,17 @@ def init():
 
             if done:
                 break
+        with open('static/alpha.json', 'w') as al:
 
+            reward_list.append(total_reward)
+            print(reward_list)
+            datlist = alphas.tolist()
+            dftest = pd.DataFrame(reward_list)
+
+            al.write(dftest.to_json())
         # test.to_csv("static/Dataframe.csv", sep='\t', encoding='utf-8')
         print(f"Episode {e + 1}: total reward -> {total_reward}")
 
     f.close()
 
-    with open('static/alpha.json', 'w') as al:
 
-        datlist = alphas.tolist()
-        dftest = pd.DataFrame(datlist)
-
-        al.write(dftest.to_json())
