@@ -91,7 +91,7 @@ def init():
         new_grid = deepcopy(state.grid)
 
         if grid_item == TRAP:
-            reward = -100
+            reward = -50
             is_done = True
             f.write("%d," % (start_state.agent_pos[0]))
             f.write("%d," % (start_state.agent_pos[1]))
@@ -174,7 +174,7 @@ def init():
                                alpha * (reward + gamma * np.max(q(next_state, action)) - q(state, action))
             state = next_state
             number_of_steps +=_
-            print(action, state, "step number->", number_of_steps +1)
+          #  print(action, state, "step number->", number_of_steps +1)
 
             if number_of_steps +1 == MAX_EPISODE_STEPS:
                 f.write("%d," % (state.agent_pos[0]))
@@ -200,13 +200,14 @@ def init():
         with open('static/alpha.json', 'w') as al:
 
             reward_list.append(total_reward)
-            print(reward_list)
+        #    print(reward_list)
             datlist = alphas.tolist()
             dftest = pd.DataFrame(reward_list)
 
             al.write(dftest.to_json())
+        print(e)
         # test.to_csv("static/Dataframe.csv", sep='\t', encoding='utf-8')
-        print(f"Episode {e + 1}: total reward -> {total_reward}")
+     #   print(f"Episode {e + 1}: total reward -> {total_reward}")
 
     f.close()
 
