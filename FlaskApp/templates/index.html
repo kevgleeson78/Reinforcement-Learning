@@ -10,11 +10,13 @@
             border-collapse: collapse;
             width: 50%;
             float: left;
+
         }
 
         #customers td, #customers th {
             border: 1px solid #ddd;
             padding: 8px;
+
         }
 
         #customers tr:nth-child(even){background-color: #f2f2f2;}
@@ -41,6 +43,7 @@
     Goal Reward: <input type="text" name="goal_reward"> <br/>
     <input type="submit" name= "form">
 </form>
+
 <table id="customers">
     <caption>Q-TABLE</caption>
     <tr>
@@ -54,7 +57,7 @@
 
 </table>
 
-<canvas id="canvas" width="650px" height="650px" style="float: right;"></canvas>
+<canvas id="canvas" width="460px" height="460px" style="float: right;"></canvas>
 
 
 
@@ -65,15 +68,15 @@
 
     var arrays = [], size = 2;
     // Box width
-    var bw = 600;
+    var bw = 450;
     // Box height
-    var bh = 600;
+    var bh = 450;
     col = 6;
     row = 6;
     gridX = bw/row;
     gridY = bh/col;
     // Padding
-    var p = 10;
+    var p = 5;
 
     var canvas = document.getElementById("canvas");
     var context = canvas.getContext("2d");
@@ -272,17 +275,19 @@
                     result.push([i, json_data [i]]);
                 var data = new google.visualization.DataTable();
                 data.addColumn('string', 'X');
-                data.addColumn('number', 'Agent');
+                data.addColumn('number', 'Agent Reward');
 
                 data.addRows(result);
 
                 var options = {
                     hAxis: {
-                        title: 'Time'
+                        title: 'Episode'
                     },
                     vAxis: {
-                        title: 'End Reward'
-                    }
+                        title: 'Reward Value'
+                    },
+                    'width':900,
+                    'height':400
                 };
                 var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
 

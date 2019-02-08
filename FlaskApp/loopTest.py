@@ -116,7 +116,7 @@ def init():
 
         return State(grid=new_grid, agent_pos=p), reward, is_done
 
-    # random.seed(42) # for reproducibility
+    random.seed(42) # for reproducibility
 
     # N_STATES = 24
 
@@ -124,13 +124,18 @@ def init():
 
 
     MAX_EPISODE_STEPS = int(max_steps_form)
-
-    MIN_ALPHA = 0.0
-
+    #Minimum Alpha value fro numpy array
+    MIN_ALPHA = .1
+    #Actual alpha value to be added to form on front end
+    alpha = 0.1
+    # The decay rate add to form on front end
+    alphaDecay = .9
     alphas = np.linspace(1.0, MIN_ALPHA, N_EPISODES)
 
     gamma = float(gamma_form)#.8
     eps = float(epsilon_form)#.09
+    # Epsilon deacy rate add to form on front end
+    epsilon_decay = 0.9
    # q_table1 = np.zeros((N_STATES,len(ACTIONS)))
   ##  print (q_table1)
     q_table = dict()
@@ -157,8 +162,11 @@ def init():
     for e in range(N_EPISODES):
 
         total_reward = 0
+        eps *= epsilon_decay
+
+        print(alpha)
         alpha = alphas[e]
-        #print(alpha)
+        alpha *= alphaDecay
         state = start_state
 
 
@@ -188,7 +196,7 @@ def init():
             # Adapted from https://stackoverflow.com/questions/22649693/drop-rows-with-all-zeros-in-pandas-data-frame
 
             test = test[(test.T != 0).any()].reset_index(drop=True)
-
+            print(alpha)
             with open('static/Dataframe.csv', 'a') as f1:
 
                 f1.write(test.to_csv(header=None))
