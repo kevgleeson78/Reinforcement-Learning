@@ -116,7 +116,7 @@ def init():
 
         return State(grid=new_grid, agent_pos=p), reward, is_done
 
-    random.seed(42) # for reproducibility
+    #random.seed(42) # for reproducibility
 
     # N_STATES = 24
 
@@ -136,8 +136,8 @@ def init():
     eps = float(epsilon_form)#.09
     # Epsilon deacy rate add to form on front end
     epsilon_decay = 0.9
-   # q_table1 = np.zeros((N_STATES,len(ACTIONS)))
-  ##  print (q_table1)
+    # q_table1 = np.zeros((N_STATES,len(ACTIONS)))
+    ##  print (q_table1)
     q_table = dict()
 
     def q(state, action=None):
@@ -161,6 +161,7 @@ def init():
     reward_list = []
     for e in range(N_EPISODES):
 
+
         total_reward = 0
         eps *= epsilon_decay
 
@@ -177,27 +178,32 @@ def init():
             next_state, reward, done = act(state, action)
 
             total_reward += reward
-           # print(state.agent_pos[0])
+            # print(state.agent_pos[0])
             q(state)[action] = q(state, action) + \
                                alpha * (reward + gamma * np.max(q(next_state, action)) - q(state, action))
             state = next_state
             number_of_steps +=_
-          #  print(action, state, "step number->", number_of_steps +1)
+           # print(action, state, "step number->", number_of_steps +1)
 
             if number_of_steps +1 == MAX_EPISODE_STEPS:
                 f.write("%d," % (state.agent_pos[0]))
                 f.write("%d," % (state.agent_pos[1]))
 
-            test = pd.DataFrame(list(q_table.values()))
+
 
             # To remove a row with all zero values in a dataframe
             # Every terminal state was adding a new row with all zero  values
             # Adapted from https://stackoverflow.com/questions/20490274/how-to-reset-index-in-a-pandas-data-frame
             # Adapted from https://stackoverflow.com/questions/22649693/drop-rows-with-all-zeros-in-pandas-data-frame
 
-            test = test[(test.T != 0).any()].reset_index(drop=True)
-            print(alpha)
-            with open('static/Dataframe.csv', 'a') as f1:
+
+            #print(alpha)
+            test = pd.DataFrame(list(q_table.values()))
+            test = test[test.values.sum(axis=1) != 0].reset_index(drop=True)
+            #test = test.loc[(test.sum(axis=1) != 0)].reset_index(drop=True)
+
+
+            with open('static/Dataframe.csv', 'a', newline ="") as f1:
 
                 f1.write(test.to_csv(header=None))
 
@@ -208,15 +214,13 @@ def init():
         with open('static/alpha.json', 'w') as al:
 
             reward_list.append(total_reward)
-        #    print(reward_list)
+            #    print(reward_list)
             datlist = alphas.tolist()
             dftest = pd.DataFrame(reward_list)
 
             al.write(dftest.to_json())
         print(e)
         # test.to_csv("static/Dataframe.csv", sep='\t', encoding='utf-8')
-     #   print(f"Episode {e + 1}: total reward -> {total_reward}")
+       # print(f"Episode {e + 1}: total reward -> {total_reward}")
 
     f.close()
-
-

@@ -1,15 +1,7 @@
 
-#!/usr/bin/env python
-import time
-from flask import Flask, Response, request, redirect, render_template
-import pandas as pd
-from ipython_genutils.py3compat import execfile
+from flask import Flask, request,render_template
 
 app = Flask(__name__)
-
-
-
-
 
 @app.route('/')
 def index():
