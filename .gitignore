@@ -105,6 +105,7 @@ venv.bak/
 
 #intellij
 .idea/
+*.iml
 
 # Folder holding Generated Files
 static/
