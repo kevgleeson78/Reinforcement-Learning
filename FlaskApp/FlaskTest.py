@@ -19,6 +19,9 @@ def test():
     loopTest.goal_reward = request.form.get("goal_reward")
     loopTest.gamma_form = request.form.get("gamma")
     loopTest.epsilon_form = request.form.get("epsilon")
+    loopTest.epsilon_form_decay = request.form.get("epsilon_decay")
+    loopTest.alpha_form = request.form.get("alpha")
+    loopTest.alpha_form_decay = request.form.get("alpha_decay")
     loopTest.init()
 
     return render_template('index.html')

@@ -1,4 +1,6 @@
 from copy import deepcopy
+
+
 import numpy as np
 import random
 import os.path
@@ -15,6 +17,9 @@ per_step_cost = 0
 goal_reward = 0
 gamma_form = 0
 epsilon_form = 0
+epsilon_form_decay = 0
+alpha_form = 0
+alpha_form_decay = 0
 
 grid = [
     [EMPTY, EMPTY, EMPTY, TRAP, EMPTY, GOAL],
@@ -102,13 +107,13 @@ def init():
             f.write("%d," % (start_state.agent_pos[1]))
             new_grid[p[0]][p[1]] += AGENT
         elif grid_item == EMPTY:
-            reward = int(per_step_cost)
+            reward = float(per_step_cost)
             is_done = False
             old = state.agent_pos
             new_grid[old[0]][old[1]] = EMPTY
             new_grid[p[0]][p[1]] = AGENT
         elif grid_item == AGENT:
-            reward = int(per_step_cost)
+            reward = float(per_step_cost)
             is_done = False
         else:
             raise ValueError(f"Unknown grid item {grid_item}")
@@ -122,19 +127,18 @@ def init():
 
     MAX_EPISODE_STEPS = int(max_steps_form)
     #Minimum Alpha value fro numpy array
-    MIN_ALPHA = .1
+    MIN_ALPHA = 0
     #Actual alpha value to be added to form on front end
-    alpha = 0.1
+    alpha = float(alpha_form)
     # The decay rate add to form on front end
-    alphaDecay = .9
-    alphas = np.linspace(1.0, MIN_ALPHA, N_EPISODES)
+    alphaDecay = float(alpha_form_decay)
+    alphas = np.linspace(alpha, MIN_ALPHA, N_EPISODES)
 
     gamma = float(gamma_form)#.8
     eps = float(epsilon_form)#.09
     # Epsilon deacy rate add to form on front end
-    epsilon_decay = 0.9
-    # q_table1 = np.zeros((N_STATES,len(ACTIONS)))
-    ##  print (q_table1)
+    epsilon_decay = float(epsilon_form_decay)
+
     q_table = dict()
 
     def q(state, action=None):
@@ -163,11 +167,11 @@ def init():
         total_reward = 0
         eps *= epsilon_decay
 
-        print(alpha)
+
         alpha = alphas[e]
         alpha *= alphaDecay
         state = start_state
-
+        print(alpha)
         for _ in range(MAX_EPISODE_STEPS):
 
             number_of_steps = 0
@@ -178,7 +182,7 @@ def init():
                                alpha * (reward + gamma * np.max(q(next_state, action)) - q(state, action))
             state = next_state
             number_of_steps +=_
-           # print(action, state, "step number->", number_of_steps +1)
+            print(action, state, "step number->", number_of_steps +1)
 
             if number_of_steps +1 == MAX_EPISODE_STEPS:
                 f.write("%d," % (state.agent_pos[0]))
@@ -188,13 +192,13 @@ def init():
             # Every terminal state was adding a new row with all zero  values
             # Adapted from https://stackoverflow.com/questions/20490274/how-to-reset-index-in-a-pandas-data-frame
             # Adapted from https://stackoverflow.com/questions/22649693/drop-rows-with-all-zeros-in-pandas-data-frame
-            test = pd.DataFrame()
-            test = test.append(list(q_table.values()))
+            test = pd.DataFrame(list(q_table.values()))
+
             test1 = test1.append(test[test.values.sum(axis=1) != 0].reset_index(drop=True))
-            del test
 
             if done:
                 break
+
         with open('static/alpha.json', 'w') as al:
 
             reward_list.append(total_reward)
@@ -203,7 +207,7 @@ def init():
 
         print(e)
 
-       # print(f"Episode {e + 1}: total reward -> {total_reward}")
+        print(f"Episode {e + 1}: total reward -> {total_reward}")
 
     f.close()
     with open('static/Dataframe.csv', 'w', newline ="") as f1:
