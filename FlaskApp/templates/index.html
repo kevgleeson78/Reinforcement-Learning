@@ -10,13 +10,13 @@
 
 <form action="/run" method="post">
     Epsilon: <input type="number" name="epsilon" min="0" max="1" step=".01" value=".1"> <br/>
-    Epsilon Decay: <input type="number" name="epsilon_decay" min="0" max="1" step=".01" value=".09"> <br/>
+    Epsilon Decay: <input type="number" name="epsilon_decay" min="0" max="1" step=".1" value=".9"> <br/>
     Gamma: <input type="number" name="gamma" min="0" max="1" step=".01" value=".8"> <br/>
-    Alpha: <input type="number" name="alpha" min="0" max="1" step=".01" value=".9"> <br/>
-    Alpha Decay: <input type="number" name="alpha_decay" min="0" max="1" step=".01" value=".9"> <br/>
+    Alpha: <input type="number" name="alpha" min="0" max="1" step=".01" value=".3"> <br/>
+    Alpha Decay: <input type="number" name="alpha_decay" min="0" max="1" step=".1" value=".9"> <br/>
     Number of Episodes: <input type="number" name="episode" min="0" max="2000" step="10" value="100"> <br/>
     Max number of steps: <input type="number" name="max_steps" min="0" max="500" step="5" value="10"> <br/>
-    Per Step cost: <input type="number" name="per_step_cost" min="-5" max="-1" step=".1" value="-1"> <br/>
+    Per Step cost: <input type="number" name="per_step_cost" min="-5" max="-1" step="1" value="-1"> <br/>
     Goal Reward: <input type="number" name="goal_reward"  min="0" max="2000" step="10" value="100"> <br/>
     <input type="submit" name= "form">
 </form>

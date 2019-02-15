@@ -1,11 +1,11 @@
-
+import csv
 from copy import deepcopy
 
 import numpy as np
 import random
 import os.path
 import pandas as pd
-
+from numba import jit, njit
 
 AGENT = 'A'
 GOAL = 'G'
@@ -178,7 +178,9 @@ def init():
         alpha = alphas[e]
         alpha *= alphaDecay
         state = start_state
+
         for _ in range(MAX_EPISODE_STEPS):
+
 
             number_of_steps = 0
             action = choose_action(state)
@@ -200,14 +202,15 @@ def init():
             # Every terminal state was adding a new row with all zero  values
             # Adapted from https://stackoverflow.com/questions/20490274/how-to-reset-index-in-a-pandas-data-frame
             # Adapted from https://stackoverflow.com/questions/22649693/drop-rows-with-all-zeros-in-pandas-data-frame
-            test = pd.DataFrame(list(q_table.values()))
 
-            test1 = test1.append(test[test.values.sum(axis=1) != 0].reset_index(drop=True))
-            #
+
+
+
 
             if done:
                 break
-
+        test = pd.DataFrame(list(q_table.values()))
+        test1 = test1.append(test[test.values.sum(axis=1) != 0].reset_index(drop=True))
         with open('static/alpha.json', 'w') as al:
 
             reward_list.append(total_reward)
@@ -220,6 +223,9 @@ def init():
 
     f.close()
 
+
+
+
     with open('static/Dataframe.csv', 'w', newline='') as f1:
 
         csvData = test1.to_csv(header=None)
@@ -227,6 +233,9 @@ def init():
         f1.write(test1.to_csv(header=None))
 
         f1.close()
+
+
+        #f1.close()
 
 
 
