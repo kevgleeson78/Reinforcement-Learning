@@ -1,4 +1,3 @@
-
 from flask import Flask, request,render_template
 
 app = Flask(__name__)
@@ -9,7 +8,7 @@ def index():
     return render_template('index.html')
 
 
-@app.route('/test', methods=['GET', 'POST'])
+@app.route('/run', methods=['GET', 'POST'])
 
 def test():
     from FlaskApp import loopTest
@@ -24,7 +23,7 @@ def test():
     loopTest.alpha_form_decay = request.form.get("alpha_decay")
     loopTest.init()
 
-    return render_template('index.html')
+    return render_template('result.html')
 
 
 
@@ -32,6 +31,7 @@ if __name__ == "__main__":
 
     app.run(host='localhost', port=23423)
 # Adapted from https://stackoverflow.com/questions/31948285/display-data-streamed-from-a-flask-view-as-it-updates
+
 """
 from time import sleep
 

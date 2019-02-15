@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <style>
+        #customers {
+            font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+            border-collapse: collapse;
+            width: 50%;
+            float: left;
+
+        }
+
+        #customers td, #customers th {
+            border: 1px solid #ddd;
+            padding: 8px;
+
+        }
+
+        #customers tr:nth-child(even){background-color: #f2f2f2;}
+
+        #customers tr:hover {background-color: #ddd;}
+
+        #customers th {
+            padding-top: 12px;
+            padding-bottom: 12px;
+            text-align: left;
+            background-color: #4CAF50;
+            color: white;
+        }
+    </style>
+
+</head>
+<body>
+<strong><nav>
+    <ul class="menu">
+        <li><a href="{{ url_for('index') }}">Home</a></li>
+
+    </ul>
+</nav></strong>
+
+<div id="chart_div"></div>
+<canvas id="canvas" width="460px" height="460px" style="float: right;"></canvas>
+<table id="customers">
+    <caption>Q-TABLE</caption>
+    <tr>
+        <th>State</th>
+        <th>UP</th>
+        <th>Down</th>
+        <th>Left</th>
+        <th>Right</th>
+        <th>Agent Pos</th>
+    </tr>
+
+</table>
+
+
+
+
+
+<script src="../static/javascript/board.js"></script>
+<script src="../static/javascript/q-table.js"></script>
+<script src="../static/javascript/agentChart.js"></script>
+</body>
+</html>
