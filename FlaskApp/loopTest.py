@@ -171,6 +171,7 @@ def init():
 
     reward_list = []
 
+
     for e in range(N_EPISODES):
 
         total_reward = 0
@@ -206,17 +207,27 @@ def init():
 
 
 
+            test = pd.DataFrame(list(q_table.values()))
 
+            with open('static/Dataframe.csv', 'a', newline='') as f1:
+
+
+
+                 f1.write(test.to_csv(header=None))
+
+            f1.close()
             if done:
                 break
-        test = pd.DataFrame(list(q_table.values()))
-        test1 = test1.append(test[test.values.sum(axis=1) != 0].reset_index(drop=True))
+
+
         with open('static/alpha.json', 'w') as al:
 
             reward_list.append(total_reward)
             dftest = pd.DataFrame(reward_list)
             al.write(dftest.to_json())
-
+        empty_keys = {k: v for k, v in q_table.items() if sum(v) == 0}
+        for k in empty_keys:
+            del q_table[k]
         print(e)
 
     # print(f"Episode {e + 1}: total reward -> {total_reward}")
@@ -226,17 +237,11 @@ def init():
 
 
 
-    with open('static/Dataframe.csv', 'w', newline='') as f1:
 
-        csvData = test1.to_csv(header=None)
-
-        f1.write(test1.to_csv(header=None))
-
-        f1.close()
 
 
         #f1.close()
-
+    print()
 
 
 
