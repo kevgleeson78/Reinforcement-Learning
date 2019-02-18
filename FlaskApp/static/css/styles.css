@@ -67,3 +67,12 @@ canvas{
     font-size: 35px;
     color: #36A0FF;
 }
+
+div#loading {
+    margin: 0 auto;
+    width: 100px;
+    height: 30px;
+    display: none;
+    background: url(../gif/ajax-loader.gif) no-repeat;
+    cursor: wait;
+}

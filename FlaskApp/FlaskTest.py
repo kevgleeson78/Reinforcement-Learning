@@ -29,7 +29,7 @@ def test():
 
 if __name__ == "__main__":
 
-    app.run(host='localhost', port=23423)
+    app.run()
 # Adapted from https://stackoverflow.com/questions/31948285/display-data-streamed-from-a-flask-view-as-it-updates
 
 """
