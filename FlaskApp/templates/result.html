@@ -38,8 +38,8 @@
         #customers {
             font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
             border-collapse: collapse;
-            width: 50%;
-            float: left;
+            width: 100%;
+
 
         }
 
@@ -62,12 +62,9 @@
         }
         canvas{
             width: 100%;
-            heigth: auto;
+            height: auto;
         }
-        #chart_div{
-            width: 100%;
-            heigth: auto;
-        }
+
     </style>
 
 </head>
@@ -90,7 +87,13 @@
 
         </div>
 
-        <div class="col-sm-9">
+        <div class="col-sm-11">
+
+            <div id="chart_div"></div>
+
+        </div>
+
+        <div class="col-sm-5">
             <h2><small>Results</small></h2>
             <hr>
 
@@ -109,20 +112,20 @@
             <br><br>
 
         </div>
+        <div class="col-sm-4">
+            <h2><small>Grid</small></h2>
+
+            <hr>
+            <canvas id="canvas" width="460px" height="460px"></canvas>
+        </div>
+
     </div>
 
 
-    <div class="row">
 
-        <div class="col-sm-9">
 
-            <div id="chart_div" class="chart"></div>
-            <br>
-        </div>
-        <div class="col-sm-3">
-            <canvas id="canvas" width="460px" height="460px" style="float: right;"></canvas>
-        </div>
-    </div>
+
+
 </div>
 
 <footer class="container-fluid">

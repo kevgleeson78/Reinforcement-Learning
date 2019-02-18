@@ -2,25 +2,116 @@
 <html>
 <head>
     <title>Reinforcement Learning</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 
+    <style>
+        .header {
+            color: #36A0FF;
+            font-size: 27px;
+            padding: 10px;
+        }
 
-
+        .bigicon {
+            font-size: 35px;
+            color: #36A0FF;
+        }
+    </style>
 </head>
 <body>
 
-<form action="/run" method="post">
-    Epsilon: <input type="number" name="epsilon" min="0" max="1" step=".01" value=".1"> <br/>
-    Epsilon Decay: <input type="number" name="epsilon_decay" min="0" max="1" step=".1" value=".9"> <br/>
-    Gamma: <input type="number" name="gamma" min="0" max="1" step=".01" value=".8"> <br/>
-    Alpha: <input type="number" name="alpha" min="0" max="1" step=".01" value=".3"> <br/>
-    Alpha Decay: <input type="number" name="alpha_decay" min="0" max="1" step=".1" value=".9"> <br/>
-    Number of Episodes: <input type="number" name="episode" min="0" max="2000" step="10" value="100"> <br/>
-    Max number of steps: <input type="number" name="max_steps" min="0" max="500" step="5" value="10"> <br/>
-    Per Step cost: <input type="number" name="per_step_cost" min="-5" max="-1" step="1" value="-1"> <br/>
-    Goal Reward: <input type="number" name="goal_reward"  min="0" max="2000" step="10" value="100"> <br/>
-    <input type="submit" name= "form">
-</form>
+
+<div class="container">
 
 
+    <div class="row">
+        <div class="header">
+            <h1>Reinforcement Learning</h1>
+        </div>
+        <div class="col-md-12">
+            <div class="well well-sm">
+                <form class="form-horizontal" action="/run" method="post">
+                    <fieldset>
+                        <legend class="text-center header">Parameters</legend>
+
+                        <div class="form-group">
+                            <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-user bigicon"></i></span>
+                            <div class="col-md-8">
+                                <label for="epsilon">Epsilon: </label>
+                                <input id="epsilon" name="epsilon" type="number" min="0" max="1" step=".01" value=".1" class="form-control">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-user bigicon"></i></span>
+                            <div class="col-md-8">
+                                <label for="epsilon_decay">Epsilon Decay: </label>
+                                <input id="epsilon_decay" name="epsilon_decay" type="number" min="0" max="1" step=".01" value=".9" class="form-control">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-envelope-o bigicon"></i></span>
+                            <div class="col-md-8">
+                                <label for="gamma">Gamma: </label>
+                               <input id="gamma" name="gamma" type="number" min="0" max="1" step=".01" value=".8" class="form-control">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-phone-square bigicon"></i></span>
+                            <div class="col-md-8">
+                                <label for="alpha">Alpha: </label>
+                                <input id="alpha" name="alpha" type="number" min="0" max="1" step=".01" value=".3" class="form-control">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-phone-square bigicon"></i></span>
+                            <div class="col-md-8">
+                                <label for="alpha_decay">Alpha Decay: </label>
+                                <input id="alpha_decay" name="alpha_decay" type="number" min="0" max="1" step=".1" value=".9" class="form-control">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-phone-square bigicon"></i></span>
+                            <div class="col-md-8">
+                                <label for="episode">Number of Episodes: </label>
+                                <input id="episode" name="episode" type="number"  min="10" max="2000" step="10" value="100" class="form-control">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-phone-square bigicon"></i></span>
+                            <div class="col-md-8">
+                                <label for="max_steps">Max number of steps: </label>
+                                <input id="max_steps" name="max_steps" type="number"  min="10" max="200" step="5" value="20" class="form-control">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-phone-square bigicon"></i></span>
+                            <div class="col-md-8">
+                                <label for="per_step_cost">Per Step cost: </label>
+                                <input  id="per_step_cost" name="per_step_cost" type="number" min="-5" max="-1" step="1" value="-1" class="form-control">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-phone-square bigicon"></i></span>
+                            <div class="col-md-8">
+                                <label for="goal_reward">Goal Reward: </label>
+                                <input  id="goal_reward"  name="goal_reward"  type="number" min="0" max="2000" step="10" value="100" class="form-control">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-12 text-center">
+                                <button type="submit" class="btn btn-primary btn-lg">Submit</button>
+                            </div>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
 </html>
