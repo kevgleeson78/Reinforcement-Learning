@@ -204,30 +204,23 @@ def init():
             # Adapted from https://stackoverflow.com/questions/20490274/how-to-reset-index-in-a-pandas-data-frame
             # Adapted from https://stackoverflow.com/questions/22649693/drop-rows-with-all-zeros-in-pandas-data-frame
 
-
-
-
-            test = pd.DataFrame(list(q_table.values()))
+            empty_keys = {k: v for k, v in q_table.items() if sum(v) == 0}
+            for k in empty_keys:
+                del q_table[k]
 
             with open('static/Dataframe.csv', 'a', newline='') as f1:
-
-
-
-                 f1.write(test.to_csv(header=None))
+                 f1.write(pd.DataFrame(list(q_table.values())).to_csv(header=None))
 
             f1.close()
             if done:
                 break
-
 
         with open('static/alpha.json', 'w') as al:
 
             reward_list.append(total_reward)
             dftest = pd.DataFrame(reward_list)
             al.write(dftest.to_json())
-        empty_keys = {k: v for k, v in q_table.items() if sum(v) == 0}
-        for k in empty_keys:
-            del q_table[k]
+
         print(e)
 
     # print(f"Episode {e + 1}: total reward -> {total_reward}")
