@@ -60,6 +60,14 @@
             background-color: #4CAF50;
             color: white;
         }
+        canvas{
+            width: 100%;
+            heigth: auto;
+        }
+        #chart_div{
+            width: 100%;
+            heigth: auto;
+        }
     </style>
 
 </head>
@@ -99,18 +107,20 @@
 
             </table>
             <br><br>
+
+        </div>
+    </div>
+
+
+    <div class="row">
+
+        <div class="col-sm-9">
+
+            <div id="chart_div" class="chart"></div>
+            <br>
+        </div>
+        <div class="col-sm-3">
             <canvas id="canvas" width="460px" height="460px" style="float: right;"></canvas>
-
-
-            <div class="row">
-
-                <div class="col-sm-12">
-
-                    <div id="chart_div"></div>
-                    <br>
-                </div>
-
-            </div>
         </div>
     </div>
 </div>
