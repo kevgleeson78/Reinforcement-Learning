@@ -108,4 +108,4 @@ venv.bak/
 *.iml
 
 # Folder holding Generated Files
-static/
+static/Data/

@@ -55,7 +55,7 @@ def init():
 
     test1 = pd.DataFrame()
 
-    completeName = os.path.join('static/', 'test.txt')
+    completeName = os.path.join('static/Data', 'test.txt')
 
     f = open(completeName, 'w+')
 
@@ -166,8 +166,8 @@ def init():
         else:
             return np.argmax(q(state))
 
-    if os.path.exists('static/Dataframe.csv'):
-        os.remove('static/Dataframe.csv')
+    if os.path.exists('static/Data/Dataframe.csv'):
+        os.remove('static/Data/Dataframe.csv')
 
     reward_list = []
 
@@ -208,14 +208,14 @@ def init():
             for k in empty_keys:
                 del q_table[k]
 
-            with open('static/Dataframe.csv', 'a', newline='') as f1:
+            with open('static/Data/Dataframe.csv', 'a', newline='') as f1:
                  f1.write(pd.DataFrame(list(q_table.values())).to_csv(header=None))
 
             f1.close()
             if done:
                 break
 
-        with open('static/alpha.json', 'w') as al:
+        with open('static/Data/alpha.json', 'w') as al:
 
             reward_list.append(total_reward)
             dftest = pd.DataFrame(reward_list)
