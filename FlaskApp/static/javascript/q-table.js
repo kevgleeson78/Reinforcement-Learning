@@ -79,16 +79,18 @@ $.ajax({
 
             window.setTimeout(function () {
                 for(j=0; j< (result[i].length-1) / 5; j++){
+
                     csvRowCheck = result[i].slice(j * 5, (j + 1) * 5);
+
                     if(csvRowCheck[0]==0){
                         $('.data').remove();
                     }
 
-                    $('table').append('<tr class="data"><td>'+csvRowCheck[0] + '</td><td>'+csvRowCheck[1] + '</td><td>'+csvRowCheck[2] + '</td><td>'+csvRowCheck[3] + '</td><td>'+csvRowCheck[4] + '</td><td>'+arrays[j]+ '</td></tr>');
+                    $('table').append('<tr class="data"><td>'+csvRowCheck[0] + '</td><td>'+csvRowCheck[1].toFixed(5) + '</td><td>'+csvRowCheck[2].toFixed(5) + '</td><td>'+csvRowCheck[3].toFixed(5) + '</td><td>'+csvRowCheck[4].toFixed(5) + '</td><td>'+arrays[j]+ '</td></tr>');
 
                 }
 
-            },i*80);
+            },i*40);
         }
     }
 });
