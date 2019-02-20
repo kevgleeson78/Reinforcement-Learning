@@ -1,11 +1,11 @@
-import csv
+
 from copy import deepcopy
 
 import numpy as np
 import random
 import os.path
 import pandas as pd
-from numba import jit, njit
+
 
 AGENT = 'A'
 GOAL = 'G'
@@ -97,7 +97,7 @@ def init():
         new_grid = deepcopy(state.grid)
 
         if grid_item == TRAP:
-            reward = -50
+            reward = -100
             is_done = True
             f.write('%d,' % start_state.agent_pos[0])
             f.write('%d,' % start_state.agent_pos[1])
@@ -130,7 +130,7 @@ def init():
 
     # Minimum Alpha value fro numpy array
 
-    MIN_ALPHA = 0
+    MIN_ALPHA = 0.01
 
     # Actual alpha value to be added to form on front end
 
@@ -173,7 +173,7 @@ def init():
 
 
     for e in range(N_EPISODES):
-
+        print(alpha)
         total_reward = 0
         eps *= epsilon_decay
         alpha = alphas[e]
@@ -190,6 +190,10 @@ def init():
             q(state)[action] = q(state, action) + alpha * (reward
                                                            + gamma * np.max(q(next_state, action)) - q(state,
                                                                                                        action))
+           #Sarsa to be added
+           # q(state)[action] = q(state, action) + alpha * (reward
+                                                      #     + (gamma * q(next_state, action)) - q(state,
+                                                                                           #      action))
             state = next_state
             number_of_steps += _
 
@@ -208,12 +212,13 @@ def init():
             for k in empty_keys:
                 del q_table[k]
 
-            with open('static/Data/Dataframe.csv', 'a', newline='') as f1:
+            with open('static/Data/Dataframe.csv', 'a',newline='') as f1:
                  f1.write(pd.DataFrame(list(q_table.values())).to_csv(header=None))
 
-            f1.close()
+
             if done:
                 break
+
 
         with open('static/Data/alpha.json', 'w') as al:
 
