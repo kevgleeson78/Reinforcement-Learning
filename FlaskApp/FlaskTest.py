@@ -11,20 +11,33 @@ def index():
 @app.route('/run', methods=['GET', 'POST'])
 
 def test():
-    from FlaskApp import loopTest
-    loopTest.episodes_form = request.form.get("episode")
-    loopTest.max_steps_form = request.form.get("max_steps")
-    loopTest.per_step_cost = request.form.get("per_step_cost")
-    loopTest.goal_reward = request.form.get("goal_reward")
-    loopTest.gamma_form = request.form.get("gamma")
-    loopTest.epsilon_form = request.form.get("epsilon")
-    loopTest.epsilon_form_decay = request.form.get("epsilon_decay")
-    loopTest.alpha_form = request.form.get("alpha")
-    loopTest.alpha_form_decay = request.form.get("alpha_decay")
-    loopTest.init()
+    import loopTest
 
-    return render_template('result.html')
 
+
+    if request.method == 'GET':
+
+        loopTest.init()
+        return 'done'
+    if request.method == 'POST':
+        loopTest.episodes_form = request.form.get('episode')
+        loopTest.max_steps_form = request.form.get('max_steps')
+        loopTest.per_step_cost = request.form.get('per_step_cost')
+        loopTest.goal_reward = request.form.get('goal_reward')
+        loopTest.gamma_form = request.form.get('gamma')
+        loopTest.epsilon_form = request.form.get('epsilon')
+        loopTest.epsilon_form_decay = request.form.get('epsilon_decay')
+        loopTest.alpha_form = request.form.get('alpha')
+        loopTest.alpha_form_decay = request.form.get('alpha_decay')
+        return render_template('waiting.html')
+
+
+
+
+@app.route('/success', methods=['GET', 'POST'])
+def dealy():
+
+    return render_template("result.html")
 
 
 if __name__ == "__main__":

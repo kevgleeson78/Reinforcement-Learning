@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>Running training.....</h1>
+<script>
+    var request = new XMLHttpRequest();
+    request.open('GET', '/run');
+
+    request.onload= function() {
+
+        if (request.status === 200 && request.responseText === 'done') {
+            // long process finished successfully, redirect user
+            window.location = '/success';
+        } else {
+            // ops, we got an error from the server
+            alert('Something went wrong.');
+        }
+    };
+
+    request.onerror = function() {
+        // ops, we got an error trying to talk to the server
+        alert('Something went wrong.');
+    };
+
+    request.send();
+</script>
+</body>
+</html>
