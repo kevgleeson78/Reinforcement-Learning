@@ -3,9 +3,51 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+
+    <link rel="stylesheet" href="../static/css/styles.css">
+
+
 </head>
 <body>
-<h1>Running training.....</h1>
+
+
+
+
+
+
+
+<div class="container-fluid">
+    <div class="header">
+        <h1>Reinforcement Learning</h1>
+    </div>
+    <div class="row content">
+        <div class="col-sm-2 sidenav">
+
+            <ul class="nav nav-pills nav-stacked">
+                <li class="active"><a href="{{ url_for('index') }}">Home</a></li>
+
+            </ul><br>
+
+        </div>
+
+<h2>Training ......</h2>
+
+
+
+
+</div>
+
+<footer class="container-fluid">
+    <p>Footer Text</p>
+</footer>
+
+
+
 <script>
     var request = new XMLHttpRequest();
     request.open('GET', '/run');
