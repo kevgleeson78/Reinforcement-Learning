@@ -11,18 +11,31 @@
 
 </head>
 <body>
+<div class="container-fluid">
+    <div class="header">
+        <h1>Reinforcement Learning</h1>
+    </div>
+    <div class="row content">
+        <div class="col-sm-2 sidenav">
+            <h4>Reinforcement Learning</h4>
+            <ul class="nav nav-pills nav-stacked">
+                <li class="active"><a href="{{ url_for('index') }}">Home</a></li>
 
+            </ul><br>
 
-<div class="container">
-
-
-    <div class="row">
-
-        <div class="header">
-            <h1>Reinforcement Learning</h1>
         </div>
 
-        <div class="col-md-12">
+
+
+
+
+
+
+
+
+
+
+        <div class="col-md-10">
             <div class="well well-sm">
                 <form class="form-horizontal" action="/run" method="post">
                     <fieldset>
@@ -47,7 +60,7 @@
                             <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-envelope-o bigicon"></i></span>
                             <div class="col-md-8">
                                 <label for="gamma">Gamma: </label>
-                               <input id="gamma" name="gamma" type="number" min="0" max="1" step=".01" value=".8" class="form-control">
+                                <input id="gamma" name="gamma" type="number" min="0" max="1" step=".01" value=".8" class="form-control">
                             </div>
                         </div>
 
@@ -106,7 +119,19 @@
             </div>
         </div>
     </div>
+
+
 </div>
+
+
+
+
+
+
+
+<footer class="container-fluid">
+    <p>Footer Text</p>
+</footer>
 
 </body>
 </html>
