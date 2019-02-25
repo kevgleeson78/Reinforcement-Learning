@@ -57,7 +57,6 @@ $.ajax({
                 drawBoard();
 
                 drawShape(5,  0, 'green');
-                drawShape(3,  0, 'red');
                 drawShape(5, 1, 'red');
                 drawShape(1, 1, 'red');
 

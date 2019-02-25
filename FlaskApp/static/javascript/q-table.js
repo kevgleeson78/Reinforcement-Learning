@@ -10,7 +10,7 @@ $.ajax({
     async: true,
     success: function (data) {
         var arrt = data.split(/,/g).slice(0);
-        var terminal = [[4,2],[4,4],[3,1],[1,1],[1,5],[0,3],[0,5]];
+        var terminal = [[4,2],[4,4],[3,1],[1,1],[1,5],[0,5]];
 
         while (arrt.length > 0) {
 
@@ -89,8 +89,17 @@ $.ajax({
                     $('table').append('<tr class="data"><td>'+csvRowCheck[0] + '</td><td>'+csvRowCheck[1].toFixed(5) + '</td><td>'+csvRowCheck[2].toFixed(5) + '</td><td>'+csvRowCheck[3].toFixed(5) + '</td><td>'+csvRowCheck[4].toFixed(5) + '</td><td>'+arrays[j]+ '</td></tr>');
 
                 }
-
-            },i*40);
+                $("#q_table td:not(:first-child, :last-child)").hottie({
+                    colorArray : [
+                        "#F8696B",
+                        "#FBE983",
+                        "#63BE7B",
+                        "#63BE7B",
+                        "#63BE7B",
+                        "#63BE7B"
+                    ]
+                });
+            },i*80);
         }
     }
 });

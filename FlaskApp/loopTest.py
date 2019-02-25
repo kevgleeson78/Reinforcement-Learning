@@ -22,7 +22,7 @@ alpha_form = 0
 alpha_form_decay = 0
 
 grid = [
-    [EMPTY, EMPTY, EMPTY, TRAP, EMPTY, GOAL],
+    [EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, GOAL],
     [EMPTY, TRAP, EMPTY, EMPTY, EMPTY, TRAP],
     [EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY],
     [EMPTY, TRAP, EMPTY, EMPTY, EMPTY, EMPTY],
@@ -173,7 +173,7 @@ def init():
 
 
     for e in range(N_EPISODES):
-        print(alpha)
+       # print(alpha)
         total_reward = 0
         eps *= epsilon_decay
         alpha = alphas[e]
@@ -226,7 +226,7 @@ def init():
             dftest = pd.DataFrame(reward_list)
             al.write(dftest.to_json())
 
-        print(e)
+        #print(e)
 
     # print(f"Episode {e + 1}: total reward -> {total_reward}")
 
