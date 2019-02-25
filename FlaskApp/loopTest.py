@@ -11,6 +11,7 @@ AGENT = 'A'
 GOAL = 'G'
 EMPTY = '*'
 TRAP = '#'
+algorithm_form = ""
 episodes_form = 0
 max_steps_form = 0
 per_step_cost = 0
@@ -169,8 +170,8 @@ def init():
     if os.path.exists('static/Data/Dataframe.csv'):
         os.remove('static/Data/Dataframe.csv')
 
-    reward_list = []
-
+    q_learning_list = []
+    sarsa_list = []
 
     for e in range(N_EPISODES):
        # print(alpha)
@@ -187,13 +188,16 @@ def init():
             action = choose_action(state)
             (next_state, reward, done) = act(state, action)
             total_reward += reward
-            q(state)[action] = q(state, action) + alpha * (reward
-                                                           + gamma * np.max(q(next_state, action)) - q(state,
-                                                                                                       action))
+            if algorithm_form == "q-learning":
+                print("q-learning chosen")
+                q(state)[action] = q(state, action) + alpha * (reward
+                                                               + gamma * np.max(q(next_state, action)) - q(state, action))
+            elif algorithm_form == "sarsa":
+                print("sarsa chosen")
            #Sarsa to be added
-           # q(state)[action] = q(state, action) + alpha * (reward
-                                                      #     + (gamma * q(next_state, action)) - q(state,
-                                                                                           #      action))
+                q(state)[action] = q(state, action) + alpha * (reward
+                                                          + (gamma * q(next_state, action)) - q(state,
+                                                                                                action))
             state = next_state
             number_of_steps += _
 
@@ -219,12 +223,20 @@ def init():
             if done:
                 break
 
+        if algorithm_form == "q-learning":
+            with open('static/Data/q_learning.json', 'w') as al:
 
-        with open('static/Data/alpha.json', 'w') as al:
+                q_learning_list.append(total_reward)
+                dftest = pd.DataFrame(q_learning_list)
+                al.write(dftest.to_json())
 
-            reward_list.append(total_reward)
-            dftest = pd.DataFrame(reward_list)
-            al.write(dftest.to_json())
+        elif algorithm_form == "sarsa":
+           with open('static/Data/sarsa.json', 'w') as al:
+
+                sarsa_list.append(total_reward)
+                dftest = pd.DataFrame(sarsa_list)
+                al.write(dftest.to_json())
+
 
         #print(e)
 

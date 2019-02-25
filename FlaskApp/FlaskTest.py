@@ -20,6 +20,7 @@ def test():
         loopTest.init()
         return 'done'
     if request.method == 'POST':
+        loopTest.algorithm_form = request.form.get('algorithm')
         loopTest.episodes_form = request.form.get('episode')
         loopTest.max_steps_form = request.form.get('max_steps')
         loopTest.per_step_cost = request.form.get('per_step_cost')

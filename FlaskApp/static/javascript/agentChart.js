@@ -1,11 +1,13 @@
 function drawBasic() {
+
     $.ajax({
         type: "GET",
-        url: "static/Data/alpha.json",
+        url: "static/Data/q_learning.json",
         dataType: "json",
         cache: false,
         async: true,
         success: function (data) {
+
             var data = data;
            // console.log(data);
 
