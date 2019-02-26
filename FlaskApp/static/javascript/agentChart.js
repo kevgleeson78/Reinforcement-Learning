@@ -80,6 +80,15 @@ function drawLineColors() {
                     var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
 
                     chart.draw(data, options);
+                    function resizeHandler () {
+                        chart.draw(data, options);
+                    }
+                    if (window.addEventListener) {
+                        window.addEventListener('resize', resizeHandler, false);
+                    }
+                    else if (window.attachEvent) {
+                        window.attachEvent('onresize', resizeHandler);
+                    }
                 }
             });
         }

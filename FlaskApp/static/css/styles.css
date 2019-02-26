@@ -54,6 +54,7 @@ footer {
 canvas{
     width: 100%;
     height: auto;
+
 }
 
 /* Bootstrap custom css for form*/
@@ -75,4 +76,8 @@ div#loading {
     display: none;
     background: url(../gif/ajax-loader.gif) no-repeat;
     cursor: wait;
+}
+#graph {
+    height: 100%;
+    width: 100%;
 }
