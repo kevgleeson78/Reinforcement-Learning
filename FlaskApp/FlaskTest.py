@@ -1,5 +1,5 @@
 from flask import Flask, request,render_template
-
+import loopTest
 app = Flask(__name__)
 
 @app.route('/')
@@ -11,7 +11,7 @@ def index():
 @app.route('/run', methods=['GET', 'POST'])
 
 def test():
-    import loopTest
+
 
 
 
@@ -37,8 +37,21 @@ def test():
 
 @app.route('/success', methods=['GET', 'POST'])
 def dealy():
+    var1 = loopTest.algorithm_form
+    var2 = loopTest.epsilon_form
+    var3 = loopTest.epsilon_form_decay
+    var4 = loopTest.gamma_form
+    var5 = loopTest.alpha_form
 
-    return render_template("result.html")
+    var6 = loopTest.alpha_form_decay
+    var7 = loopTest.episodes_form
+    var8 = loopTest.max_steps_form
+    var9 = loopTest.per_step_cost
+    var10 = loopTest.goal_reward
+
+
+
+    return render_template("result.html",var1=var1,var2=var2,var3=var3,var4=var4,var5=var5,var6=var6,var7=var7,var8=var8,var9=var9,var10=var10)
 
 
 if __name__ == "__main__":

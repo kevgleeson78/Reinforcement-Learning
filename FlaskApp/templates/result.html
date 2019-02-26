@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -15,16 +14,10 @@
 
 </head>
 <body>
-
-
-
-
-
-
-
 <div class="container-fluid">
     <div class="header">
         <h1>Reinforcement Learning</h1>
+        <h3>{{ var1 }}</h3>
     </div>
     <div class="row content">
         <div class="col-sm-2 sidenav">
@@ -33,7 +26,97 @@
                 <li class="active"><a href="{{ url_for('index') }}">Home</a></li>
 
             </ul><br>
+            <form class="form-horizontal" action="/run" method="post">
+                <fieldset>
+                    <legend class="text-center header">Parameters</legend>
+                    <div class="form-group">
+                        <span class="col-md-1"><i class="fa fa-user bigicon"></i></span>
+                        <div class="col-md-8">
+                            <label for="algorithm">Algorithm: </label>
+                            <select id="algorithm" name="algorithm">
+                                <option value="q-learning">Q-Learning</option>
+                                <option value="sarsa">SARSA</option>
 
+                            </select>
+
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <span class="col-md-1"><i class="fa fa-user bigicon"></i></span>
+                        <div class="col-md-8">
+                            <label for="epsilon">Epsilon: </label>
+                            <input id="epsilon" name="epsilon" type="number" min="0" max="1" step=".01" value="{{ var2 }}" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <span class="col-md-1"><i class="fa fa-user bigicon"></i></span>
+                        <div class="col-md-8">
+                            <label for="epsilon_decay">Epsilon Decay: </label>
+                            <input id="epsilon_decay" name="epsilon_decay" type="number" min="0" max="1" step=".01" value="{{ var3 }}" class="form-control">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <span class="col-md-1"><i class="fa fa-envelope-o bigicon"></i></span>
+                        <div class="col-md-8">
+                            <label for="gamma">Gamma: </label>
+                            <input id="gamma" name="gamma" type="number" min="0" max="1" step=".01" value="{{ var4 }}" class="form-control">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <span class="col-md-1"><i class="fa fa-phone-square bigicon"></i></span>
+                        <div class="col-md-8">
+                            <label for="alpha">Alpha: </label>
+                            <input id="alpha" name="alpha" type="number" min="0" max="1" step=".01" value="{{ var5 }}" class="form-control">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <span class="col-md-1"><i class="fa fa-phone-square bigicon"></i></span>
+                        <div class="col-md-8">
+                            <label for="alpha_decay">Alpha Decay: </label>
+                            <input id="alpha_decay" name="alpha_decay" type="number" min="0" max="1" step=".1" value="{{ var6 }}" class="form-control">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <span class="col-md-1"><i class="fa fa-phone-square bigicon"></i></span>
+                        <div class="col-md-8">
+                            <label for="episode">Number of Episodes: </label>
+                            <input id="episode" name="episode" type="number"  min="10" max="1000" step="10" value="{{ var7 }}" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <span class="col-md-1"><i class="fa fa-phone-square bigicon"></i></span>
+                        <div class="col-md-8">
+                            <label for="max_steps">Max number of steps: </label>
+                            <input id="max_steps" name="max_steps" type="number"  min="10" max="100" step="5" value="{{ var8 }}" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <span class="col-md-1"><i class="fa fa-phone-square bigicon"></i></span>
+                        <div class="col-md-8">
+                            <label for="per_step_cost">Per Step cost: </label>
+                            <input  id="per_step_cost" name="per_step_cost" type="number" min="-5" max="-1" step="1" value="{{ var9 }}" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <span class="col-md-1"><i class="fa fa-phone-square bigicon"></i></span>
+                        <div class="col-md-8">
+                            <label for="goal_reward">Goal Reward: </label>
+                            <input  id="goal_reward"  name="goal_reward"  type="number" min="10" max="2000" step="10" value="{{ var10 }}" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <span class="col-md-1"><i class="fa fa-phone-square bigicon"></i></span>
+                        <div class="col-md-8">
+                            <div id="loading"></div>
+                            <button type="submit" class="btn btn-primary btn-lg" onclick="loading();">Submit</button>
+                        </div>
+                    </div>
+                </fieldset>
+            </form>
         </div>
 
         <div class="col-sm-10">

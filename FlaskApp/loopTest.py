@@ -190,14 +190,12 @@ def init():
             total_reward += reward
             if algorithm_form == "q-learning":
                 print("q-learning chosen")
-                q(state)[action] = q(state, action) + alpha * (reward
-                                                               + gamma * np.max(q(next_state, action)) - q(state, action))
-            elif algorithm_form == "sarsa":
+                q(state)[action] = q(state, action) + alpha * (reward + gamma * np.max(q(next_state, action)) - q(state, action))
+
+            if algorithm_form == "sarsa":
                 print("sarsa chosen")
            #Sarsa to be added
-                q(state)[action] = q(state, action) + alpha * (reward
-                                                          + (gamma * q(next_state, action)) - q(state,
-                                                                                                action))
+                q(state)[action] = q(state, action) + alpha * (reward + gamma * q(next_state, action) - q(state,action))
             state = next_state
             number_of_steps += _
 
@@ -227,15 +225,14 @@ def init():
             with open('static/Data/q_learning.json', 'w') as al:
 
                 q_learning_list.append(total_reward)
-                dftest = pd.DataFrame(q_learning_list)
-                al.write(dftest.to_json())
+                df = pd.DataFrame(q_learning_list)
+                al.write(df.to_json())
 
         elif algorithm_form == "sarsa":
            with open('static/Data/sarsa.json', 'w') as al:
-
                 sarsa_list.append(total_reward)
-                dftest = pd.DataFrame(sarsa_list)
-                al.write(dftest.to_json())
+                df = pd.DataFrame(sarsa_list)
+                al.write(df.to_json())
 
 
         #print(e)
