@@ -1,6 +1,7 @@
 
 from copy import deepcopy
 
+
 import numpy as np
 import random
 import os.path
@@ -123,15 +124,15 @@ def init():
 
         return (State(grid=new_grid, agent_pos=p), reward, is_done)
 
-    # N_STATES = 29
+
 
     N_EPISODES = int(episodes_form)
 
     MAX_EPISODE_STEPS = int(max_steps_form)
 
-    # Minimum Alpha value fro numpy array
+    # Minimum Alpha value for numpy array
 
-    MIN_ALPHA = 0.01
+    MIN_ALPHA = 0.0
 
     # Actual alpha value to be added to form on front end
 
@@ -174,7 +175,7 @@ def init():
     sarsa_list = []
     if algorithm_form == "q-learning":
         for e in range(N_EPISODES):
-           # print(alpha)
+
             total_reward = 0
             eps *= epsilon_decay
             alpha = alphas[e]
@@ -185,18 +186,22 @@ def init():
 
 
                 number_of_steps = 0
+
                 action = choose_action(state)
                 (next_state, reward, done) = act(state, action)
                 total_reward += reward
 
-                best_next_action = np.argmax(q(next_state))
-                td_target = reward + gamma * q(next_state)[best_next_action]
-                td_delta = td_target - q(state)[action]
-                q(state)[action] += alpha * td_delta
-               # q(state)[action] += alpha * reward + gamma * np.max(q(next_state, action) - q(state, action))
+                max_next_action = np.max(q(next_state))
+                target = reward + gamma * max_next_action
+                end_eq = target - q(state,action)
+                q(state)[action] = q(state)[action] + alpha * end_eq
+
+                state = next_state
+
+
 
                 number_of_steps += _
-                state = next_state
+
 
                 if number_of_steps + 1 == MAX_EPISODE_STEPS:
                     f.write('%d,' % state.agent_pos[0])
@@ -226,7 +231,7 @@ def init():
 
             print(e)
 
-        # print(f"Episode {e + 1}: total reward -> {total_reward}")
+
 
         f.close()
 
@@ -250,17 +255,18 @@ def init():
 
                 number_of_steps += _
 
-                    #Sarsa to be added
 
-                td_target = reward + gamma * q(next_state)[next_action]
-                td_delta = td_target - q(state)[action]
-                q(state)[action] += alpha * td_delta
-                #q(state)[action] += alpha * reward + gamma * q(next_state, action) - q(state,action)
 
-                number_of_steps += _
+                target = reward + gamma * q(next_state, next_action)
+                eq_end = target - q(state,action)
+                q(state)[action] = q(state)[action] + alpha * eq_end
                 action = next_action
                 state = next_state
-                # print(action, state, "step number->", number_of_steps +1)
+
+
+                number_of_steps += _
+
+
 
                 if number_of_steps + 1 == MAX_EPISODE_STEPS:
                     f.write('%d,' % state.agent_pos[0])
@@ -291,19 +297,6 @@ def init():
 
             print(e)
 
-        # print(f"Episode {e + 1}: total reward -> {total_reward}")
+
 
         f.close()
-
-
-
-
-
-
-        #f1.close()
-    print()
-
-
-
-
-
