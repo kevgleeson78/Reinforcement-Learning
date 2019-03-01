@@ -136,26 +136,27 @@ def init():
 
     # Minimum Alpha value for numpy array
 
-    MIN_ALPHA = 0.0
+    MIN_ALPHA = 0.0001
 
     # Actual alpha value to be added to form on front end
 
     alpha = float(alpha_form)
-
+    gamma = float(gamma_form)  # .8
+    eps = float(epsilon_form)  # .09
     # The decay rate add to form on front end
 
     alphaDecay = float(alpha_form_decay)
     alphas = np.linspace(alpha, MIN_ALPHA, N_EPISODES)
+    epsis = np.linspace(eps, MIN_ALPHA, N_EPISODES)
 
-    gamma = float(gamma_form)  # .8
-    eps = float(epsilon_form)  # .09
+
 
     # Epsilon deacy rate add to form on front end
 
     epsilon_decay = float(epsilon_form_decay)
 
     q_table = dict()
-
+    print(eps)
     def q(state, action=None):
 
         if state not in q_table:
@@ -165,10 +166,10 @@ def init():
             return q_table[state]
 
         return q_table[state][action]
-
+    random.seed(145)
     def choose_action(state):
 
-        random.seed(datetime.now())
+
         if random.uniform(0, 1) < eps:
             return random.choice(ACTIONS)
         else:
@@ -177,39 +178,38 @@ def init():
     if os.path.exists('static/Data/Dataframe.csv'):
         os.remove('static/Data/Dataframe.csv')
 
-    def check(gr,eps,alpha):
+    def check(gr,alpha,eps):
         if gr:
-            if eps >0:
-                eps *= epsilon_decay
-            else:
-                eps = 0
-            if alpha >0:
-                alpha *= alphaDecay
-            else:
-                alpha = 0
-        return eps, alpha
 
+
+            #eps = epsis[e]
+            eps *= epsilon_decay
+            alpha = alphas[e]
+            alpha *= alphaDecay
+
+        return alpha,eps
     q_learning_list = []
     sarsa_list = []
     if algorithm_form == "q-learning":
         for e in range(N_EPISODES):
 
             total_reward = 0
+            #eps = epsis[e]
 
             state = start_state
             number_of_steps = 0
             for _ in range(MAX_EPISODE_STEPS):
 
-
+                print(eps)
                 action = choose_action(state)
                 (next_state, reward, done, goal_reached) = act(state, action)
 
-                eps, alpha = check(goal_reached,eps,alpha)
+                alpha , eps = check(done,alpha,eps)
                 #print(alpha)
                 max_next_action = np.max(q(next_state))
                 target = reward + gamma * max_next_action
                 end_eq = target - q(state)[action]
-                q(state)[action] = q(state)[action] + alpha * end_eq
+                q(state)[action] += alpha * end_eq
                 total_reward += reward
                 state = next_state
 
@@ -256,20 +256,22 @@ def init():
         for e in range(N_EPISODES):
             state = start_state
             action = choose_action(state)
+
             # print(alpha)
             total_reward = 0
             number_of_steps = 0
+          # eps = epsis[e]
 
 
             for _ in range(MAX_EPISODE_STEPS):
 
                 (next_state, reward, done,goal_reached) = act(state, action)
                 next_action = choose_action(next_state)
-                eps, alpha = check(goal_reached,eps,alpha)
+                alpha, eps = check(done,alpha,eps)
                # print(eps)
-                target = reward + gamma * q(next_state, next_action)
+                target = reward + gamma * q(next_state)[next_action]
                 eq_end = target - q(state)[action]
-                q(state)[action] = q(state)[action] + alpha * eq_end
+                q(state)[action] += alpha * eq_end
 
                 number_of_steps += 1
                 if number_of_steps + 1 == MAX_EPISODE_STEPS:
