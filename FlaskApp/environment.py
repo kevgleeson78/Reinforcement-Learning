@@ -7,11 +7,12 @@ import random
 import os.path
 import pandas as pd
 
-
 AGENT = 'A'
 GOAL = 'G'
 EMPTY = '*'
 TRAP = '#'
+
+environment_form = ""
 algorithm_form = ""
 episodes_form = 0
 max_steps_form = 0
@@ -22,38 +23,62 @@ epsilon_form = 0
 epsilon_form_decay = 0
 alpha_form = 0
 alpha_form_decay = 0
-
-grid = [
-    [EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY],
-    [EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY],
-    [EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY],
-    [EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY],
-    [EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY],
-    [AGENT, TRAP, TRAP, TRAP, TRAP, GOAL],
-]
-
-for row in grid:
-    print(' '.join(row))
-
-
-class State:
-
-    def __init__(self, grid, agent_pos):
-        self.grid = grid
-        self.agent_pos = agent_pos
-
-    def __eq__(self, other):
-        return isinstance(other, State) and self.grid == other.grid \
-               and self.agent_pos == other.agent_pos
-
-    def __hash__(self):
-        return hash(str(self.grid) + str(self.agent_pos))
-
-    def __str__(self):
-        return 'State(grid={self.grid}, agent_pos={self.agent_pos})'
-
-
 def init():
+    grid = [
+        [EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY],
+        [EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY],
+        [EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY],
+        [EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY],
+        [EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY],
+        [EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY],
+    ]
+    grid_cliff = [
+        [EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY],
+        [EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY],
+        [EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY],
+        [EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY],
+        [EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY],
+        [AGENT, TRAP, TRAP, TRAP, TRAP, GOAL],
+    ]
+
+    grid_standard = [
+        [EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, GOAL],
+        [EMPTY, TRAP, EMPTY, EMPTY, EMPTY, TRAP],
+        [EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY],
+        [EMPTY, TRAP, EMPTY, EMPTY, EMPTY, EMPTY],
+        [EMPTY, EMPTY, TRAP, EMPTY, TRAP, EMPTY],
+        [AGENT, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY],
+    ]
+
+    if environment_form == "grid_cliff":
+        grid = grid_cliff
+
+    if environment_form == "grid_standard":
+        grid = grid_standard
+
+
+
+    for row in grid:
+        print(' '.join(row))
+
+    class State:
+
+        def __init__(self, grid, agent_pos):
+            self.grid = grid
+            self.agent_pos = agent_pos
+
+        def __eq__(self, other):
+            return isinstance(other, State) and self.grid == other.grid \
+                   and self.agent_pos == other.agent_pos
+
+        def __hash__(self):
+            return hash(str(self.grid) + str(self.agent_pos))
+
+        def __str__(self):
+            return 'State(grid={self.grid}, agent_pos={self.agent_pos})'
+
+
+
 
 
 
@@ -245,7 +270,6 @@ def init():
                 al.write(df.to_json())
 
             print(e)
-
 
 
 

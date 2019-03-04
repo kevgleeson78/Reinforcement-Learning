@@ -1,5 +1,5 @@
 from flask import Flask, request,render_template
-import loopTest
+from FlaskApp import environment
 app = Flask(__name__)
 
 @app.route('/')
@@ -17,19 +17,20 @@ def test():
 
     if request.method == 'GET':
 
-        loopTest.init()
+        environment.init()
         return 'done'
     if request.method == 'POST':
-        loopTest.algorithm_form = request.form.get('algorithm')
-        loopTest.episodes_form = request.form.get('episode')
-        loopTest.max_steps_form = request.form.get('max_steps')
-        loopTest.per_step_cost = request.form.get('per_step_cost')
-        loopTest.goal_reward = request.form.get('goal_reward')
-        loopTest.gamma_form = request.form.get('gamma')
-        loopTest.epsilon_form = request.form.get('epsilon')
-        loopTest.epsilon_form_decay = request.form.get('epsilon_decay')
-        loopTest.alpha_form = request.form.get('alpha')
-        loopTest.alpha_form_decay = request.form.get('alpha_decay')
+        environment.environment_form = request.form.get('grid_type')
+        environment.algorithm_form = request.form.get('algorithm')
+        environment.episodes_form = request.form.get('episode')
+        environment.max_steps_form = request.form.get('max_steps')
+        environment.per_step_cost = request.form.get('per_step_cost')
+        environment.goal_reward = request.form.get('goal_reward')
+        environment.gamma_form = request.form.get('gamma')
+        environment.epsilon_form = request.form.get('epsilon')
+        environment.epsilon_form_decay = request.form.get('epsilon_decay')
+        environment.alpha_form = request.form.get('alpha')
+        environment.alpha_form_decay = request.form.get('alpha_decay')
         return render_template('waiting.html')
 
 
@@ -37,21 +38,19 @@ def test():
 
 @app.route('/success', methods=['GET', 'POST'])
 def dealy():
-    var1 = loopTest.algorithm_form
-    var2 = loopTest.epsilon_form
-    var3 = loopTest.epsilon_form_decay
-    var4 = loopTest.gamma_form
-    var5 = loopTest.alpha_form
+    var0 = environment.environment_form
+    var1 = environment.algorithm_form
+    var2 = environment.epsilon_form
+    var3 = environment.epsilon_form_decay
+    var4 = environment.gamma_form
+    var5 = environment.alpha_form
+    var6 = environment.alpha_form_decay
+    var7 = environment.episodes_form
+    var8 = environment.max_steps_form
+    var9 = environment.per_step_cost
+    var10 = environment.goal_reward
 
-    var6 = loopTest.alpha_form_decay
-    var7 = loopTest.episodes_form
-    var8 = loopTest.max_steps_form
-    var9 = loopTest.per_step_cost
-    var10 = loopTest.goal_reward
-
-
-
-    return render_template("result.html",var1=var1,var2=var2,var3=var3,var4=var4,var5=var5,var6=var6,var7=var7,var8=var8,var9=var9,var10=var10)
+    return render_template("result.html",var0=var0,var1=var1,var2=var2,var3=var3,var4=var4,var5=var5,var6=var6,var7=var7,var8=var8,var9=var9,var10=var10)
 
 
 if __name__ == "__main__":
