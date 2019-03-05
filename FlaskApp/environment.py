@@ -78,10 +78,6 @@ def init():
             return 'State(grid={self.grid}, agent_pos={self.agent_pos})'
 
 
-
-
-
-
     completeName = os.path.join('static/Data', 'test.txt')
 
     f = open(completeName, 'w+')
@@ -172,16 +168,19 @@ def init():
 
     alphaDecay = float(alpha_form_decay)
     alphas = np.linspace(alpha, MIN_ALPHA, N_EPISODES)
-    epsis = np.linspace(eps, MIN_ALPHA, N_EPISODES)
+
 
 
 
     # Epsilon deacy rate add to form on front end
 
     epsilon_decay = float(epsilon_form_decay)
-
-    q_table = dict()
     print(eps)
+
+    #Q-Table dictionary
+    q_table = dict()
+
+    #Updating the Q-Table
     def q(state, action=None):
 
         if state not in q_table:
@@ -191,30 +190,37 @@ def init():
             return q_table[state]
 
         return q_table[state][action]
+
+    #For controlling the random value.
+    #Time.now can be used here
     random.seed(145)
+    #Choosing an action based on the epsilon value
     def choose_action(state):
-
-
         if random.uniform(0, 1) < eps:
             return random.choice(ACTIONS)
         else:
             return np.argmax(q(state))
 
+    #Check if the Dataframe csv file exists and remove if it does.
     if os.path.exists('static/Data/Dataframe.csv'):
         os.remove('static/Data/Dataframe.csv')
 
+    #A function to check if the goal has been reached
+    # This can be used to set the decay rate for alpha and epsilon
     def check(gr,alpha,eps):
         if gr:
-
-
             #eps = epsis[e]
             eps *= epsilon_decay
             alpha = alphas[e]
             alpha *= alphaDecay
-
         return alpha,eps
+
+    # Two lists for sarsa and q-learning algorithms rewards after each episode.
+    # These lists will bre written out to json files for graphing on the result page.
     q_learning_list = []
     sarsa_list = []
+
+
     if algorithm_form == "q-learning":
         for e in range(N_EPISODES):
 

@@ -9,8 +9,15 @@ $.ajax({
     cache: false,
     async: true,
     success: function (data) {
+        var terminal = [[],[]];
+
+        if(grid_type == "grid_cliff") {
+            terminal = [[5, 1], [5, 2], [5, 3], [5, 4], [5, 5]];
+        }
+        if(grid_type == "grid_standard"){
+            terminal = [[4,2],[4,4],[3,1],[1,1],[1,5],[0,5]];
+        }
         var arrt = data.split(/,/g).slice(0);
-        var terminal = [[4,2],[4,4],[3,1],[1,1],[1,5],[0,5]];
 
         while (arrt.length > 0) {
 
@@ -86,7 +93,7 @@ $.ajax({
                         $('.data').remove();
                     }
 
-                    $('table').append('<tr class="data"><td>'+csvRowCheck[0] + '</td><td>'+csvRowCheck[1].toFixed(5) + '</td><td>'+csvRowCheck[2].toFixed(5) + '</td><td>'+csvRowCheck[3].toFixed(5) + '</td><td>'+csvRowCheck[4].toFixed(5) + '</td><td>'+arrays[j]+ '</td></tr>');
+                    $('table').append('<tr class="data"><td>'+csvRowCheck[0] + '</td><td>'+csvRowCheck[1].toFixed(7) + '</td><td>'+csvRowCheck[2].toFixed(7) + '</td><td>'+csvRowCheck[3].toFixed(7) + '</td><td>'+csvRowCheck[4].toFixed(7) + '</td><td>'+arrays[j]+ '</td></tr>');
 
                 }
                 $("#q_table td:not(:first-child, :last-child)").hottie({
