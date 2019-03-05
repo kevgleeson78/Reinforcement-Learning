@@ -13,6 +13,7 @@ var canvas = document.getElementById("canvas");
 var context = canvas.getContext("2d");
 //context.transform(1, 0, 0, -1, 0, canvas.height)
 
+console.log(grid_type);
 function drawBoard(){
 
     for (var x = 0; x <= bw; x += gridX) {
@@ -32,11 +33,7 @@ function drawBoard(){
 
 
 
-function drawShape(x , y,colour){
-    context.strokeRect(p + gridX,p,gridX,gridY);
-    context.fillStyle = colour;
-    context.fillRect(p + gridX * x,p+ gridY * y,gridX,gridY);
-}
+
 $.ajax({
 
     url: "/static/Data/test.txt",
@@ -45,7 +42,11 @@ $.ajax({
     async: true,
     success: function (data) {
         var arr =   data.split(/,/g).slice(0);
-
+        function drawShape(x , y,colour){
+            context.strokeRect(p + gridX,p,gridX,gridY);
+            context.fillStyle = colour;
+            context.fillRect(p + gridX * x,p+ gridY * y,gridX,gridY);
+        }
 
         for(let i=0; i<arr.length -2; i+=2){
             window.setTimeout(function () {
@@ -55,16 +56,23 @@ $.ajax({
                 context.clearRect(0, 0, 650, 650);
 
                 drawBoard();
-
-                drawShape(5,  0, 'green');
-                drawShape(5, 1, 'red');
-                drawShape(1, 1, 'red');
-
-                drawShape(1, 3, 'red');
-                drawShape(2, 4, 'red');
-                drawShape(4, 4, 'red');
-                drawShape(y1, x1,'yellow');
-
+                if(grid_type == "grid_standard") {
+                    drawShape(5, 0, 'green');
+                    drawShape(5, 1, 'red');
+                    drawShape(1, 1, 'red');
+                    drawShape(1, 3, 'red');
+                    drawShape(2, 4, 'red');
+                    drawShape(4, 4, 'red');
+                    drawShape(y1, x1, 'yellow');
+                }
+                if(grid_type == "grid_cliff") {
+                    drawShape(5, 5, 'green');
+                    drawShape(4, 5, 'red');
+                    drawShape(3, 5, 'red');
+                    drawShape(2, 5, 'red');
+                    drawShape(1, 5, 'red');
+                    drawShape(y1, x1, 'yellow');
+                }
                 //  $("body").append("Pos: " + x1 + "  "+y1);
             }, i * 40);
 

@@ -2,6 +2,7 @@ from flask import Flask, request,render_template
 from FlaskApp import environment
 app = Flask(__name__)
 
+
 @app.route('/')
 def index():
 
@@ -9,11 +10,7 @@ def index():
 
 
 @app.route('/run', methods=['GET', 'POST'])
-
 def test():
-
-
-
 
     if request.method == 'GET':
 
@@ -34,10 +31,9 @@ def test():
         return render_template('waiting.html')
 
 
-
-
 @app.route('/success', methods=['GET', 'POST'])
 def dealy():
+
     var0 = environment.environment_form
     var1 = environment.algorithm_form
     var2 = environment.epsilon_form
