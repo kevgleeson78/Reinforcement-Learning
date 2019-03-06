@@ -74,7 +74,7 @@ $.ajax({
                     drawShape(y1, x1, 'yellow');
                 }
                 //  $("body").append("Pos: " + x1 + "  "+y1);
-            }, i * 40);
+            }, i * 50);
 
         }
 

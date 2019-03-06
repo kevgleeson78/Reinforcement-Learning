@@ -175,7 +175,8 @@ def init():
     # Epsilon deacy rate add to form on front end
 
     epsilon_decay = float(epsilon_form_decay)
-    print(eps)
+
+   # print(eps)
 
     #Q-Table dictionary
     q_table = dict()
@@ -207,9 +208,10 @@ def init():
 
     #A function to check if the goal has been reached
     # This can be used to set the decay rate for alpha and epsilon
-    def check(gr,alpha,eps):
+    def check_terminal_state(gr,alpha,eps):
         if gr:
             #eps = epsis[e]
+
             eps *= epsilon_decay
             alpha = alphas[e]
             alpha *= alphaDecay
@@ -231,11 +233,11 @@ def init():
             number_of_steps = 0
             for _ in range(MAX_EPISODE_STEPS):
 
-                print(eps)
+               # print(eps)
                 action = choose_action(state)
                 (next_state, reward, done, goal_reached) = act(state, action)
 
-                alpha , eps = check(done,alpha,eps)
+                alpha , eps = check_terminal_state(done,alpha,eps)
                 #print(alpha)
                 max_next_action = np.max(q(next_state))
                 target = reward + gamma * max_next_action
@@ -264,7 +266,7 @@ def init():
 
                 with open('static/Data/Dataframe.csv', 'a',newline='') as f1:
                     f1.write(pd.DataFrame(list(q_table.values())).to_csv(header=None))
-
+                    f1.flush()
 
                 if done:
                     break
@@ -297,7 +299,7 @@ def init():
 
                 (next_state, reward, done,goal_reached) = act(state, action)
                 next_action = choose_action(next_state)
-                alpha, eps = check(done,alpha,eps)
+                alpha, eps = check_terminal_state(done,alpha,eps)
                # print(eps)
                 target = reward + gamma * q(next_state)[next_action]
                 eq_end = target - q(state)[action]
@@ -319,7 +321,7 @@ def init():
 
                 with open('static/Data/Dataframe.csv', 'a',newline='') as f1:
                     f1.write(pd.DataFrame(list(q_table.values())).to_csv(header=None))
-
+                    f1.flush()
                 total_reward += reward
                 action = next_action
 
