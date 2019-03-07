@@ -4,7 +4,7 @@
 
 /* Set gray background color and 100% height */
 .sidenav {
-    background-color: #f1f1f1;
+    /*background-color: #f1f1f1;*/
     height: 100%;
 }
 
@@ -16,7 +16,7 @@ footer {
 }
 
 /* On small screens, set height to 'auto' for sidenav and grid */
-@media screen and (max-width: 767px) {
+@media screen and (max-width: 1000px) {
     .sidenav {
         height: auto;
         padding: 15px;
@@ -80,4 +80,12 @@ div#loading {
 #graph {
     height: 100%;
     width: 100%;
+}
+
+@media (min-width: 768px) {
+    .collapse.dont-collapse-sm {
+        display: block;
+        height: auto !important;
+        visibility: visible;
+    }
 }

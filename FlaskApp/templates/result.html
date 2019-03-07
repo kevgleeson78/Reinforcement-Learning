@@ -20,12 +20,22 @@
         <h3>{{ var1 }}</h3>
     </div>
     <div class="row content">
+
+
+
+
+
+
         <div class="col-sm-2 sidenav">
 
             <ul class="nav nav-pills nav-stacked">
-                <li class="active"><a href="{{ url_for('index') }}">Home</a></li>
-
+                <li class="active text-center"><a href="{{ url_for('index') }}">Home</a></li>
+                <li class="btn btn-primary hidden visible-xs" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                    Form
+                </li>
             </ul><br>
+
+            <div class="collapse dont-collapse-sm" id="collapseExample">
             <form class="form-horizontal" action="/run" method="post">
                 <fieldset>
                     <legend class="text-center header">Parameters</legend>
@@ -129,6 +139,8 @@
                 </fieldset>
             </form>
         </div>
+
+            </div>
 
         <div class="col-sm-10">
             <div id="graph">
