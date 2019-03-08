@@ -59,10 +59,10 @@ $.ajax({
                 if(grid_type == "grid_standard") {
                     drawShape(5, 0, 'green');
                     drawShape(5, 1, 'red');
-                    drawShape(1, 1, 'red');
-                    drawShape(1, 3, 'red');
-                    drawShape(2, 4, 'red');
+                    drawShape(4, 3, 'red');
                     drawShape(4, 4, 'red');
+                    drawShape(2, 2, 'red');
+                    drawShape(2, 3, 'red');
                     drawShape(y1, x1, 'yellow');
                 }
                 if(grid_type == "grid_cliff") {

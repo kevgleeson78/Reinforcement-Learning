@@ -66,14 +66,14 @@
                         <span class="col-md-1"><i class="fa fa-user bigicon"></i></span>
                         <div class="col-md-8">
                             <label for="epsilon">Epsilon: </label>
-                            <input id="epsilon" name="epsilon" type="number" min="0" max="1" step=".01" value="{{ var2 }}" class="form-control">
+                            <input id="epsilon" name="epsilon" type="number" min="0" max="1" step=".1" value="{{ var2 }}" class="form-control">
                         </div>
                     </div>
                     <div class="form-group">
                         <span class="col-md-1"><i class="fa fa-user bigicon"></i></span>
                         <div class="col-md-8">
                             <label for="epsilon_decay">Epsilon Decay: </label>
-                            <input id="epsilon_decay" name="epsilon_decay" type="number" min="0" max="1" step=".0001" value="{{ var3 }}" class="form-control">
+                            <input id="epsilon_decay" name="epsilon_decay" type="number" min=".99" max=".999" step=".001" value="{{ var3 }}" class="form-control">
                         </div>
                     </div>
 
@@ -81,7 +81,7 @@
                         <span class="col-md-1"><i class="fa fa-envelope-o bigicon"></i></span>
                         <div class="col-md-8">
                             <label for="gamma">Gamma: </label>
-                            <input id="gamma" name="gamma" type="number" min="0" max="1" step=".01" value="{{ var4 }}" class="form-control">
+                            <input id="gamma" name="gamma" type="number" min="0" max="1" step=".1" value="{{ var4 }}" class="form-control">
                         </div>
                     </div>
 
@@ -89,7 +89,7 @@
                         <span class="col-md-1"><i class="fa fa-phone-square bigicon"></i></span>
                         <div class="col-md-8">
                             <label for="alpha">Alpha: </label>
-                            <input id="alpha" name="alpha" type="number" min="0" max="1" step=".01" value="{{ var5 }}" class="form-control">
+                            <input id="alpha" name="alpha" type="number" min="0" max="1" step=".1" value="{{ var5 }}" class="form-control">
                         </div>
                     </div>
 
@@ -112,7 +112,7 @@
                         <span class="col-md-1"><i class="fa fa-phone-square bigicon"></i></span>
                         <div class="col-md-8">
                             <label for="max_steps">Max number of steps: </label>
-                            <input id="max_steps" name="max_steps" type="number"  min="40" max="300" step="5" value="{{ var8 }}" class="form-control">
+                            <input id="max_steps" name="max_steps" type="number"  min="20" max="100" step="20" value="{{ var8 }}" class="form-control">
                         </div>
                     </div>
                     <div class="form-group">

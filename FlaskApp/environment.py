@@ -1,7 +1,6 @@
 from datetime import datetime
 from copy import deepcopy
 
-
 import numpy as np
 import random
 import os.path
@@ -23,6 +22,8 @@ epsilon_form = 0
 epsilon_form_decay = 0
 alpha_form = 0
 alpha_form_decay = 0
+
+
 def init():
     grid = [
         [EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY],
@@ -40,13 +41,12 @@ def init():
         [EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY],
         [AGENT, TRAP, TRAP, TRAP, TRAP, GOAL],
     ]
-
     grid_standard = [
         [EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, GOAL],
-        [EMPTY, TRAP, EMPTY, EMPTY, EMPTY, TRAP],
-        [EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY],
-        [EMPTY, TRAP, EMPTY, EMPTY, EMPTY, EMPTY],
+        [EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, TRAP],
+        [EMPTY, EMPTY, TRAP, EMPTY, EMPTY, EMPTY],
         [EMPTY, EMPTY, TRAP, EMPTY, TRAP, EMPTY],
+        [EMPTY, EMPTY, EMPTY, EMPTY, TRAP, EMPTY],
         [AGENT, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY],
     ]
 
@@ -55,8 +55,6 @@ def init():
 
     if environment_form == "grid_standard":
         grid = grid_standard
-
-
 
     for row in grid:
         print(' '.join(row))
@@ -76,7 +74,6 @@ def init():
 
         def __str__(self):
             return 'State(grid={self.grid}, agent_pos={self.agent_pos})'
-
 
     completeName = os.path.join('static/Data', 'test.txt')
 
@@ -122,34 +119,32 @@ def init():
         if grid_item == TRAP:
             reward = -100
             is_done = True
-            goal_reached = False
+
             f.write('%d,' % start_state.agent_pos[0])
             f.write('%d,' % start_state.agent_pos[1])
             new_grid[p[0]][p[1]] += AGENT
         elif grid_item == GOAL:
             reward = int(goal_reward)
             is_done = True
-            goal_reached = True
+
             f.write('%d,' % start_state.agent_pos[0])
             f.write('%d,' % start_state.agent_pos[1])
             new_grid[p[0]][p[1]] += AGENT
         elif grid_item == EMPTY:
             reward = float(per_step_cost)
             is_done = False
-            goal_reached = False
+
             old = state.agent_pos
             new_grid[old[0]][old[1]] = EMPTY
             new_grid[p[0]][p[1]] = AGENT
         elif grid_item == AGENT:
             reward = float(per_step_cost)
             is_done = False
-            goal_reached = False
+
         else:
             raise ValueError('Unknown grid item {grid_item}')
 
-        return (State(grid=new_grid, agent_pos=p), reward, is_done, goal_reached)
-
-
+        return (State(grid=new_grid, agent_pos=p), reward, is_done)
 
     N_EPISODES = int(episodes_form)
 
@@ -169,19 +164,16 @@ def init():
     alphaDecay = float(alpha_form_decay)
     alphas = np.linspace(alpha, MIN_ALPHA, N_EPISODES)
 
-
-
-
     # Epsilon deacy rate add to form on front end
 
     epsilon_decay = float(epsilon_form_decay)
 
-   # print(eps)
+    # print(eps)
 
-    #Q-Table dictionary
+    # Q-Table dictionary
     q_table = dict()
 
-    #Updating the Q-Table
+    # Updating the Q-Table
     def q(state, action=None):
 
         if state not in q_table:
@@ -192,53 +184,52 @@ def init():
 
         return q_table[state][action]
 
-    #For controlling the random value.
-    #Time.now can be used here
-    random.seed(145)
-    #Choosing an action based on the epsilon value
+    # For controlling the random value.
+    # Time.now can be used here
+    # random.seed(145)
+    # Choosing an action based on the epsilon value
     def choose_action(state):
         if random.uniform(0, 1) < eps:
             return random.choice(ACTIONS)
         else:
             return np.argmax(q(state))
 
-    #Check if the Dataframe csv file exists and remove if it does.
+    # Check if the Dataframe csv file exists and remove if it does.
     if os.path.exists('static/Data/Dataframe.csv'):
         os.remove('static/Data/Dataframe.csv')
 
-    #A function to check if the goal has been reached
+    # A function to check if the goal has been reached
     # This can be used to set the decay rate for alpha and epsilon
-    def check_terminal_state(gr,alpha,eps):
-        if gr:
-            #eps = epsis[e]
+    def check_terminal_state(dn, alpha, eps):
+        if dn:
+            # eps = epsis[e]
 
             eps *= epsilon_decay
             alpha = alphas[e]
             alpha *= alphaDecay
-        return alpha,eps
+        return alpha, eps
 
     # Two lists for sarsa and q-learning algorithms rewards after each episode.
     # These lists will bre written out to json files for graphing on the result page.
     q_learning_list = []
     sarsa_list = []
 
-
     if algorithm_form == "q-learning":
         for e in range(N_EPISODES):
 
             total_reward = 0
-            #eps = epsis[e]
+            # eps = epsis[e]
 
             state = start_state
             number_of_steps = 0
             for _ in range(MAX_EPISODE_STEPS):
 
-               # print(eps)
+                # print(eps)
                 action = choose_action(state)
-                (next_state, reward, done, goal_reached) = act(state, action)
+                (next_state, reward, done) = act(state, action)
 
-                alpha , eps = check_terminal_state(done,alpha,eps)
-                #print(alpha)
+                alpha, eps = check_terminal_state(done, alpha, eps)
+                # print(alpha)
                 max_next_action = np.max(q(next_state))
                 target = reward + gamma * max_next_action
                 end_eq = target - q(state)[action]
@@ -246,10 +237,7 @@ def init():
                 total_reward += reward
                 state = next_state
 
-
-
                 number_of_steps += 1
-
 
                 if number_of_steps + 1 == MAX_EPISODE_STEPS:
                     f.write('%d,' % state.agent_pos[0])
@@ -264,7 +252,7 @@ def init():
                 for k in empty_keys:
                     del q_table[k]
 
-                with open('static/Data/Dataframe.csv', 'a',newline='') as f1:
+                with open('static/Data/Dataframe.csv', 'a', newline='') as f1:
                     f1.write(pd.DataFrame(list(q_table.values())).to_csv(header=None))
                     f1.flush()
 
@@ -279,11 +267,7 @@ def init():
 
             print(e)
 
-
-
-
     if algorithm_form == "sarsa":
-
 
         for e in range(N_EPISODES):
             state = start_state
@@ -292,15 +276,14 @@ def init():
             # print(alpha)
             total_reward = 0
             number_of_steps = 0
-          # eps = epsis[e]
-
+            # eps = epsis[e]
 
             for _ in range(MAX_EPISODE_STEPS):
 
-                (next_state, reward, done,goal_reached) = act(state, action)
+                (next_state, reward, done) = act(state, action)
                 next_action = choose_action(next_state)
-                alpha, eps = check_terminal_state(done,alpha,eps)
-               # print(eps)
+                alpha, eps = check_terminal_state(done, alpha, eps)
+                print(eps)
                 target = reward + gamma * q(next_state)[next_action]
                 eq_end = target - q(state)[action]
                 q(state)[action] += alpha * eq_end
@@ -319,7 +302,7 @@ def init():
                 for k in empty_keys:
                     del q_table[k]
 
-                with open('static/Data/Dataframe.csv', 'a',newline='') as f1:
+                with open('static/Data/Dataframe.csv', 'a', newline='') as f1:
                     f1.write(pd.DataFrame(list(q_table.values())).to_csv(header=None))
                     f1.flush()
                 total_reward += reward
@@ -328,7 +311,6 @@ def init():
                 state = next_state
                 if done:
                     break
-
 
             with open('static/Data/sarsa.json', 'w') as al:
                 sarsa_list.append(total_reward)

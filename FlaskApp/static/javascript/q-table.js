@@ -15,7 +15,7 @@ $.ajax({
             terminal = [[5, 1], [5, 2], [5, 3], [5, 4], [5, 5]];
         }
         if(grid_type == "grid_standard"){
-            terminal = [[4,2],[4,4],[3,1],[1,1],[1,5],[0,5]];
+            terminal = [[3,2],[2,2],[4,4],[3,4],[1,5],[0,5]];
         }
         var arrt = data.split(/,/g).slice(0);
 
