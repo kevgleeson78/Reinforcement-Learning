@@ -44,8 +44,9 @@
                         <div class="col-md-8">
                             <label for="grid_type">Grid Type: </label>
                             <select id="grid_type" name="grid_type">
-                                <option value="grid_cliff">Cliff</option>
-                                <option value="grid_standard">Grid</option>
+                                <option value="grid_cliff" {% if var0=="grid_cliff" %} selected="selected"{% endif %}>Cliff</option>
+                                <option value="grid_standard"{% if var0=="grid_standard" %} selected="selected"{% endif %}>Grid</option>
+
                             </select>
                         </div>
                     </div>
@@ -55,8 +56,8 @@
                             <label for="algorithm">Algorithm: </label>
                             <select id="algorithm" name="algorithm">
 
-                                <option value="q-learning">Q-Learning</option>
-                                <option value="sarsa">SARSA</option>
+                                <option value="q-learning"{% if var1=="q-learning" %} selected="selected"{% endif %}>Q-Learning</option>
+                                <option value="sarsa"{% if var1=="sarsa" %} selected="selected"{% endif %}>SARSA</option>
 
                             </select>
 
