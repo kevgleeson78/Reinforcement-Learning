@@ -43,11 +43,10 @@ function drawLineColors() {
                     }
 
 
-                    console.log(biggest);
+                    
                     for (var i in biggest)
                         result.push([i, json_data[i], json_data1[i]]);
 
-                    console.log(result);
                     var data = new google.visualization.DataTable();
                     data.addColumn('string', 'X');
                     data.addColumn('number', 'Q-Learning');

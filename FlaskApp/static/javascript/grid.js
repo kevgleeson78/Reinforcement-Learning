@@ -13,7 +13,7 @@ var canvas = document.getElementById("canvas");
 var context = canvas.getContext("2d");
 //context.transform(1, 0, 0, -1, 0, canvas.height)
 
-console.log(grid_type);
+
 function drawBoard(){
 
     for (var x = 0; x <= bw; x += gridX) {

@@ -224,7 +224,7 @@ def init():
             number_of_steps = 0
             for _ in range(MAX_EPISODE_STEPS):
 
-               # print(eps)
+                # print(eps)
                 action = choose_action(state)
                 (next_state, reward, done) = act(state, action)
 
@@ -283,7 +283,7 @@ def init():
                 (next_state, reward, done) = act(state, action)
                 next_action = choose_action(next_state)
                 alpha, eps = check_terminal_state(done, alpha, eps)
-              #  print(eps)
+                #  print(eps)
                 target = reward + gamma * q(next_state)[next_action]
                 eq_end = target - q(state)[action]
                 q(state)[action] += alpha * eq_end
