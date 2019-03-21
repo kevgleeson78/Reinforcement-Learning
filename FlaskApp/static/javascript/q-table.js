@@ -66,7 +66,7 @@ $.ajax({
 
 $.ajax({
     type: "GET",
-    url: "static/Data/Dataframe.csv",
+    url: "static/Data/Q_Table.csv",
     dataType: "text",
     cache: false,
     async: true,

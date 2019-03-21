@@ -93,9 +93,4 @@ function drawLineColors() {
         }
 
     });
-
-
-
-
-
 }

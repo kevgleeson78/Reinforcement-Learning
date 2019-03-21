@@ -195,8 +195,8 @@ def init():
             return np.argmax(q(state))
 
     # Check if the Dataframe csv file exists and remove if it does.
-    if os.path.exists('static/Data/Dataframe.csv'):
-        os.remove('static/Data/Dataframe.csv')
+    if os.path.exists('static/Data/Q_Table.csv'):
+        os.remove('static/Data/Q_Table.csv')
 
     # A function to check if the goal has been reached
     # This can be used to set the decay rate for alpha and epsilon
@@ -252,7 +252,7 @@ def init():
                 for k in empty_keys:
                     del q_table[k]
 
-                with open('static/Data/Dataframe.csv', 'a', newline='') as f1:
+                with open('static/Data/Q_Table.csv', 'a', newline='') as f1:
                     f1.write(pd.DataFrame(list(q_table.values())).to_csv(header=None))
                     f1.flush()
 
@@ -302,7 +302,7 @@ def init():
                 for k in empty_keys:
                     del q_table[k]
 
-                with open('static/Data/Dataframe.csv', 'a', newline='') as f1:
+                with open('static/Data/Q_Table.csv', 'a', newline='') as f1:
 
                     f1.write(pd.DataFrame(list(q_table.values())).to_csv(header=None))
                     f1.flush()
