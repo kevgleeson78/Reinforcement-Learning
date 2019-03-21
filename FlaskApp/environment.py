@@ -123,7 +123,7 @@ def init():
             f.write('%d,' % start_state.agent_pos[0])
             f.write('%d,' % start_state.agent_pos[1])
             new_grid[p[0]][p[1]] += AGENT
-            
+
         elif grid_item == GOAL:
             reward = int(goal_reward)
             is_done = True

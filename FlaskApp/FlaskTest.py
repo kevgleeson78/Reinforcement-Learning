@@ -28,6 +28,7 @@ def test():
         environment.epsilon_form_decay = request.form.get('epsilon_decay')
         environment.alpha_form = request.form.get('alpha')
         environment.alpha_form_decay = request.form.get('alpha_decay')
+        environment.trap_reward = request.form.get('trap_reward')
         return render_template('waiting.html')
 
 
@@ -45,8 +46,8 @@ def dealy():
     var8 = environment.max_steps_form
     var9 = environment.per_step_cost
     var10 = environment.goal_reward
-
-    return render_template("result.html",var0=var0,var1=var1,var2=var2,var3=var3,var4=var4,var5=var5,var6=var6,var7=var7,var8=var8,var9=var9,var10=var10)
+    var11 = environment.trap_reward
+    return render_template("result.html",var0=var0,var1=var1,var2=var2,var3=var3,var4=var4,var5=var5,var6=var6,var7=var7,var8=var8,var9=var9,var10=var10,var11=var11)
 
 
 if __name__ == "__main__":
