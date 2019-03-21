@@ -17,6 +17,7 @@ episodes_form = 0
 max_steps_form = 0
 per_step_cost = 0
 goal_reward = 0
+trap_reward = 0
 gamma_form = 0
 epsilon_form = 0
 epsilon_form_decay = 0
@@ -117,26 +118,26 @@ def init():
         new_grid = deepcopy(state.grid)
 
         if grid_item == TRAP:
-            reward = -100
+            reward = int(trap_reward)
             is_done = True
-
             f.write('%d,' % start_state.agent_pos[0])
             f.write('%d,' % start_state.agent_pos[1])
             new_grid[p[0]][p[1]] += AGENT
+            
         elif grid_item == GOAL:
             reward = int(goal_reward)
             is_done = True
-
             f.write('%d,' % start_state.agent_pos[0])
             f.write('%d,' % start_state.agent_pos[1])
             new_grid[p[0]][p[1]] += AGENT
+
         elif grid_item == EMPTY:
             reward = float(per_step_cost)
             is_done = False
-
             old = state.agent_pos
             new_grid[old[0]][old[1]] = EMPTY
             new_grid[p[0]][p[1]] = AGENT
+
         elif grid_item == AGENT:
             reward = float(per_step_cost)
             is_done = False
