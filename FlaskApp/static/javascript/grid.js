@@ -36,7 +36,7 @@ function drawBoard(){
 
 $.ajax({
 
-    url: "/static/Data/test.txt",
+    url: "/static/Data/agentPos.txt",
     dataType: "text",
     cache: false,
     async: true,

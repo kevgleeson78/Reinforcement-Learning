@@ -75,7 +75,7 @@ def init():
         def __str__(self):
             return 'State(grid={self.grid}, agent_pos={self.agent_pos})'
 
-    completeName = os.path.join('static/Data', 'test.txt')
+    completeName = os.path.join('static/Data', 'agentPos.txt')
 
     f = open(completeName, 'w+')
 
@@ -303,6 +303,7 @@ def init():
                     del q_table[k]
 
                 with open('static/Data/Dataframe.csv', 'a', newline='') as f1:
+
                     f1.write(pd.DataFrame(list(q_table.values())).to_csv(header=None))
                     f1.flush()
                 total_reward += reward
