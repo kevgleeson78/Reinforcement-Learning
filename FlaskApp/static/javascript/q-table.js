@@ -4,7 +4,7 @@ var arrays = [], size = 2;
 
 $.ajax({
 
-    url: "/static/Data/test.txt",
+    url: "/static/Data/agentPos.txt",
     dataType: "text",
     cache: false,
     async: true,
