@@ -1,0 +1,281 @@
+%!TEX root = project.tex
+
+\chapter*{About this project}
+\paragraph{Abstract}
+
+This project will help to explain the temporal difference reinforcement learning process by displaying an agents behaviour, performance and Q-Table as it interacts within its environment. The application is a browser based visual tool where a user can interact by tweaking parameters within a form. Once the form is submitted it will then make a request to run a main python script held on a flask server. Once the script has completed the user will be presented with and animation of the agent moving through it's environment. In addition a graph of the agent performance and the q-table will presented to the user for examination. This will aid the user in better understanding the idea of reinforcement learning.
+
+\paragraph{Authors}
+Kevin Gleeson 4th year student studying Software Development at GMIT Galway.
+
+
+
+\chapter{Introduction}
+Reinforcement Learning is an unsupervised machine-learning technique that allows an agent to explore and learn from its environment without any prior knowledge of the domain.
+As the agent moves through the environment it gains knowledge via reward signals gathered by transitioning from state to another based on the action taken from its current state.
+With each step the agent is only concerned with its current state and what rewards it can gain from transitioning to it's next state. \\
+The agent chooses it's action decision based on what highest reward it can get from the next available states.\\
+The purpose of this application is to demonstrate and explain reinforcement learning through a browser based visualisation tool.\\
+The application will have the following elements on the Browser:
+\begin{itemize}
+\item The agent moving within its environment when the simulation is run.\\This will be displayed using HTML 5 canvas.
+
+\item User input to tweak parameters before each run of the simulation. The parameters that will be available to the user are:
+	\begin{itemize}
+		\item The end goal reward
+		\item The negative trap reward
+		\item The agent learning rate
+		\item The learning decay rate
+		\item The discount factor
+		\item The Exploration rate
+		\item The Exploration decay rate
+		\item The per step reward
+		\item The maximum number of episodes to be run
+		\item The maximum number of agent steps per episode
+		\item Choice of algorithm
+	\end{itemize}
+\end{itemize}
+
+
+
+\textbf{What is reinforcement learning?}\\
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.7\linewidth]{"../../Project Plan/grid_world_env"}
+	\caption{}
+	\label{fig:gridworldenv}
+\end{figure}
+Reinforcement learning is the process of rewarding an agent for a decision made within its environment. The reward can be either positive or negative based on the decisions made by the agent as it transitions from one state to another.\\
+For example, if a puppy has no knowledge of the sit command it will not perform the desired action on the first attempt. Each time the puppy sits when commanded its decision is reinforced with a positive treat/reward. If the puppy does not sit the reward is negative (no treat). Eventually after many iterations of training, the dog will associate a treat/reward with that specific command and eventually learn that sitting will get them a treat. 
+The puppy in essence is taking actions to maximise rewards while exploring an unknown environment.\\
+With reinforcement machine learning, this technique is used to train an agent to learn about its environment through trial and error.
+The environment used for this project will be grid world. The  grid world domain is a two dimensional grid with the agent starting at the bottom left of the grid, the goal state is at the top right of the grid in addition there are traps that the agent needs to avoid while travelling from the start state to it's goal state.
+
+
+
+\begin{itemize}
+	\item The agent’s actions effect the environment by moving around and exploring.
+	\item	The state is what the agent can observe at a given time. In the grid above, the agent can occupy eleven possible squares. We can number theses states from 1 – 11 moving from left to right with the bottom left square being state number 1.
+	\item	In the agents initial state (State 1) it knows nothing about its environment and chooses an action of moving left, right, up or down.
+	\item	The Epsilon variable sets the probability of choosing a random action. When set to one it will always choose a random action. If set to .8 it will choose the a random action 80\% of the time.
+\end{itemize}
+This will give the agent a chance to explore the environment depending on what the value is set to.
+\begin{itemize}
+\item Q values are a weighted score attached to an action of a particular state.
+\item There is a negative reward cost for each move the agent makes in this case -0.04. This will help in getting the best path to the end state.
+\item The learning rate (alpha) is a value between zero and one determines how much the Q value is updated for each action taken. It will be .5 for this example.
+\item The discount factor (Gamma) set to .9 is the immediate reward gained for an action taken. The higher the value the more the agent will take the immediate reward.
+\item The reward cost, gamma and alpha are hyper-parameters chosen by the user.
+\item There is a formula to follow to update the Q values of each action taken:
+Q (current state, action) += alpha *[reward + gamma* max value of Q (next state, all possible actions) – Q (current state, action)]
+\item The Q table is a record of all of the agent’s actions taken in a given state. This is the agent’s memory and is set to zero when first run. If all Q values are equal, it will 
+Choose one at random.
+\end{itemize}
+
+
+
+
+	\begin{tabular}{lllll}
+		State & Action left & Action right & Action up & Action down \\
+		1     & 0           & 0            & 0         & 0           \\
+		2     & 0           & 0            & 0         & 0           \\
+		3     & 0           & 0            & 0         & 0           \\
+		4     & 0           & 0            & 0         & 0           \\
+		5     & 0           & 0            & 0         & 0           \\
+		6     & 0           & 0            & 0         & 0           \\
+		7     & 0           & 0            & 0         & 0           \\
+		8     & 0           & 0            & 0         & 0           \\
+		9     & 0           & 0            & 0         & 0           \\
+		10    & 0           & 0            & 0         & 0           \\
+		11    & 0           & 0            & 0         & 0          
+	\end{tabular}
+\\
+\\
+If the agent decides to move up one square to state 5 the Q table is updated using the formula above which looks like   .5 * -.04  + .9 *0 – 0 = -0.02
+
+	\begin{tabular}{lllll}
+		State & Action left & Action right & Action up & Action down \\
+		1     & 0           & 0            & -0.02     & 0           \\
+		2     & 0           & 0            & 0         & 0           \\
+		3     & 0           & 0            & 0         & 0           \\
+		4     & 0           & 0            & 0         & 0           \\
+		5     & 0           & 0            & 0         & 0           \\
+		6     & 0           & 0            & 0         & 0           \\
+		7     & 0           & 0            & 0         & 0           \\
+		8     & 0           & 0            & 0         & 0           \\
+		9     & 0           & 0            & 0         & 0           \\
+		10    & 0           & 0            & 0         & 0           \\
+		11    & 0           & 0            & 0         & 0          
+	\end{tabular}
+\\
+\\
+\\
+If the Agent decides to move down to state one again the value of moving down from state 5 to state 1 is updated to -0.02 also.
+\\
+
+	\begin{tabular}{lllll}
+		State & Action left & Action right & Action up & Action down \\
+		1     & 0           & 0            & -0.02     & 0           \\
+		2     & 0           & 0            & 0         & 0           \\
+		3     & 0           & 0            & 0         & 0           \\
+		4     & 0           & 0            & 0         & 0           \\
+		5     & 0           & 0            & 0         & -0.02       \\
+		6     & 0           & 0            & 0         & 0           \\
+		7     & 0           & 0            & 0         & 0           \\
+		8     & 0           & 0            & 0         & 0           \\
+		9     & 0           & 0            & 0         & 0           \\
+		10    & 0           & 0            & 0         & 0          
+	\end{tabular}
+\\
+\\
+Then when back in state one the agent’s best choice (highest value) is down, left or right as they are all 0 and higher the -0.02. Eventually all of the actions of a given state will have a value added. The agent will chose the highest value as the optimal path to take to the end goal. 
+Once the agent gets to either end state, the episode is terminated and re-run. When episodes are re-run, the Q-Table will continually update until the optimal path is found and minimal updates will be performed.
+
+ references~\cite{einstein,knuthwebsite,latexcompanion,10292176420150527,12344608620170601,12705436720170101,12739380820170101,9007893220130701}
+
+\chapter{Context}
+\begin{itemize}
+\item Provide a context for your project.
+\item Set out the objectives of the project
+\item Briefly list each chapter / section and provide a 1-2 line description of what each section contains.
+\item List the resource URL (GitHub address) for the project and provide a brief list of the main elements at the URL.
+\end{itemize}
+
+\section{Filler}
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam mi enim, interdum ut elit lobortis, bibendum tempus diam. Etiam turpis ex, viverra tristique finibus nec, feugiat at metus. Curabitur tempus gravida interdum. Donec ac felis a lorem scelerisque elementum. Vestibulum sit amet gravida tortor, a iaculis orci. Nam a molestie augue. Curabitur malesuada odio at mattis molestie. In hac habitasse platea dictumst. Donec eu lectus eget risus hendrerit euismod nec at orci. Praesent porttitor aliquam diam, eu vestibulum nisl sollicitudin vel. Nullam sed egestas mi.
+
+Quisque vel erat a justo volutpat auctor a nec odio. Sed rhoncus augue sit amet nisl tincidunt, vitae cursus tellus efficitur. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Pellentesque et auctor dui. Fusce ornare odio ipsum, et laoreet mi molestie sed. Cras at massa sit amet ipsum gravida aliquam. Nulla suscipit porta imperdiet. Fusce eros neque, bibendum sit amet consequat non, pulvinar quis ipsum.
+
+\subsection{More filler}
+Donec fermentum sapien ac rhoncus egestas. Nullam condimentum condimentum eros sit amet semper. Nam maximus condimentum ligula. Praesent faucibus in nisi vitae tempus. Sed pellentesque eleifend ante, ac malesuada nibh dapibus nec. Phasellus nisi erat, pulvinar vel sagittis sed, auctor et magna. Quisque finibus augue elit, consequat dignissim purus mollis nec. Duis ultricies euismod tortor, nec sodales libero pellentesque et. Interdum et malesuada fames ac ante ipsum primis in faucibus.
+
+Donec id interdum felis, in semper lacus. Mauris volutpat justo at ex dignissim, sit amet viverra massa pellentesque. Suspendisse potenti. Praesent sit amet ipsum non nibh eleifend pretium. In pretium sapien quam, nec pretium leo consequat nec. Pellentesque non dui lacus. Aenean sed massa lacinia, vehicula ante et, sagittis leo. Sed nec nisl ac tellus scelerisque consequat. Ut arcu metus, eleifend rhoncus sapien sed, consequat tincidunt erat. Cras ut vulputate ipsum.
+
+Curabitur et efficitur augue. Proin condimentum ultrices facilisis. Mauris nisi ante, ultrices sed libero eget, ultrices malesuada augue. Morbi libero magna, faucibus in nunc vitae, ultricies efficitur nisl. Donec eleifend elementum massa, sed eleifend velit aliquet gravida. In ac mattis est, quis sodales neque. Etiam finibus quis tortor eu consequat. Nullam condimentum est eget pulvinar ultricies. Suspendisse ut maximus quam, sed rhoncus urna.
+
+\section{Filler}
+Phasellus eu tellus tristique nulla porttitor convallis. Vestibulum ac est eget diam mollis consectetur. Donec egestas facilisis consectetur. Donec magna orci, dignissim vel sem quis, efficitur condimentum felis. Donec mollis leo a nulla imperdiet, in bibendum augue varius. Quisque molestie massa enim, vitae ornare lacus imperdiet non. Donec et ipsum id ante imperdiet mollis. Nullam est est, euismod sit amet cursus a, feugiat a lectus. Integer sed mauris dolor.
+
+Mauris blandit neque tortor, consequat aliquam nisi aliquam vitae. Integer urna dolor, fermentum ut iaculis ut, semper eu lacus. Curabitur mollis at lectus at venenatis. Donec fringilla diam ac risus imperdiet suscipit. Aliquam convallis quam vitae turpis interdum, quis pharetra lacus tincidunt. Nam dictum maximus lectus, vitae faucibus ante. Morbi accumsan velit nec massa tincidunt porttitor. Nullam gravida at justo id viverra. Mauris ante nulla, eleifend vitae sem vitae, porttitor lobortis eros.
+
+Cras tincidunt elit id nisi aliquam, id convallis ex bibendum. Sed vel odio fringilla, congue leo quis, aliquam metus. Nunc tempor vehicula lorem eu ultrices. Curabitur at libero luctus, gravida lectus sed, viverra mi. Cras ultrices aliquet elementum. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Sed metus ante, suscipit sit amet finibus ut, gravida et orci. Nunc est odio, luctus quis diam in, porta molestie magna. Interdum et malesuada fames ac ante ipsum primis in faucibus. Mauris pulvinar lacus odio, luctus tincidunt magna auctor ut. Ut fermentum nisl rhoncus, tempus nulla eget, faucibus tortor. Suspendisse eu ex nec nunc mollis pulvinar. Nunc luctus tempus tellus eleifend porta. Nulla scelerisque porttitor turpis porttitor mollis.
+
+Duis elementum efficitur auctor. Nam nisi nulla, fermentum sed arcu vel, posuere semper dui. Fusce ac imperdiet felis. Aenean quis vestibulum nisl. Integer sit amet tristique neque, at suscipit tortor. Morbi et placerat ante, vel molestie dui. Vivamus in nibh eget massa facilisis accumsan. Nunc et purus ac urna fermentum ultrices eget sit amet justo. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Cras elementum dui nunc, ac tempor odio semper et. Ut est ipsum, sollicitudin eleifend nisl eu, scelerisque cursus nunc. Nam at lectus vulputate, volutpat tellus vel, pharetra mauris. Integer at aliquam massa, at iaculis sem. Morbi nec imperdiet odio. In hac habitasse platea dictumst.
+
+Mauris a neque lobortis, venenatis erat ut, eleifend quam. Nullam tincidunt tellus quis ligula bibendum, a malesuada erat gravida. Phasellus eget tellus non risus tincidunt sagittis condimentum quis enim. Donec feugiat sapien sit amet tincidunt fringilla. Vivamus in urna accumsan, vehicula sem in, sodales mauris. Aenean odio eros, tristique non varius id, tincidunt et neque. Maecenas tempor, ipsum et sollicitudin rhoncus, nibh eros tempus dolor, vitae dictum justo massa in eros. Proin nec lorem urna. In ullamcorper vitae felis sit amet tincidunt. Maecenas consectetur iaculis est, eu finibus mi scelerisque et. Nulla id ex varius, ultrices eros nec, luctus est. Aenean ac ex eget dui pretium mattis. Ut vitae nunc lectus. Proin suscipit risus eget ligula sollicitudin vulputate et id lectus.
+
+
+\chapter{Methodology}
+About one to two pages.
+Describe the way you went about your project:
+\begin{itemize}
+\item Agile / incremental and iterative approach to development. Planning, meetings.
+\item What about validation and testing? Junit or some other framework.
+\item If team based, did you use GitHub during the development process.
+\item Selection criteria for algorithms, languages, platforms and technolo-gies.
+\end{itemize}
+Check out the nice graphs in Figure \ref{tikz:graphs}, and the nice diagram in Figure \ref{tikz:mydiagram}.
+
+\begin{figure}
+  \centering
+  \begin{tikzpicture}
+  \begin{scope}[every node/.style={circle,thick,draw}]
+  \node (a) at (0,2) {a};
+  \node (b) at (2,2) {b};
+  \node (c) at (2,0) {c};
+  \node (d) at (0,0) {d};
+  \end{scope}
+  \begin{scope}[every edge/.style={draw=black,thick}]
+  \path (a) edge (b);
+  \path (b) edge (c);
+  \path (b) edge (d);
+  \path (c) edge (d);
+  \end{scope}
+  \node () at (1,-1) {$G_1$};
+  \end{tikzpicture}
+  \hspace{1.5cm}
+  \begin{tikzpicture}
+  \begin{scope}[every node/.style={circle,thick,draw}]
+  \node (1) at (0,2) {a};
+  \node (2) at (2,2) {b};
+  \node (3) at (2,0) {c};
+  \node (4) at (0,0) {d};
+  \end{scope}
+  \begin{scope}[every edge/.style={draw=black,thick}]
+  \path (1) edge (2);
+  \path (1) edge (3);
+  \path (1) edge (4);
+  \path (3) edge (4);
+  \end{scope}
+  \node () at (1,-1) {$G_2$};
+  \end{tikzpicture}
+  \caption{Nice pictures}
+  \label{tikz:graphs}
+\end{figure}
+
+
+\begin{figure}
+  \centering
+  \begin{tikzpicture}[node distance=6cm]
+  \node (a) [rect] {A Big Blue Block};
+  \node (b) [oval, right of=a] {And His Oval Friend};
+  \draw [line] (a) -- (b);
+  \end{tikzpicture}
+  \caption{Nice pictures}
+  \label{tikz:graphs}
+\end{figure}
+
+
+\chapter{Technology Review}
+About seven to ten pages.
+\begin{itemize}
+\item Describe each of the technologies you used at a conceptual level. Standards, Database Model (e.g. MongoDB, CouchDB), XMl, WSDL, JSON, JAXP.
+\item Use references (IEEE format, e.g. [1]), Books, Papers, URLs (timestamp) – sources should be authoritative. 
+\end{itemize}
+
+\section{XML}
+Here's some nicely formatted XML:
+\begin{minted}{xml}
+<this>
+  <looks lookswhat="good">
+    Good
+  </looks>
+</this>
+\end{minted}
+
+\chapter{System Design}
+As many pages as needed.
+\begin{itemize}
+\item Architecture, UML etc. An overview of the different components of the system. Diagrams etc… Screen shots etc.
+\end{itemize}
+
+\begin{table}[h]
+  \centering
+  \begin{tabular}{x{2cm}p{3cm}}
+    \toprule \\
+    Column 1 & Column 2 \\
+    \midrule \\
+    Rows 2.1 & Row 2.2 \\
+    \bottomrule
+  \end{tabular}
+  \caption{A table.}
+  \label{table:mytable}
+\end{table}
+
+\chapter{System Evaluation}
+As many pages as needed.
+\begin{itemize}
+\item Prove that your software is robust. How? Testing etc. 
+\item Use performance benchmarks (space and time) if algorithmic.
+\item Measure the outcomes / outputs of your system / software against the objectives from the Introduction.
+\item Highlight any limitations or opportuni-ties in your approach or technologies used.
+\end{itemize}
+
+\chapter{Conclusion}
+About three pages.
+
+\begin{itemize}
+\item Briefly summarise your context and ob-jectives (a few lines).
+\item Highlight your findings from the evalua-tion section / chapter and any opportuni-ties identified.
+\end{itemize}
+
