@@ -3,7 +3,7 @@
 \chapter*{About this project}
 \paragraph{Abstract}
 
-This project will help to explain the temporal difference reinforcement learning process by displaying an agents behaviour, performance and Q-Table as it interacts within its environment. The application is a browser based visual tool where a user can interact by tweaking parameters within a form. Once the form is submitted it will then make a request to run a main python script held on a flask server. Once the script has completed the user will be presented with and animation of the agent moving through it's environment. In addition a graph of the agent performance and the q-table will presented to the user for examination. This will aid the user in better understanding the idea of reinforcement learning.
+This project will help to explain the temporal difference reinforcement learning process by displaying an agents behaviour, performance and Q-Table as it interacts within its environment. The application is a browser based visual tool where a user can interact by tweaking parameters within a form. Once the form is submitted it will then make a request to run a main python script held on a flask server. Once the script has completed the user will be presented with and animation of the agent moving through it's environment. In addition a graph of the agent performance and the q-table will presented to the user for examination. This will aid the user in better understanding the concept of reinforcement learning.
 
 \paragraph{Authors}
 Kevin Gleeson 4th year student studying Software Development at GMIT Galway.
@@ -11,8 +11,28 @@ Kevin Gleeson 4th year student studying Software Development at GMIT Galway.
 
 
 \chapter{Introduction}
-Reinforcement Learning is an unsupervised machine-learning technique that allows an agent to explore and learn from its environment without any prior knowledge of the domain.
-As the agent moves through the environment it gains knowledge via reward signals gathered by transitioning from state to another based on the action taken from its current state.
+\textbf{Reinforcement learning}\\
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.7\linewidth]{"../../../Project Plan/grid_world_env"}
+	\caption{}
+	\label{fig:gridworldenv}
+\end{figure}
+
+Reinforcement learning is the process of rewarding an agent for a decision made within its environment. The reward can be either positive or negative based on the decisions made by the agent as it transitions from one state to another.\\
+For example, if a puppy has no knowledge of the sit command it will not perform the desired action on the first attempt. Each time the puppy sits when commanded its decision is reinforced with a positive treat/reward. If the puppy does not sit the reward is negative (no treat). Eventually after many iterations of training, the dog will associate a treat/reward with that specific command and eventually learn that sitting will get them a treat. 
+The puppy in essence is taking actions to maximise rewards while exploring an unknown environment.\\
+With reinforcement machine learning, this technique is used to train an agent to learn about its environment through trial and error.
+The environment used for this project will be grid world. The  grid world domain is a two dimensional grid with the agent starting at the bottom left of the grid, the goal state is at the top right of the grid in addition there are traps that the agent needs to avoid while travelling from the start state to it's goal state.
+Reinforcement Learning is an unsupervised machine-learning technique that allows an agent to explore and learn from its environment without any prior knowledge of the domain. With Reinforcement Learning there are the following main components.
+
+Agent:
+The agent is an object within the environment that makes decisions based on it's current state space and possible rewards gained by choosing an action. For this application the agent is placed in a two dimensional environment. The possible actions that can be taken by the agent are up, down, left or right.
+
+The environment:
+For the purpose of this application a  6 * 6 two dimensional grid environment will be used. As the script is running the agent will move from one square in the grid to the next adjacent square of up, below, to the left or the right of its current position.
+
+As the agent moves through the environment it gains knowledge via reward signals gathered by transitioning from one state to another based on the action taken from its current state.
 With each step the agent is only concerned with its current state and what rewards it can gain from transitioning to it's next state.~\cite{}
 The agent chooses it's action decision based on what highest reward it can get from the next available states.\\
 The purpose of this application is to demonstrate and explain reinforcement learning through a browser based visualisation tool.\\
@@ -38,19 +58,7 @@ The application will have the following elements on the Browser:
 
 
 
-\textbf{What is reinforcement learning?}\\
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=0.7\linewidth]{"../../../Project Plan/grid_world_env"}
-	\caption{}
-	\label{fig:gridworldenv}
-\end{figure}
 
-Reinforcement learning is the process of rewarding an agent for a decision made within its environment. The reward can be either positive or negative based on the decisions made by the agent as it transitions from one state to another.\\
-For example, if a puppy has no knowledge of the sit command it will not perform the desired action on the first attempt. Each time the puppy sits when commanded its decision is reinforced with a positive treat/reward. If the puppy does not sit the reward is negative (no treat). Eventually after many iterations of training, the dog will associate a treat/reward with that specific command and eventually learn that sitting will get them a treat. 
-The puppy in essence is taking actions to maximise rewards while exploring an unknown environment.\\
-With reinforcement machine learning, this technique is used to train an agent to learn about its environment through trial and error.
-The environment used for this project will be grid world. The  grid world domain is a two dimensional grid with the agent starting at the bottom left of the grid, the goal state is at the top right of the grid in addition there are traps that the agent needs to avoid while travelling from the start state to it's goal state.
 
 
 
@@ -176,64 +184,77 @@ The below link is the url to my github repository holding my dissertation and so
 \href{https://github.com/kevgleeson78/Reinforcement-Learning}{https://github.com/kevgleeson78/Reinforcement-Learning}.
 
 \chapter{Methodology}
-About one to two pages.
-Describe the way you went about your project:
+\section{Initial Planning}
+At the beginning of this project the over all problem set was broken down into the following areas to allow for a more manageable modular development process:
 \begin{itemize}
-\item Agile / incremental and iterative approach to development. Planning, meetings.
-\item What about validation and testing? Junit or some other framework.
-\item If team based, did you use GitHub during the development process.
-\item Selection criteria for algorithms, languages, platforms and technolo-gies.
+\item Research reinforcement learning (problem domain)
+After an initial meeting with Dr. Patrick Mannion 
+\item Choose which area of reinforcement learning to focus on
+\item Mockup of application
+\item Requirements gathering
+\item Scheduled meetings
+\item Github 
 \end{itemize}
+
 Check out the nice graphs in Figure \ref{tikz:graphs}, and the nice diagram in Figure \ref{tikz:mydiagram}.
 
 \begin{figure}
-  \centering
-  \begin{tikzpicture}
-  \begin{scope}[every node/.style={circle,thick,draw}]
-  \node (a) at (0,2) {a};
-  \node (b) at (2,2) {b};
-  \node (c) at (2,0) {c};
-  \node (d) at (0,0) {d};
-  \end{scope}
-  \begin{scope}[every edge/.style={draw=black,thick}]
-  \path (a) edge (b);
-  \path (b) edge (c);
-  \path (b) edge (d);
-  \path (c) edge (d);
-  \end{scope}
-  \node () at (1,-1) {$G_1$};
-  \end{tikzpicture}
-  \hspace{1.5cm}
-  \begin{tikzpicture}
-  \begin{scope}[every node/.style={circle,thick,draw}]
-  \node (1) at (0,2) {a};
-  \node (2) at (2,2) {b};
-  \node (3) at (2,0) {c};
-  \node (4) at (0,0) {d};
-  \end{scope}
-  \begin{scope}[every edge/.style={draw=black,thick}]
-  \path (1) edge (2);
-  \path (1) edge (3);
-  \path (1) edge (4);
-  \path (3) edge (4);
-  \end{scope}
-  \node () at (1,-1) {$G_2$};
-  \end{tikzpicture}
-  \caption{Nice pictures}
-  \label{tikz:graphs}
+	\centering
+	\begin{tikzpicture}
+	\begin{scope}[every node/.style={circle,thick,draw}]
+	\node (a) at (0,2) {a};
+	\node (b) at (2,2) {b};
+	\node (c) at (2,0) {c};
+	\node (d) at (0,0) {d};
+	\end{scope}
+	\begin{scope}[every edge/.style={draw=black,thick}]
+	\path (a) edge (b);
+	\path (b) edge (c);
+	\path (b) edge (d);
+	\path (c) edge (d);
+	\end{scope}
+	\node () at (1,-1) {$G_1$};
+	\end{tikzpicture}
+	\hspace{1.5cm}
+	\begin{tikzpicture}
+	\begin{scope}[every node/.style={circle,thick,draw}]
+	\node (1) at (0,2) {a};
+	\node (2) at (2,2) {b};
+	\node (3) at (2,0) {c};
+	\node (4) at (0,0) {d};
+	\end{scope}
+	\begin{scope}[every edge/.style={draw=black,thick}]
+	\path (1) edge (2);
+	\path (1) edge (3);
+	\path (1) edge (4);
+	\path (3) edge (4);
+	\end{scope}
+	\node () at (1,-1) {$G_2$};
+	\end{tikzpicture}
+	\caption{Nice pictures}
+	\label{tikz:graphs}
 \end{figure}
 
 
 \begin{figure}
-  \centering
-  \begin{tikzpicture}[node distance=6cm]
-  \node (a) [rect] {A Big Blue Block};
-  \node (b) [oval, right of=a] {And His Oval Friend};
-  \draw [line] (a) -- (b);
-  \end{tikzpicture}
-  \caption{Nice pictures}
-  \label{tikz:graphs}
+	\centering
+	\begin{tikzpicture}[node distance=6cm]
+	\node (a) [rect] {A Big Blue Block};
+	\node (b) [oval, right of=a] {And His Oval Friend};
+	\draw [line] (a) -- (b);
+	\end{tikzpicture}
+	\caption{Nice pictures}
+	\label{tikz:graphs}
 \end{figure}
+
+\section{Development Approach}
+An incremental development approach was used through out the construction of this application. The first task was to 
+\section{Testing}
+No test suites were used to test this application however there was considerable manual testing done with each iteration completed. Any bugs found were recorded and given a priority. The bugs were then fixed based on priority 
+\section{Use of GitHub}
+\section{Selection of Technologies to be used}
+
+
 
 
 \chapter{Technology Review}
