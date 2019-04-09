@@ -227,7 +227,7 @@ The different components identified were:
 	\item Server side functionality to handle form requests
 \end{itemize}
 
-On further meetings with my project supervisor Mr. Martin Hynes the concepts were further broken down into fine grain units of work.
+On further meetings with my project supervisor Mr. Martin Hynes the concepts were further broken down into fine grain units of work with initial milestones set for each phase of development.
 \subsection {Which area of reinforcement learning?}
 After viewing lectures for Temporal Difference Reinforcement Learning I decided that the Q-Learning algorithm would be best suited to the grid world environment. If time permitted I would then implement the SARSA algorithm for a comparison between the performance of the two algorithms.
 The reason I chose these two algorithms for comparison was they are very similar in design but have vastly different outcomes depending on the environment the agent is in. 
@@ -262,43 +262,72 @@ On meeting with Mr. Hynes the following user requirements were gathered from the
 	\item The user should have the ability to access the application deployed to the cloud 
 \end{itemize}
 \section{Mile Stones}
-Once the user requirements were identified the following mile stones were then set for the development of the application.
+Once the user requirements were identified the following mile stones were then set for the initial development of the application.
 \begin{itemize}
-	\item 
+	\item Front end mock-up
+	\item Requirements gathering
+	\item Set up development environment
+	\item Small scale command line prototype
+	\item Write agent positional coordinates to text file
+	\item Stream agent positional coordinates as raw data to web page
+	\item Create HTML canvas grid environment
+	\subitem Create Agent object within canvas grid
+	\subitem Animate agent object in canvas from coordinate text file
+	\item Write the total reward gained for each episode out to a Json file
+	\item Display the reward Json file data in a linear chart
+	\item Write out the Q-table to a csv file for each step the agent takes
+	\item Read the csv file via an ajax request
+	\item Display the csv file data to a table 
+	\item Clear the table after each step of the simulation
+	\item Create a front end form for user input
+	\item Data binding of form post request to variables held in Environment.py(main script)
+	\item Data persistence of user input between requests
+	\item Performance testing
+	\item Cloud deployment
 \end{itemize}
 \section{Selection criteria of Technologies}
 After the initial user requirements gathering the following technologies were then researched and chosen to begin the development of the application.
 
 \subsection{Programming Languages}
-The possibility of a purely front end JavaScript application was explored but cross browser compatibility of the scripts needed was a major issue that indicated a different approach was needed. However JavaScript would still have to be used for the front end of the application.
-Java was considered but after consideration python was chosen for the ability to rapidly prototype small versions of the system allowing for an agile iterative approach to development.
-\subsection{Chosen Integrated Development Environment}
-The IDE chosen for the development of the application is IntelliJ with the pyCharm plug-in. This plug-in is compatible with all of the frameworks needed for setting up the development environment.
+Java had been considered as the main language but after consideration python was chosen for the ability to rapidly prototype small versions of the system allowing for an agile iterative approach to development.
+
+The possibility of a purely front end JavaScript application was also explored but cross browser compatibility of the scripts needed was a major issue that indicated a different approach was needed. However JavaScript would be used for the front end of the application.
+
+\subsection{Integrated Development Environment}
+The IDE chosen for the development of the application is IntelliJ with the pyCharm plug-in. This plug-in is compatible with all of the frameworks needed for setting up the development environment. Git capabilities are also within the IDE allowing for tracking changes, committing and managing merge conflicts.  
 \subsection{Server Side}
 For server side programming and scripting the Flask python framework was chosen. Flask is a light weight package that allows for the rapid deployment and development of web applications.
 
 The Django python framework was also considered but it was decided that it was not necessary to have a fully blown MVC model seeing as the application has in essence only three pages of Home page, Training Page and result Page.
 
 When testing a simple hello world application Django generated a project that was almost twice the size of a flask application with little or no difference in performance.
-
-Fro that reason Flask was chosen. 
+For this reason Flask was chosen. 
 \subsection{Front End}
+For the front end of the application all of the data will be presented within a web browser. The frameworks used for this application are HTML canvas for drawing the grid world environment and animating the agent around this space.
 
+JQuery will be used to make ajax requests to retrieve the files from the server containing the relevant data needed.
+
+D3.js was investigated for charting the agent performance but problems with the data rendering incorrectly were identified as a potential sign for an alternative method of displaying the data.
+
+Google charts has been successfully tested and chosen for displaying the agent performance within the environment.
+
+A table will be used to display the Q-Table values from the generated csv file.
+The JavaScript library "Hottie" will be used to display the data within the table cells as a heat map based on the range of values from the highest to the lowest value.
 \subsection{Cloud Deployment}
+Initially Heroku was chosen for the cloud platform for the application to run on. However there was a problem with the server timing out after 20 seconds once a request has been made. Since the main script can take up to 30 seconds to complete this was a major issue.
 
-
-
+The Google cloud application platform was investigated as an alternative solution and while there is a time out limit in place this can be altered if needed. For this reason the Google Cloud application platform was chosen fro deploying the application. 
 
 \section {Scheduled meetings}
-Scheduled meetings were held every week to evaluate the progress of assigned tasks along with any problems encountered.
-New tasks were then assigned for the following week to complete.
+Scheduled meetings were held with Mr. Martin Hynes every week to evaluate the progress of assigned tasks along with any problems encountered. These meetings were in the form of the scrum methodology where a quick overview of my progress was presented. In addition any problems I had were discussed along with what tasks needed to be done for the next scrum meeting. 
+These new tasks identified were then assigned for the following week to complete.
 
 \section{Development Approach}
-An incremental development approach was used through out the construction of this application. The first task was to 
+An iterative development approach was used throughout the construction of this application. The first task was to develop a basic prototype that demonstrated the basic concepts of the algorithm Q-Learning. Once implemented this prototype will be the foundation for each additional feature added with the start of a new iteration.  
 \section{Testing}
-No test suites were used to test this application however there was considerable manual testing done with each iteration completed. Any bugs found were recorded and given a priority. The bugs were then fixed based on priority 
+No test suites were used to test this application however there was considerable manual testing done with each iteration completed. Any major bugs found that would stop the development of the project while testing were fixed right away. Minor bugs found such as layout issues could be addressed at a later date as they did not have a detrimental impact on the progress of the project. This testing strategy would be used for every small new feature added while developing. 
 \section{Use of GitHub}
-
+Github was used to track my progress of the project. While this is a solo project github would still need to be used for version control allowing for the roll back of the system in the event of a new feature causing unwanted behaviour.
 
 
 
