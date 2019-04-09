@@ -215,66 +215,37 @@ The contents of this repository are:
 \chapter{Methodology}
 \section{Initial Planning}
 At the beginning of this project the over all problem set was broken down into the following areas to allow for a more manageable modular development process:
+
+\subsection {Initial Meetings}
+After an initial meeting with Dr. Patrick Mannion a high level view of the project was explored. This gave me a grasp of what components would be needed for the high level structure of the project.
+The different components identified were:
 \begin{itemize}
-\item Research reinforcement learning (problem domain)
-After an initial meeting with Dr. Patrick Mannion 
-\item Choose which area of reinforcement learning to focus on
-\item Mockup of application
-\item Requirements gathering
-\item Scheduled meetings
-\item Github 
+	\item The Environment should be a two dimensional grid 
+	\item Environment constraints are in the form of a grid world game where the agent will attempt to navigate to an end goal state and avoid any traps present in the gird.
+	\item Front end technologies used should be JavaScript based.
+	\item User interactivity via a from 
+	\item Server side functionality to handle form requests
 \end{itemize}
 
-Check out the nice graphs in Figure \ref{tikz:graphs}, and the nice diagram in Figure \ref{tikz:mydiagram}.
-
-\begin{figure}
+On further meetings with my project supervisor Mr. Martin Hynes the concepts were further broken down into fine grain units of work.
+\subsection {Which area of reinforcement learning?}
+After viewing lectures for Temporal Difference Reinforcement Learning I decided that the Q-Learning algorithm would be best suited to the grid world environment. If time permitted I would then implement the SARSA algorithm for a comparison between the performance of the two algorithms.
+The reason I chose these two algorithms for comparison was they are very similar in design but have vastly different outcomes depending on the environment the agent is in. 
+\subsection {Mockup of application}
+\textbf{Reinforcement learning}\\
+\begin{figure}[H]
 	\centering
-	\begin{tikzpicture}
-	\begin{scope}[every node/.style={circle,thick,draw}]
-	\node (a) at (0,2) {a};
-	\node (b) at (2,2) {b};
-	\node (c) at (2,0) {c};
-	\node (d) at (0,0) {d};
-	\end{scope}
-	\begin{scope}[every edge/.style={draw=black,thick}]
-	\path (a) edge (b);
-	\path (b) edge (c);
-	\path (b) edge (d);
-	\path (c) edge (d);
-	\end{scope}
-	\node () at (1,-1) {$G_1$};
-	\end{tikzpicture}
-	\hspace{1.5cm}
-	\begin{tikzpicture}
-	\begin{scope}[every node/.style={circle,thick,draw}]
-	\node (1) at (0,2) {a};
-	\node (2) at (2,2) {b};
-	\node (3) at (2,0) {c};
-	\node (4) at (0,0) {d};
-	\end{scope}
-	\begin{scope}[every edge/.style={draw=black,thick}]
-	\path (1) edge (2);
-	\path (1) edge (3);
-	\path (1) edge (4);
-	\path (3) edge (4);
-	\end{scope}
-	\node () at (1,-1) {$G_2$};
-	\end{tikzpicture}
-	\caption{Nice pictures}
-	\label{tikz:graphs}
+	\includegraphics[width=0.7\linewidth]{"../../../Project Plan/RL-Mockup"}
+	\caption{}
+	\label{fig:gridworldenv}
 \end{figure}
 
-
-\begin{figure}
-	\centering
-	\begin{tikzpicture}[node distance=6cm]
-	\node (a) [rect] {A Big Blue Block};
-	\node (b) [oval, right of=a] {And His Oval Friend};
-	\draw [line] (a) -- (b);
-	\end{tikzpicture}
-	\caption{Nice pictures}
-	\label{tikz:graphs}
-\end{figure}
+\subsection {Requirements gathering}
+On meeting with Mr. Hynes the following requirements were gathered from the mock up created.
+\begin{itemize}
+	\item 
+\end{itemize}
+\subsection {Scheduled meetings}
 
 \section{Development Approach}
 An incremental development approach was used through out the construction of this application. The first task was to 
