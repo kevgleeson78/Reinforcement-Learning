@@ -164,64 +164,88 @@ def init():
             return p
         # Get teh returned values from new_agent_pos function
         p = new_agent_pos(state, action)
-        # Write out the new agent position to the text file
+        # Write out the new agent position to agentPos.txt
+        # This is used for animating the agent on the front end canvas
         f.write('%d,' % p[0])
         f.write('%d,' % p[1])
-        #Update the gris state
+        #Update the grid state
         grid_item = state.grid[p[0]][p[1]]
         # A copy of the state class grid
         new_grid = deepcopy(state.grid)
-    
+        # Condition to check if the grid item is a trap 
         if grid_item == TRAP:
+			# assign the reward signal from the value set in hte form
             reward = int(trap_reward)
+			# done to end the iteration
             is_done = True
+			# re-write out the start postion to the agentPos text file
             f.write('%d,' % start_state.agent_pos[0])
             f.write('%d,' % start_state.agent_pos[1])
+			# palce teh agent back to the start position
             new_grid[p[0]][p[1]] += AGENT
-
+		# Check if the goal has been reached
         elif grid_item == GOAL:
+			# assign the reward value set from the front end form
             reward = int(goal_reward)
+			# Set the episode to done to restart another new episode
             is_done = True
+			# Write the agent start postion to the agentPos text file 
             f.write('%d,' % start_state.agent_pos[0])
             f.write('%d,' % start_state.agent_pos[1])
+			# Reste the agent psoition to the start position in the grid
             new_grid[p[0]][p[1]] += AGENT
-
+		# check if the gird square occupied by the agent is empty
         elif grid_item == EMPTY:
+			# assign the per step cost to the reward 
+			# per step cost is from the front end form perameter
             reward = float(per_step_cost)
-            is_done = False
+            # Set to false and keep running the current episode.
+			is_done = False
+			# get the last position the agent moved from
             old = state.agent_pos
+			# set the last positon the agent moved from to empty
             new_grid[old[0]][old[1]] = EMPTY
+			# set the new positon to the agent
             new_grid[p[0]][p[1]] = AGENT
-
+		# check to see if the agent has returned from hitting a wall
+		# back to its original position
         elif grid_item == AGENT:
+			# Add the per step cost value from the front end form parameter to the reward
             reward = float(per_step_cost)
+			# keep running the episode
             is_done = False
-
+		# error exception catch
         else:
             raise ValueError('Unknown grid item {grid_item}')
-
+		# return function parameters of the new grid state and agent position
+		# return if the episode has completed or not.
         return (State(grid=new_grid, agent_pos=p), reward, is_done)
-
+	"""
+	#########User input form parameters.############
+	"""
+	# Selcted number of episodes
     N_EPISODES = int(episodes_form)
-
+	# Selected maximum number of steps per episdoe
     MAX_EPISODE_STEPS = int(max_steps_form)
 
     # Minimum Alpha value for numpy array
-
+	# This is the lowest possible decay value alowed
     MIN_ALPHA = 0.0001
 
     # Actual alpha value to be added to form on front end
 
     alpha = float(alpha_form)
+	# selected gamma discount factor 
     gamma = float(gamma_form)  # .8
+	# selected epsilon vlaue
     eps = float(epsilon_form)  # .09
-    # The decay rate add to form on front end
-
+	# Selected aplha decay rate
     alphaDecay = float(alpha_form_decay)
+	# alphas used to decay the alpha value within the nested episode loop
+	# The alpha value will deacy once and episode has finshed
     alphas = np.linspace(alpha, MIN_ALPHA, N_EPISODES)
 
     # Epsilon deacy rate add to form on front end
-
     epsilon_decay = float(epsilon_form_decay)
 
     # print(eps)
@@ -230,14 +254,17 @@ def init():
     q_table = dict()
 
     # Updating the Q-Table
+	# Takes the current state and action of up, down, left or right "default none"
     def q(state, action=None):
-
+		# Add all zeros if the state is not in the dictionary
         if state not in q_table:
+			# set the state to zeros within the Q-Table
             q_table[state] = np.zeros(len(ACTIONS))
-
+		# check fro default at at start
         if action is None:
+			# retrun the state
             return q_table[state]
-
+		# return the state and action taken
         return q_table[state][action]
 
     # For controlling the random value.
@@ -245,8 +272,16 @@ def init():
     # random.seed(145)
     # Choosing an action based on the epsilon value
     def choose_action(state):
+		""" Check if the epsilon value is greater than a randomly generated 
+		floating point number between 0 and 1.
+		with the epsilon  value at .8  there is an 80% chance of the agent choosing a random action.
+		This will force the agent to explore the environment and seek out all possible paths to teh goal.
+		This values decays after each episode gradually minimising the chance of the agent choosing a random choice.
+		"""
         if random.uniform(0, 1) < eps:
+			# choose a random action of up, down , left or right.
             return random.choice(ACTIONS)
+		# If epsilon is less than the random number choosed the maximun value for the next state.
         else:
             return np.argmax(q(state))
 
@@ -255,57 +290,78 @@ def init():
         os.remove('static/Data/Q_Table.csv')
 
     # A function to check if the goal has been reached
-    # This can be used to set the decay rate for alpha and epsilon
+    # This can be used to set the decay rate for alpha and epsilon once an episode has completed
     def check_terminal_state(dn, alpha, eps):
+		# check if the episode has reached a terminal state
         if dn:
             # eps = epsis[e]
-
+			# deacy epsilon by the decay rate 
             eps *= epsilon_decay
+			# decay the alpha value by the decay rate
             alpha = alphas[e]
             alpha *= alphaDecay
+		# return the newly decayed alpha and epsilon value
         return alpha, eps
 
     # Two lists for sarsa and q-learning algorithms rewards after each episode.
     # These lists will bre written out to json files for graphing on the result page.
     q_learning_list = []
     sarsa_list = []
-
+	"""
+	Condition to check what algorithm has been selected from the from by the user.
+	"""
     if algorithm_form == "q-learning":
+		# Outer loop to tru the amount of episodes chosen by the user 
+		# from the front end form.
         for e in range(N_EPISODES):
-
+			# variable to hold the total reward collected after each episode has completed.
             total_reward = 0
-            # eps = epsis[e]
-
+            
+			# the starting position when first iteration is run.
             state = start_state
+			# Variable to hold the total number of steps taken by the agent for each episode
             number_of_steps = 0
+			# Inner loop for executing every step of the agent within each episode.
             for _ in range(MAX_EPISODE_STEPS):
-
-                # print(eps)
+				# choose an action for each step taken
                 action = choose_action(state)
+				# assign the returned parameters from the act function
                 (next_state, reward, done) = act(state, action)
-
+				# assign the returned decay rate to alpha and epsilon from 
+				# the check_terminal_state faunction
                 alpha, eps = check_terminal_state(done, alpha, eps)
+				# for testing
                 print(alpha)
+				"""
+				Q-Learning Algorithm
+				
+				"""
                 max_next_action = np.max(q(next_state))
                 target = reward + gamma * max_next_action
                 end_eq = target - q(state)[action]
                 q(state)[action] += alpha * end_eq
                 total_reward += reward
                 state = next_state
-
+				# Increment the number of steps
                 number_of_steps += 1
-
+				# Check if the maximum nuber of steps has been exceeded
                 if number_of_steps + 1 == MAX_EPISODE_STEPS:
+					# Wirte out the agent start position to agentPos.txt
                     f.write('%d,' % state.agent_pos[0])
                     f.write('%d,' % state.agent_pos[1])
 
                 # To remove a row with all zero values in a dataframe
-                # Every terminal state was adding a new row with all zero  values
+                # Every terminal state was adding a new row with all zero values to the Q-TAble
+				# We only need to view the last actions value before the agent reaches the terminal state
                 # Adapted from https://stackoverflow.com/questions/20490274/how-to-reset-index-in-a-pandas-data-frame
                 # Adapted from https://stackoverflow.com/questions/22649693/drop-rows-with-all-zeros-in-pandas-data-frame
-
+				
+				# check for a row in the dictionary that sums to zero 
+				# If it does sum to zero store in empty keys
                 empty_keys = {k: v for k, v in q_table.items() if sum(v) == 0}
+				# iterate through empty_keys
                 for k in empty_keys:
+					#delete all rows with zeros
                     del q_table[k]
 
                 with open('static/Data/Q_Table.csv', 'a', newline='') as f1:
