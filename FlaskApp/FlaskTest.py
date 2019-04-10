@@ -21,7 +21,8 @@ def test():
         return 'done'
 
     if request.method == 'POST':
-        # Assign all form parameters to the environment variables
+        # Assign all form parameters to the environment variables from the form data
+        # Adapted from : https://stackoverflow.com/questions/42154602/how-to-get-form-data-in-flask
         environment.environment_form = request.form.get('grid_type')
         environment.algorithm_form = request.form.get('algorithm')
         environment.episodes_form = request.form.get('episode')
@@ -42,6 +43,7 @@ def test():
 def dealy():
     # Theese variables are used as templates within the result page for keeping the chosen parameters the user has
     # chosen from the previous form submit.
+    # Adapted from : https://stackoverflow.com/questions/42154602/how-to-get-form-data-in-flask
     var0 = environment.environment_form
     var1 = environment.algorithm_form
     var2 = environment.epsilon_form
