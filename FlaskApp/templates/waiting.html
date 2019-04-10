@@ -18,9 +18,6 @@
 
 
 
-
-
-
 <div class="container-fluid">
     <div class="header">
         <h1>Reinforcement Learning</h1>
@@ -52,11 +49,11 @@
     loading();
     var request = new XMLHttpRequest();
     request.open('GET', '/run');
-
+    // Fire the function on pgae load
     request.onload= function() {
-
+        // Listener for the done message response text
         if (request.status === 200 && request.responseText === 'done') {
-            // long process finished successfully, redirect user
+            // long process finished successfully, redirect user to success page
             window.location = '/success';
         } else {
             // ops, we got an error from the server
@@ -68,7 +65,7 @@
         // ops, we got an error trying to talk to the server
         alert('Something went wrong.');
     };
-
+    // Send the request to the server for the new page
     request.send();
 </script>
 </body>
