@@ -3,7 +3,8 @@
 \chapter*{About this project}
 \paragraph{Abstract}
 
-This project will help to explain the temporal difference reinforcement learning process by displaying an agents behaviour, performance and Q-Table as it interacts within its environment. The application is a browser based visual tool where a user can interact by tweaking parameters within a form. Once the form is submitted it will then make a request to run a main python script held on a flask server. Once the script has completed the user will be presented with and animation of the agent moving through it's environment. In addition a graph of the agent performance and the q-table will presented to the user for examination. This will aid the user in better understanding the concept of reinforcement learning.
+This project will help to explain the temporal difference reinforcement learning process by displaying an agents behaviour, performance and Q-Table (memory) as it interacts within its environment. The application is a browser based visual tool where a user can tweak parameters within a form before running the application. Once the form is submitted it will then make a request to run the application held on a server. Once the script has completed the user will be presented with and animation of the agent moving through it's environment. In addition a graph of the agent performance and the q-table will presented to the user for examination. There are two different temporal difference algorithms for the user to choose from being Q learning, an off policy strategy and SARSA (State Action Reward Action), an on policy strategy. The performance of these two algorithms will be presented to the user for examination within a linear chart.
+This will aid the user in better understanding the concept of reinforcement learning.
 
 \paragraph{Authors}
 Kevin Gleeson 4th year student studying Software Development at GMIT Galway.
@@ -18,23 +19,118 @@ Kevin Gleeson 4th year student studying Software Development at GMIT Galway.
 	\caption{}
 	\label{fig:gridworldenv}
 \end{figure}
-
-Reinforcement learning is the process of rewarding an agent for a decision made within its environment. The reward can be either positive or negative based on the decisions made by the agent as it transitions from one state to another.\\
+Reinforcement Learning is an unsupervised machine-learning technique that allows an agent to explore and learn from its environment without any prior knowledge of the domain. 
+An agent transitions from one state to another by choosing an action with the highest reward value. The reward can be either positive or negative based on the decisions made by the agent as it transitions from it's current state to the next chosen state.\\
 For example, if a puppy has no knowledge of the sit command it will not perform the desired action on the first attempt. Each time the puppy sits when commanded its decision is reinforced with a positive treat/reward. If the puppy does not sit the reward is negative (no treat). Eventually after many iterations of training, the dog will associate a treat/reward with that specific command and eventually learn that sitting will get them a treat. 
 The puppy in essence is taking actions to maximise rewards while exploring an unknown environment.\\
-With reinforcement machine learning, this technique is used to train an agent to learn about its environment through trial and error.
-The environment used for this project will be grid world. The  grid world domain is a two dimensional grid with the agent starting at the bottom left of the grid, the goal state is at the top right of the grid in addition there are traps that the agent needs to avoid while travelling from the start state to it's goal state.
-Reinforcement Learning is an unsupervised machine-learning technique that allows an agent to explore and learn from its environment without any prior knowledge of the domain. With Reinforcement Learning there are the following main components.
+With reinforcement machine learning, this technique is used to train an agent to learn about its environment through trial and error. It will eventually learn the optimal path to a goal after many training episodes have completed.
+\section{Components}
+This application will have the following reinforcement learning components.
+\subsection{Agent}
+The agent is an object within the environment that makes decisions based on it's current state space and possible rewards gained by choosing an action. For this application the agent is placed in a two dimensional environment. The possible actions that can be taken by the agent are up, down, left or right.\\
+\subsection{Episode}
+An episode is the time from when an agent starts its training to when it has reached a positive or negative terminal state. Within each episode an agent takes time steps where each time step is the transition from its current position to the next within the environment.
+\subsection{Environment}
+The environment used for this project will be grid world. The  grid world domain is a two dimensional grid with the agent's start position at the bottom left of the grid and the goal state at the top right of the grid. In addition there are traps that the agent needs to avoid while travelling from the start state to it's goal state.
+For the purpose of this application a  6 * 6 two dimensional grid environment will be used. As the script is running the agent will move from one square in the grid to the next adjacent square of up, below, to the left or the right of its current position. As the agent moves through the environment it gains knowledge via reward signals gathered by transitioning from one state to another based on the action taken from its current state.
+\subsection{Epsilon}
+The Epsilon variable sets the probability of choosing a random action. When set to one it will always choose a random action. If set to .8 it will choose the a random action 80\% of the time. This value is decayed for every episode run to allow for the exploration of the environment.
+\subsection{gamma}
+The discount factor (Gamma) set to .9 is the immediate reward gained for an action taken. The higher the value the more the agent will take an immediate reward with no concern for future rewards.
+\subsection{alpha}
+The learning rate (alpha) is a value between zero and one determines how much the Q value is updated for each action taken. It will be .5 for this example.
+\subsection{per step cost}
+There is a negative reward cost for each step the agent makes in this case -0.04. This will help in getting the best path to the end state.
+\subsubsection{Q Values}
+ Q values are a weighted score attached to an action of a particular state.
+ The agents next movement is based on theses weighted scores.
 
-Agent:
-The agent is an object within the environment that makes decisions based on it's current state space and possible rewards gained by choosing an action. For this application the agent is placed in a two dimensional environment. The possible actions that can be taken by the agent are up, down, left or right.
-
-The environment:
-For the purpose of this application a  6 * 6 two dimensional grid environment will be used. As the script is running the agent will move from one square in the grid to the next adjacent square of up, below, to the left or the right of its current position.
-
-As the agent moves through the environment it gains knowledge via reward signals gathered by transitioning from one state to another based on the action taken from its current state.
-With each step the agent is only concerned with its current state and what rewards it can gain from transitioning to it's next state.~\cite{}
+\subsubsection{Updating Q values}
 The agent chooses it's action decision based on what highest reward it can get from the next available states.\\
+With each time step action taken by the agent the following q learning formulae is used to update the Q values within the Q Table.
+Q (current state, action) += alpha *[reward + gamma* max value of Q (next state, all possible actions) – Q (current state, action)]
+
+This states to update the current states value for an action chosen using the maximum values from the next states for actions.
+\subsection{Q Table}
+The Q table is a historic record of the agent’s actions taken in a given state. The values held within the Q table are used by the agent to choose the next best state transition. During the first episode all values within the Q table are zero (No knowledge of the environment). With every time step taken the Q table is updated with q values from the above formulae. For brevity the below examples will use a smaller q table rather than the one used for this application.
+
+
+At the beginning of the learning process the Q Table has all zero values meaning it has no prior knowledge of its domain.
+\begin{tabular}{lllll}
+State & Action left & Action right & Action up & Action down \\
+1     & 0           & 0            & 0         & 0           \\
+2     & 0           & 0            & 0         & 0           \\
+3     & 0           & 0            & 0         & 0           \\
+4     & 0           & 0            & 0         & 0           \\
+5     & 0           & 0            & 0         & 0           \\
+6     & 0           & 0            & 0         & 0           \\
+7     & 0           & 0            & 0         & 0           \\
+8     & 0           & 0            & 0         & 0           \\
+9     & 0           & 0            & 0         & 0           \\
+10    & 0           & 0            & 0         & 0           \\
+11    & 0           & 0            & 0         & 0          
+\end{tabular}
+\\
+\\
+
+From its initial state a random action is chosen. If the action chosen is to move up one square to state 5 the Q table is updated using the q learning formulae above which looks like   .5 * -.04  + .9 *0 – 0 = -0.02.
+It then populates the Q table's row of State one's action of moving up to the q value of -0.02.
+
+\begin{tabular}{lllll}
+State & Action left & Action right & Action up & Action down \\
+1     & 0           & 0            & -0.02     & 0           \\
+2     & 0           & 0            & 0         & 0           \\
+3     & 0           & 0            & 0         & 0           \\
+4     & 0           & 0            & 0         & 0           \\
+5     & 0           & 0            & 0         & 0           \\
+6     & 0           & 0            & 0         & 0           \\
+7     & 0           & 0            & 0         & 0           \\
+8     & 0           & 0            & 0         & 0           \\
+9     & 0           & 0            & 0         & 0           \\
+10    & 0           & 0            & 0         & 0           \\
+11    & 0           & 0            & 0         & 0          
+\end{tabular}
+\\
+\\
+\\
+If the Agent decides to move down to state one again the value of moving down from state 5 to state 1 is updated to -0.02 also.
+\\
+
+\begin{tabular}{lllll}
+State & Action left & Action right & Action up & Action down \\
+1     & 0           & 0            & -0.02     & 0           \\
+2     & 0           & 0            & 0         & 0           \\
+3     & 0           & 0            & 0         & 0           \\
+4     & 0           & 0            & 0         & 0           \\
+5     & 0           & 0            & 0         & -0.02       \\
+6     & 0           & 0            & 0         & 0           \\
+7     & 0           & 0            & 0         & 0           \\
+8     & 0           & 0            & 0         & 0           \\
+9     & 0           & 0            & 0         & 0           \\
+10    & 0           & 0            & 0         & 0           \\
+11    & 0           & 0            & 0         & 0     
+\end{tabular}
+\\
+\\
+When back in state one the agent’s best choices (highest value) is down, left or right as they are all 0 and higher the -0.02. This happens for every time step the agent takes. When enough episodes have run, all of the actions of a given state will have a value added including the goal state value. From this the agent will chose the highest value each state as the optimal action to take to the end goal. 
+Once the agent gets to either end state, the episode is terminated and re-run. When episodes are re-run, the Q-Table will continually update until the optimal path is found and minimal updates will be performed.\\
+
+\begin{tabular}{lllll}
+	State & Action left & Action right & Action up & Action down \\
+	1     & -0.02           & -0.02              & 0.02     & -0.02           \\
+	2     & -0.02           & -0.05            & -0.02         & -0.02           \\
+	3     & -0.02           & -23            & -23         & -0.02           \\
+	4     & -0.02           & -23            & -100        & -0.02           \\
+	5     &  -0.02        & -0.02           & 10       & -0.02       \\
+	6     & -75           & -100            & 1.2         & -15           \\
+	7     & 0           & 0            & 0         & 0          \\
+	8     & 15           & 75            & -0.02         & -0.02           \\
+	9     & -0.02          & 85           & -0.02        &-0.02         \\
+	10    &  -0.02            & 100            &  -0.02          &  -0.02  \\ 
+	11    & 0           & 0            & 0         & 0         
+\end{tabular}
+\\
+\\
 The purpose of this application is to demonstrate and explain reinforcement learning through a browser based visualisation tool.\\
 The application will have the following elements on the Browser:
 \begin{itemize}
@@ -55,90 +151,6 @@ The application will have the following elements on the Browser:
 		\item Choice of algorithm
 	\end{itemize}
 \end{itemize}
-
-
-
-
-
-
-
-\begin{itemize}
-	\item The agent’s actions effect the environment by moving around and exploring.
-	\item	The state is what the agent can observe at a given time. In the grid above, the agent can occupy eleven possible squares. We can number theses states from 1 – 11 moving from left to right with the bottom left square being state number 1.
-	\item	In the agents initial state (State 1) it knows nothing about its environment and chooses an action of moving left, right, up or down.
-	\item	The Epsilon variable sets the probability of choosing a random action. When set to one it will always choose a random action. If set to .8 it will choose the a random action 80\% of the time.
-\end{itemize}
-This will give the agent a chance to explore the environment depending on what the value is set to.
-\begin{itemize}
-\item Q values are a weighted score attached to an action of a particular state.
-\item There is a negative reward cost for each move the agent makes in this case -0.04. This will help in getting the best path to the end state.
-\item The learning rate (alpha) is a value between zero and one determines how much the Q value is updated for each action taken. It will be .5 for this example.
-\item The discount factor (Gamma) set to .9 is the immediate reward gained for an action taken. The higher the value the more the agent will take the immediate reward.
-\item The reward cost, gamma and alpha are hyper-parameters chosen by the user.
-\item There is a formula to follow to update the Q values of each action taken:
-Q (current state, action) += alpha *[reward + gamma* max value of Q (next state, all possible actions) – Q (current state, action)]
-\item The Q table is a record of all of the agent’s actions taken in a given state. This is the agent’s memory and is set to zero when first run. If all Q values are equal, it will 
-Choose one at random.
-\end{itemize}
-
-
-
-
-	\begin{tabular}{lllll}
-		State & Action left & Action right & Action up & Action down \\
-		1     & 0           & 0            & 0         & 0           \\
-		2     & 0           & 0            & 0         & 0           \\
-		3     & 0           & 0            & 0         & 0           \\
-		4     & 0           & 0            & 0         & 0           \\
-		5     & 0           & 0            & 0         & 0           \\
-		6     & 0           & 0            & 0         & 0           \\
-		7     & 0           & 0            & 0         & 0           \\
-		8     & 0           & 0            & 0         & 0           \\
-		9     & 0           & 0            & 0         & 0           \\
-		10    & 0           & 0            & 0         & 0           \\
-		11    & 0           & 0            & 0         & 0          
-	\end{tabular}
-\\
-\\
-If the agent decides to move up one square to state 5 the Q table is updated using the formula above which looks like   .5 * -.04  + .9 *0 – 0 = -0.02
-
-	\begin{tabular}{lllll}
-		State & Action left & Action right & Action up & Action down \\
-		1     & 0           & 0            & -0.02     & 0           \\
-		2     & 0           & 0            & 0         & 0           \\
-		3     & 0           & 0            & 0         & 0           \\
-		4     & 0           & 0            & 0         & 0           \\
-		5     & 0           & 0            & 0         & 0           \\
-		6     & 0           & 0            & 0         & 0           \\
-		7     & 0           & 0            & 0         & 0           \\
-		8     & 0           & 0            & 0         & 0           \\
-		9     & 0           & 0            & 0         & 0           \\
-		10    & 0           & 0            & 0         & 0           \\
-		11    & 0           & 0            & 0         & 0          
-	\end{tabular}
-\\
-\\
-\\
-If the Agent decides to move down to state one again the value of moving down from state 5 to state 1 is updated to -0.02 also.
-\\
-
-	\begin{tabular}{lllll}
-		State & Action left & Action right & Action up & Action down \\
-		1     & 0           & 0            & -0.02     & 0           \\
-		2     & 0           & 0            & 0         & 0           \\
-		3     & 0           & 0            & 0         & 0           \\
-		4     & 0           & 0            & 0         & 0           \\
-		5     & 0           & 0            & 0         & -0.02       \\
-		6     & 0           & 0            & 0         & 0           \\
-		7     & 0           & 0            & 0         & 0           \\
-		8     & 0           & 0            & 0         & 0           \\
-		9     & 0           & 0            & 0         & 0           \\
-		10    & 0           & 0            & 0         & 0          
-	\end{tabular}
-\\
-\\
-Then when back in state one the agent’s best choice (highest value) is down, left or right as they are all 0 and higher the -0.02. Eventually all of the actions of a given state will have a value added. The agent will chose the highest value as the optimal path to take to the end goal. 
-Once the agent gets to either end state, the episode is terminated and re-run. When episodes are re-run, the Q-Table will continually update until the optimal path is found and minimal updates will be performed.
 
  references~\cite{einstein,knuthwebsite,latexcompanion,1introup63:online}
 
