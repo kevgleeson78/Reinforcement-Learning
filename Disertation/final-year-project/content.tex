@@ -53,9 +53,9 @@ Q (current state, action) += alpha *[reward + gamma* max value of Q (next state,
 This states to update the current states value for an action chosen using the maximum values from the next states for actions.
 \subsection{Q Table}
 The Q table is a historic record of the agent’s actions taken in a given state. The values held within the Q table are used by the agent to choose the next best state transition. During the first episode all values within the Q table are zero (No knowledge of the environment). With every time step taken the Q table is updated with q values from the above formulae. For brevity the below examples will use a smaller q table rather than the one used for this application.
-
-
 At the beginning of the learning process the Q Table has all zero values meaning it has no prior knowledge of its domain.
+\\
+\\
 \begin{tabular}{lllll}
 State & Action left & Action right & Action up & Action down \\
 1     & 0           & 0            & 0         & 0           \\
@@ -72,7 +72,6 @@ State & Action left & Action right & Action up & Action down \\
 \end{tabular}
 \\
 \\
-
 From its initial state a random action is chosen. If the action chosen is to move up one square to state 5 the Q table is updated using the q learning formulae above which looks like   .5 * -.04  + .9 *0 – 0 = -0.02.
 It then populates the Q table's row of State one's action of moving up to the q value of -0.02.
 
@@ -134,9 +133,9 @@ Once the agent gets to either end state, the episode is terminated and re-run. W
 The purpose of this application is to demonstrate and explain reinforcement learning through a browser based visualisation tool.\\
 The application will have the following elements on the Browser:
 \begin{itemize}
-\item The agent moving within its environment when the simulation is run.\\This will be displayed using HTML 5 canvas.
+\item The agent moving within its environment when the simulation is run.\\This will be displayed using HTML 5 canvas and represented by a yellow square within the canvas.
 
-\item User input to tweak parameters before each run of the simulation. The parameters that will be available to the user are:
+\item User form input to tweak parameters before each run of the simulation. The parameters that will be available to the user are:
 	\begin{itemize}
 		\item The end goal reward
 		\item The negative trap reward
@@ -157,7 +156,7 @@ The application will have the following elements on the Browser:
 \chapter{Context}
 
 \section{Overview}
-The aim of this project is to provide a visual aid that further explains the concept of reinforcement learning. The basic fundamentals of the Q-Learning and SARSA temporal difference algorithms are reasonably straight forward but can seem overly complex and verbose when attempting to verbally explain the topic. This application will help to show the user where and how the Q-values are stored and how the decision making process is made for the two above algorithms.
+The aim of this project is to provide a visual aid that further explains the concept of reinforcement learning. The basic fundamentals of the Q-Learning and SARSA temporal difference algorithms are reasonably straight forward but can seem overly complex and verbose when attempting to verbally explain the topic. This application will help the user visualise where and how the Q-values are stored and how the decision making process is made for the two above algorithms.
 
 \section{Objectives}
 The Main objectives of this project are:
@@ -183,7 +182,7 @@ The chapters listed below will have the following elements examined.
 	\item Methodology\\
 	This chapter will explain what development process I used along with reasoning the technologies, algorithms and languages chosen.
 	\item Technology Review\\
-	This chapter will review each technological element of the application and provide justification for each technology discussed.
+	This chapter will review each technological element of the application and provide a justification for each technology discussed.
 	\item System Design\\
 	The overall architecture will be explained with diagrams of each component of the system supplied.
 	\item System Evaluation\\
@@ -345,7 +344,19 @@ Github was used to track my progress of the project. While this is a solo projec
 
 
 \chapter{Technology Review}
-About seven to ten pages.
+\section{Pyhton}
+\subsection{Pandas}
+\subsection{Numpy}
+\subsection{Flask}
+\subsection{Restfull http}
+\section{JavaScript} 
+\section{Bootstrap} 
+\section{Json}
+\section{Ajax}
+
+\section{Agent Coordinates} 
+\section{Csv}
+\section{Google Cloud}  
 \begin{itemize}
 \item Describe each of the technologies you used at a conceptual level. Standards, Database Model (e.g. MongoDB, CouchDB), XMl, WSDL, JSON, JAXP.
 \item Use references (IEEE format, e.g. [1]), Books, Papers, URLs (timestamp) – sources should be authoritative. 
