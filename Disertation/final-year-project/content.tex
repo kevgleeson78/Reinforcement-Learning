@@ -18,16 +18,31 @@ Kevin Gleeson 4th year student studying Software Development at GMIT Galway.
 	\includegraphics[width=0.7\linewidth]{"../../../Project Plan/grid_world_env"}
 	\caption{}
 	\label{fig:gridworldenv}
+	~\cite{GridWorl45:online}
 \end{figure}
 Reinforcement Learning is an unsupervised machine-learning technique that allows an agent to explore and learn from its environment without any prior knowledge of the domain. 
 An agent transitions from one state to another by choosing an action with the highest reward value. The reward can be either positive or negative based on the decisions made by the agent as it transitions from it's current state to the next chosen state.\\
 For example, if a puppy has no knowledge of the sit command it will not perform the desired action on the first attempt. Each time the puppy sits when commanded its decision is reinforced with a positive treat/reward. If the puppy does not sit the reward is negative (no treat). Eventually after many iterations of training, the dog will associate a treat/reward with that specific command and eventually learn that sitting will get them a treat. 
 The puppy in essence is taking actions to maximise rewards while exploring an unknown environment.\\
 With reinforcement machine learning, this technique is used to train an agent to learn about its environment through trial and error. It will eventually learn the optimal path to a goal after many training episodes have completed.
-\section{Markov Decision Process}
-\section{Belmann Equation}
+
 \section{Components}
 This application will have the following reinforcement learning components.
+
+\section{Markov Decision Process}
+The Markov decision process has the requirement of being in a present state all future states are independent of past states.\\\\
+$P[S_{t}+1 | S_{t}] = P[S_{t}+1 | S_{1}, ..... , S_{t}]$\\\\
+
+The above equation simply states that the current state holds all of the past cumulative values where future actions can be decided.
+Where $P$ is the probability of taking a future action $St+1$  from a current state $St$. Therefore there is no need to keep track of the entire history of the actions taken for every state. The Markov decision process is used in reinforcement learning to allow the agent to only observe it's current state and choose a future action based on the total reward values from previous states observed.
+
+\section{Belmann Equation}
+$V(s) = max_{a}(R(s,a)+\gamma V(s'))$\\\\
+
+The Belmann equation is used in conjunction with the Markov decision process where $V$ is a value function, $a$ is an action taken, $R$ is the reward gained, $(s,a))$ represents the state and action taken, $\gamma$ is the discount factor $(s')$ is the next state.
+\\
+
+This is a recursive function where the maximum reward for the current state and action is assigned to the next state. A discount factor is applied where the future cumulative rewards are assigned. The closer gamma is to the value one the updated value will be directly related to the adjacent state. With a gamma value closer to zero will take into consideration the future rewards for the next n states.
 \subsection{Agent}
 The agent is an object within the environment that makes decisions based on it's current state space and possible rewards gained by choosing an action. For this application the agent is placed in a two dimensional environment. The possible actions that can be taken by the agent are up, down, left or right.\\
 \subsection{Episode}
@@ -49,18 +64,19 @@ There is a negative reward cost for each step the agent makes in this case -0.04
 
 \subsubsection{Updating Q values}
 The agent chooses it's action decision based on what highest reward it can get from the next available states.\\
-With each time step action taken by the agent the following q learning formulae is used to update the Q values within the Q Table. This is considered an off policy optimistic approach as the maximum value from all possible actions in the next state are use to update the current states action taken Q value \\\\
+
+With the Q Learning algorithm each time step and action taken by the agent the following formulae is used to update the Q values within the Q Table. This is considered an off policy optimistic approach as the maximum value from all possible actions in the next state are use to update the current Q value for the agents action taken \\\\
 $ Q^{new}(s_{t},a_{t})\leftarrow Q(s_{t},a_{t}) + \alpha[r_{t} + \gamma  \max _{a}Q(s_{t+1},a) - Q(s, a)]$~\cite{Qlearnin52:online}\\\\
-This above formulae can be broken can be simplified as:\\
-Q (current state, action) += alpha *[reward + gamma* max value of Q (next state, all possible actions) – Q (current state, action)]\\
-The SARSA algorithm is considered an on policy pessimistic approach as the Q value is updated from the actual action taken from the current state and the maximum value as Q Learning does. There is just a small difference between the two algorithms but has a significant impact on the behaviour of the agent. This will be evaluated later in the System Evaluation chapter of this document.\\
+This above formulae can be broken can be simplified as:\\\\
+Q (current state, action) += alpha *[reward + gamma* max value of Q (next state, all possible actions) – Q (current state, action)]\\\\
 
-$Q(s_{t},a_{t})\leftarrow Q(s_{t},a_{t})+\alpha [r_{t}+\gamma Q(s_{t+1},a_{t+1})-Q(s_{t},a_{t})]$~\cite{Stateac29:online}
+The SARSA algorithm is considered an on policy pessimistic approach as the Q value is updated from the actual action taken from the current state and the maximum value as Q Learning does. There is just a small difference between the two algorithms but has a significant impact on the behaviour of the agent. This will be evaluated later in the System Evaluation chapter of this document.\\\\
+$Q(s_{t},a_{t})\leftarrow Q(s_{t},a_{t})+\alpha [r_{t}+\gamma Q(s_{t+1},a_{t+1})-Q(s_{t},a_{t})]$~\cite{Stateac29:online}\\\\
+This formulae can be simplified as:\\\\
+Q (current state, action) += alpha *[reward + gamma*  Q (next state, next action) – Q (current state, action)]\\\\
 
-This formulae can be simplified as:\\
 
 
-This states to update the current states value for an action chosen using the maximum values from the next states for actions.
 \subsection{Q Table}
 The Q table is a historic record of the agent’s actions taken in a given state. The values held within the Q table are used by the agent to choose the next best state transition. During the first episode all values within the Q table are zero (No knowledge of the environment). With every time step taken the Q table is updated with q values from the above formulae. For brevity the below examples will use a smaller q table rather than the one used for this application.
 At the beginning of the learning process the Q Table has all zero values meaning it has no prior knowledge of its domain.
@@ -161,7 +177,6 @@ The application will have the following elements on the Browser:
 	\end{itemize}
 \end{itemize}
 
- references~\cite{einstein,knuthwebsite,latexcompanion,1introup63:online}
 
 \chapter{Context}
 
@@ -428,34 +443,278 @@ max_element(num_list)
 
 This philosophy in conjunction with the powerful high level functionality of the Python programming language allows for the rapid development and prototyping of a software system. Three Python packages of Pandas, Numpy and Flask were used for the development of this application and will be discussed in the subsequent sections below.
 
-\subsection{Pandas}
-The python package pandas was chosen to convert the raw data into a tabular format. This tabular data was then used in the form of either a csv or json file for presenting the data to the user.
+\subsection{Pandas Data Frame}
+
+The pandas Data Frame is used to convert a Python dictionary or list into a tabular format. In the below example a dictionary is presented with the keys of 'Key1' and 'Key2'. Each of these keys have an array containing four elements as the value.~\cite{IntrotoD8:online}
+\begin{minted}{python}
+import pandas as pd
+
+d = {'Key1': [1., 2., 3., 4.],
+     'Key2': [4., 3., 2., 1.]}
+\end{minted}
+The above dictionary can then be converted to a data frame using the following command.
+\begin{minted}{python}
+df = pd.DataFrame(d)
+\end{minted}
+This will convert the dictionary into the following tabular format.
+\begin{minted}{python}
+   one  two
+0  1.0  4.0
+1  2.0  3.0
+2  3.0  2.0
+3  4.0  1.0
+\end{minted} 
+From here the table can be queried with specific data displayed using slices.
+\begin{minted}{python}
+df.loc[1:3]
+\end{minted}
+This will access rows one, two and three inclusively.
+\begin{minted}{python}
+   one  two
+1  2.0  3.0
+2  3.0  2.0
+3  4.0  1.0
+\end{minted} 
+This package is a powerful data manipulation tool that enables the rapid creation of customised data in the structure needed.
 \subsection{Numpy}
-The Numpy package is used to create the data structures needed for the application.
+The Numpy Python package is used to rapidly create and manipulate ndarray multi dimensional arrays. Arrays can be created with a dynamically generated range of values and may be reshaped to any dimension needed. A one dimensional array can be reshaped into an n dimensional array. Inversely a multidimensional array can be flattened to a one dimensional array with ease. Some of the functionality of the Numpy package is documented below.~\cite{Quicksta66:online}\\\\
+Creating a one dimensional array.
+\begin{minted}{python}
+import numpy as np
+
+#Create a 1D array
+a = np.array([1,2,3,4])
+\end{minted} 
+ Creating a two dimensional array.
+\begin{minted}{python}
+import numpy as np
+ 
+#Create a 2D array
+a = np.array([(1,2,3,4),(5,6,7,8)])
+\end{minted}
+When the elements of an array are unknown but the size has been identified the array can be initialised with default place holder values.\\\\
+np.zeros fills an array of a chosen size with zero value place holders.
+The below example creates a two dimensional zero filled array of 3 rows and four columns.
+\begin{minted}{python}
+import numpy as np
+ 
+np.zeros( (3,4) )
+ 
+## Output
+[[ 0.,  0.,  0.,  0.],
+[ 0.,  0.,  0.,  0.],
+[ 0.,  0.,  0.,  0.]]
+\end{minted}
+Alternatively the array can be populated with one's for place holders.
+\begin{minted}{python}
+import numpy as np
+ 
+np.ones( (3,4) )
+ 
+## Output
+[[ 1, 1, 1, 1],
+ [ 1, 1, 1, 1],
+ [ 1, 1, 1, 1]]
+\end{minted}
+If the requirement is to initialise the array with random noise the empty function can be used. This function generates random 64 bit float point integers for each element within the array.
+\begin{minted}{python}
+import numpy as np
+ 
+np.empty( (2,3) )
+ 
+## Output
+                                 
+[[  3.73603959e-262,   6.02658058e-154,   6.55490914e-260],
+ [  5.30498948e-313,   3.14673309e-307,   1.00000000e+000]]
+\end{minted}
+A sequence of number can be generated using  the range function. The function takes three parameters,  the starting lower range number, the non-inclusive upper range number and the incremental value.
+\begin{minted}{python}
+import numpy as np
+
+np.arange( 0, 10, 2 )
+
+## Output
+[0,2,4,6,8]
+\end{minted}
+If the need to generate subdivided values the linspace function can be used. The function takes three parameters, the lower bound value, the upper bound inclusive value and the number of divisional values between the lower and upper bounds.
+\begin{minted}{python}
+import numpy as np
+
+np.linspace( 0, 2, 9 ) 
+
+## Output
+[ 0.  ,  0.25,  0.5 ,  0.75,  1.  ,  1.25,  1.5 ,  1.75,  2.  ]
+\end{minted}
+Arrays can also be reshaped to what ever dimensions needed using the reshape function. The parameters passed to this function are the rows and columns of the new array.
+\begin{minted}{python}
+import numpy as np
+
+b = np.arange(9)
+
+## Output of One dimensional array
+[0,1,2,3,4,5,6,7,8]
+
+b.resahpe(3,3)
+
+## Output
+[[ 0,  1,  2]
+ [ 3,  4,  5]
+ [ 6,  7,  8]]
+\end{minted}
 \subsection{Flask}
-The python flask framework is used for the server side functionality of the application. All of the scripts and files are held within the server.
-\subsection{Restful Architecture}
-Http requests are mapped to method calls from the main flask file. When the user makes a request for a resource on the server a response is sent back to the browser along with the files or data requested.
+Flask is a micro framework for building  web applications using the python programming language. Flask is considered a micro framework as it has the minimum amount of required functionality needed to begin building a web application. When first run there is only the main flask file that contains the following code~\cite{Welcomet92:online}.
+\begin{minted}{python}
+from flask import Flask
+app = Flask(__name__)
+
+@app.route('/')
+def hello_world():
+	return 'Hello, World!'
+
+if __name__ == "__main__":
+
+	app.run()
+\end{minted}
+This file handles all request resources sent from the browser with the above file handling a single url resource of the root address of the application and return a simple text message. This allows for the creation of custom resources that can have any response we need i.e a html page, result of a calculation or running a entire python script and then returning the result to the user in the response body~\cite{Welcomet92:online}.\\
+When this file is run from the command line a server is started and run locally on port :5050 by default.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\linewidth]{img/flaskCmd}
+	\caption{}
+	\label{fig:flaskcmd}
+\end{figure}
+The user enters the address of http://127.0.0.1:5050 into their browser and a web page is severed from the root resource of the application with the simple message "hello world".\\\\
+The following folder structure is used within a flask project.
+\begin{minted}{python}
+# The parent project folder
+Root folder\
+	# The main http routing script
+	FlaskApp.py 
+	# A python file that can be called
+	PythonScript.py 
+	# For deployment of application
+	DeploymetFile.yaml
+	# Declares the application python requirements at deploy time 
+	RequirementsFile.txt 
+	# For the staicly served files
+	Static Folder\
+		JavaScript Folder\
+			file1.js
+			filw2.js
+			file3.js
+		Css folder\
+			style.css
+		Data Folder\
+			Data1.txt
+			Data2.csv
+			Data3.json
+			Data4.xml
+	# For the html templates sent back in the response body
+	Templates Folder\
+		home.html
+		result.html
+		pooling.html
+\end{minted}
+
+  
+\section{REST Architecture}
+The  Representational State Transfer Protocol (REST) is an architectural design philosophy that  is used to acquire resources held on a server via HTTP Requests/Responses. The REST architecture is know as stateless whereby the server holds no information about the clients session state. The session state is held locally by the client. The server only receives a client request, then sends a response back to the client with the resources requested. Resources can be in the form of text, image or html files etc. A client request is in the form of a URL with "address.com" being the physical address of the sever and "/resource-request" the actual resource needed to be sent back within the response body~\cite{Understa52:online}. 
+\begin{minted}{HTTP}
+https://address.com/resource-request
+\end{minted} 
+The main http request methods used within the REST architecture are:
+\begin{itemize}
+	\item GET should be used to retrieve an existing resource held on the server.
+	\item POST should be used to create a resource on the server.
+	\item PUT should be used to update a resource held on the server.
+	\item DELETE should be used to remove a resource from the server.
+\end{itemize}
+Note that should is used in describing the four methods above.
+As rest is not a standard but rather a set of guidelines to follow, the above methods can be used for different functionality but would not be considered a restful application.
 \section{JavaScript}
-For the front end browser side of the system JavaScript and JQuery are the main scripting languages. They are responsible for making ajax calls to the server for all of the files needed.
-\section{HTML Canvas}
-HTML Canvas was used to present the user with a representation of the environment and agent. HTe canvas is animated based on the data read from the AgentPos.txt file.
-\section{Google Charts}
+JavaScript is a client side browser based scripting language.
+It can be used to dynamically update information on a static web page in the form of tabular data, 2D/3D animations or session based user information~\cite{JavaScri52:online}, this will be discussed further in the following subsequent subsections. JavaScript can also be used to manipulate html elements with event listeners. In the below example~\cite{fontSize:online} an onClick event listener is used to change the font size of the text contained with the html paragraph element. The element is accessed by document.getElementById('demo'). This parses the document object model DOM of the html file and locates the element with the id of 'demo'. From here  ('demo').style.fontSize='35px' alters the text style font size to 35 pixels.
+This is all done dynamically via a click event on the web page allowing for the local client side real time manipulation of browser data.
+\begin{minted}{HTML}
+<!DOCTYPE html>
+<html>
+<body>
+
+<h2>What Can JavaScript Do?</h2>
+
+<p id="demo">JavaScript can change the style of an HTML element.</p>
+
+<button type="button" onclick="document.getElementById('demo').style.fontSize='35px'">Click Me!</button>
+
+</body>
+</html> 
+\end{minted}  
+\subsection{AJAX}
+Asynchronous JavaScript and XML (AJAX) is a front end browser technology wich allows for the retrieval of server side data asynchronously without altering the view or behaviour of the web page. When an asynchronous request is made to the server it simply waits until a response has been returned and can then process the returned data. This method can be used to request specific files held on the server then run any data processing needed once the files have been returned.  AJAX also has the ability to only update partial segments of a web page without reloading the entire page.~\cite{AJAX:online}\\
+In the below example~\cite{AJAXDemo:online} there is a h1 heading with the text "The XMLHttpRequest Object" along with a button holding an onClick event listener. When the button is clicked within the browser the loadDoc() JavaScript function is called.\\
+\begin{minted}{HTML}
+<!DOCTYPE html>
+<html>
+<body>
+
+<div id="demo">
+<h1>The XMLHttpRequest Object</h1>
+<button type="button" onclick="loadDoc()">Change Content</button>
+</div>
+
+<script>
+function loadDoc() {
+var xhttp = new XMLHttpRequest();
+xhttp.onreadystatechange = function() {
+if (this.readyState == 4 && this.status == 200) {
+document.getElementById("demo").innerHTML =
+this.responseText;
+}
+};
+xhttp.open("GET", "ajax_info.txt", true);
+xhttp.send();
+}
+</script>
+
+</body>
+</html>
+\end{minted}
+
+
+\subsection{Google Charts}
 The Google charts API is used to display the agent performance for both SARSA and Q Learning algorithms.
 The charts are in the form of a linear display graphing the agent rewards over time.
-\section{Hottie heat mapping JavaScript Library}
+\begin{minted}{JavaScript}
+
+\end{minted}
+\subsection{Hottie heat mapping JavaScript Library}
 The Hottie JavaScript library is used to colour code  the data being generated within the Q Table. The colour spectrum used is from red to green. The lowest value being red and the highest value being green. The values in between red and green will have a gradient value based on the highest/ lowest value present.
+\begin{minted}{JavaScript}
+
+\end{minted}
+\subsection{HTML Canvas}
+HTML Canvas was used to present the user with a representation of the environment and agent. HTe canvas is animated based on the data read from the AgentPos.txt file.
+\begin{minted}{JavaScript}
+
+\end{minted}
+
 \section{Bootstrap} 
 The CSS framework Boostrap is used to control the layout and browser responsiveness of the front end view. This allowed for the rapid development of the user interface of desktop and mobile devices.
+\begin{minted}{HTML}
+
+\end{minted}
 \section{Json}
 The Json format is used to store the data holding  the agents total reward for each episode completed.
 This is used in conjunction with Google charts for displaying the data.
-\section{Ajax}
-Ajax calls are used to make requests to the server for the different files needed by the browser.
+\begin{minted}{JSON}
 
-\section{Csv}
+\end{minted}
+\section{CSV}
 A Csv file is used for the storing the Q Table values for each time step completed.
-\section{Google Cloud}
+\begin{minted}{JSON}
+
+\end{minted}
+\section{Google Cloud App Engine}
 The Goolge Cloud app engine was used for the deployment of the application. 
 \begin{itemize}
 \item Describe each of the technologies you used at a conceptual level. Standards, Database Model (e.g. MongoDB, CouchDB), XMl, WSDL, JSON, JAXP.
