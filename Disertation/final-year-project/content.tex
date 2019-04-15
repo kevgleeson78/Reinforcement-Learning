@@ -644,7 +644,8 @@ This is all done dynamically via a click event on the web page allowing for the 
 
 <p id="demo">JavaScript can change the style of an HTML element.</p>
 
-<button type="button" onclick="document.getElementById('demo').style.fontSize='35px'">Click Me!</button>
+<button type="button" onclick="document.getElementById('demo')
+                    .style.fontSize='35px'">Click Me!</button>
 
 </body>
 </html> 
@@ -956,21 +957,55 @@ $.ajax({
 \end{minted}
 In the above example once the csv file has been received from the server the data is placed into an array and appended to a html table for rendering the data to the browser page within a table cells~\cite{ParsingCSVExample:online}.
 \section{Google Cloud App Engine}
-The Goolge Cloud app engine was used for the deployment of the application. 
+The Goolge Cloud app engine is used to deploy and host web applications to a live server.\\
+In the below example a python flask application is used, however a number of different languages can be used for deployment.\\
+The following requirements are needed to deploy an application to Goolge Cloud App Engine.
 \begin{itemize}
-\item Describe each of the technologies you used at a conceptual level. Standards, Database Model (e.g. MongoDB, CouchDB), XMl, WSDL, JSON, JAXP.
-\item Use references (IEEE format, e.g. [1]), Books, Papers, URLs (timestamp) – sources should be authoritative. 
-\end{itemize}
+	\item Create App Engine instance:
+	A new project is needed as a container for the application~\cite{CreatingAppEngine:online}.
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.7\linewidth]{img/GoogleNEwPRoject}
+		\caption{}
+		\label{fig:googlenewproject}
+	\end{figure}
+	
+	\item A locally created Flask project as discussed within the flask section of this chapter.
+	\item app,yaml file:
+	This file contains the configuration settings for the application declaring the programming language, Version number, libraries used, static directories and the main flask file name~\cite{FlaskAppGoolge:online}.
+\begin{minted}{yaml}
+runtime: python27
+api_version: 1
+threadsafe: true
 
-\section{XML}
-Here's some nicely formatted XML:
-\begin{minted}{xml}
-<this>
-  <looks lookswhat="good">
-    Good
-  </looks>
-</this>
+libraries:
+- name: ssl
+version: latest
+
+handlers:
+- url: /static
+static_dir: static
+- url: /.*
+script: main.app
 \end{minted}
+	\item requiremets.txt file:
+	This file declares the different dependencies that are needed for the application to run.
+	In the below example the flask and Werkzeug versions are declared~\cite{FlaskAppGoolge:online}.
+\begin{minted}{text}
+Flask==0.12.4
+Werkzeug<0.13.0,>=0.12.0
+\end{minted}
+	\item Google Cloud SDK:
+	The Google SDK must be installed locally to enable the deployment of the project to the app engine. Once the SDK has been installed open the command line tool and change to the root directory of the project folder. Once inside the directory type teh following command to deploy the application~\cite{FlaskAppGoolge:online}.
+\end{itemize}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.7\linewidth]{img/DeployCmd}
+	\caption{}
+	\label{fig:deploycmd}
+\end{figure}
+Once the deployment has completed the application will be available at appname.appspot.com. ~\cite{FlaskAppGoolge:online}
+
 
 \chapter{System Design}
 As many pages as needed.
