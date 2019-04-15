@@ -652,6 +652,8 @@ This is all done dynamically via a click event on the web page allowing for the 
 \subsection{AJAX}
 Asynchronous JavaScript and XML (AJAX) is a front end browser technology wich allows for the retrieval of server side data asynchronously without altering the view or behaviour of the web page. When an asynchronous request is made to the server it simply waits until a response has been returned and can then process the returned data. This method can be used to request specific files held on the server then run any data processing needed once the files have been returned.  AJAX also has the ability to only update partial segments of a web page without reloading the entire page.~\cite{AJAX:online}\\
 In the below example~\cite{AJAXDemo:online} there is a h1 heading with the text "The XMLHttpRequest Object" along with a button holding an onClick event listener. When the button is clicked within the browser the loadDoc() JavaScript function is called.\\
+Within the loadDoc function the onreadystatechange method waits for a http message of 4 and 200 response from the server which indicates the message has been sent correctly. From there the response text form the "ajax info" file is bound to the div with the id of demo changing the on screen text to the text held within the file.\\
+ 
 \begin{minted}{HTML}
 <!DOCTYPE html>
 <html>
@@ -682,16 +684,129 @@ xhttp.send();
 
 
 \subsection{Google Charts}
-The Google charts API is used to display the agent performance for both SARSA and Q Learning algorithms.
-The charts are in the form of a linear display graphing the agent rewards over time.
+The Google charts API is javaScript charting library that allows for the creation of numerous types of charts to be generated within a browser window. For the purpose of this project a line chart is used to display the agent rewards gained over time. Scalable Vector Graphics (SVG) are used to render the chart image within the browser~\cite{GoogleLineChart:online}.\\
+To create a line chart:
+\begin{itemize}
+	\item The library must be imported along with an empty div to hold the final rendered image of the chart~\cite{GoogleLineChart:online}.
+
+\end{itemize}
+
+\begin{minted}{HTML}
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js">
+</script>
+<div id="chart_div"></div>
+\end{minted}
+\begin{itemize}
+	\item The line chart package is loaded from the library.
+	\item A callback function then used to load the drawBasic() function.
+\end{itemize}
 \begin{minted}{JavaScript}
+google.charts.load('current', {packages: ['corechart', 'line']});
+google.charts.setOnLoadCallback(drawBasic);
+\end{minted}
+The drawBasic() function has the following elements
+\begin{itemize}
+	\item A data table is first instantiated to hold all of the columns, rows and data. Then columns are created with declared data types and a name. ~\cite{GoogleLineChart:online}
+\end{itemize}
+\begin{minted}{JavaScript}
+function drawBasic() {
+
+var data = new google.visualization.DataTable();
+data.addColumn('number', 'X');
+data.addColumn('number', 'Dogs');
 
 \end{minted}
+\begin{itemize}
+	\item The numerical data is then added to the data table as rows. The data is represented by a two dimensional JavaScript array~\cite{GoogleLineChart:online}.
+\end{itemize}
+\begin{minted}{JavaScript}
+data.addRows([
+[0, 0],   [1, 10],  [2, 23],  [3, 17],  [4, 18],  [5, 9],
+[6, 11],  [7, 27],  [8, 33],  [9, 40],  [10, 32], [11, 35],
+[12, 30], [13, 40], [14, 42], [15, 47], [16, 44], [17, 48],
+[18, 52], [19, 54], [20, 42], [21, 55], [22, 56], [23, 57],
+[24, 60], [25, 50], [26, 52], [27, 51], [28, 49], [29, 53],
+[30, 55], [31, 60], [32, 61], [33, 59], [34, 62], [35, 65],
+[36, 62], [37, 58], [38, 55], [39, 61], [40, 64], [41, 65],
+[42, 63], [43, 66], [44, 67], [45, 69], [46, 69], [47, 70],
+[48, 72], [49, 68], [50, 66], [51, 65], [52, 67], [53, 70],
+[54, 71], [55, 72], [56, 73], [57, 75], [58, 70], [59, 68],
+[60, 64], [61, 60], [62, 65], [63, 67], [64, 68], [65, 69]
+]);
+\end{minted}
+
+\begin{itemize}
+	\item Within the options object the chart can be customised. Below names are then given to the horizontal and vertical. axis~\cite{GoogleLineChart:online}
+\end{itemize}
+\begin{minted}{JavaScript}
+ var options = {
+hAxis: {
+title: 'Time'
+},
+vAxis: {
+title: 'Popularity'
+}
+};
+
+\end{minted}
+\begin{itemize}
+	\item Finally the container div for the chart is identified and the chart.draw method is called with the data array and personalised options as parameter arguments.~\cite{GoogleLineChart:online}
+\end{itemize}
+\begin{minted}{JavaScript}
+      var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
+
+chart.draw(data, options);
+\end{minted}
+This will result in a rendered line chart SVG image to the browser.~\cite{GoogleLineChart:online}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.7\linewidth]{img/goolgeChart}
+	\caption{Goolge Line Chart}
+	\label{fig:goolgechart}
+\end{figure}
+
 \subsection{Hottie heat mapping JavaScript Library}
-The Hottie JavaScript library is used to colour code  the data being generated within the Q Table. The colour spectrum used is from red to green. The lowest value being red and the highest value being green. The values in between red and green will have a gradient value based on the highest/ lowest value present.
-\begin{minted}{JavaScript}
-
+Hottie is an open source heat mapping JavaScript library used to colour code data being generated. Any number of colour transitions can be used to represent low to high values within a dataset.The values in between low to high will have a gradient value based on the highest/ lowest value within the dataset.~\cite{HeatMap:online}\\
+The hottie.js library is a used via JQuery and has the ability to colour code html tabular data based on the numerical values held within each table cell. The below example is a simple html table with some floating point values inserted into the table cells. The table has an ID of "myTable" for data access via JQuery.~\cite{HottieExample:online}
+\begin{minted}{HTML}
+<table id="myTable">
+	<tr>
+		<td>2.59</td><td>0.68</td><td>1.35</td>
+		<td>1.35</td><td>2.03</td><td>1.60</td>
+	</tr>
+	<tr>
+		<td>1.39</td><td>0.70</td><td>1.22</td>
+		<td>1.08</td><td>1.00</td><td>2.12</td>
+	</tr>
+	<tr>
+		<td>2.87</td><td>0.59</td><td>1.22</td>
+		<td>0.57</td><td>1.08</td><td>3.00</td>
+	</tr>
+	<tr>
+		<td>0.99</td><td>0.25</td><td>0.48</td>
+		<td>0.50</td><td>0.99</td><td>1.77</td>
+	</tr>
+</table>
 \end{minted}
+Using JQuery a handle is gained on the table via the ID of "myTable". Three transitional hex colour values are then set from low (red), medium (red + green) to high (green).~\cite{HottieExample:online}
+\begin{minted}{JavaScript}
+$("#myTable td").hottie({
+colorArray : [ 
+"#63BE7B",
+"#FBE983",
+"#F8696B"
+]
+});
+\end{minted}
+The resulting cell values within the html table now have colour codes mapped to them based on the lowest (red) to highest (green) values. Every value in between the lower and upper bound will have a mixture of the two colours. The amount of colour mix is dependant on the current value within the cell and how close it is to the lowest/highest value.~\cite{HeatMap:online}~\cite{HottieExample:online}\\
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.7\linewidth]{img/HeatMap}
+	\caption{}
+	\label{fig:heatmap result}
+\end{figure}
+
 \subsection{HTML Canvas}
 HTML Canvas was used to present the user with a representation of the environment and agent. HTe canvas is animated based on the data read from the AgentPos.txt file.
 \begin{minted}{JavaScript}
