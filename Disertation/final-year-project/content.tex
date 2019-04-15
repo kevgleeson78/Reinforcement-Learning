@@ -16,9 +16,9 @@ Kevin Gleeson 4th year student studying Software Development at GMIT Galway.
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.7\linewidth]{"../../../Project Plan/grid_world_env"}
-	\caption{}
+	\caption{Image Source~\cite{GridWorl45:online}}
 	\label{fig:gridworldenv}
-	~\cite{GridWorl45:online}
+
 \end{figure}
 Reinforcement Learning is an unsupervised machine-learning technique that allows an agent to explore and learn from its environment without any prior knowledge of the domain. 
 An agent transitions from one state to another by choosing an action with the highest reward value. The reward can be either positive or negative based on the decisions made by the agent as it transitions from it's current state to the next chosen state.\\
@@ -753,7 +753,8 @@ title: 'Popularity'
 	\item Finally the container div for the chart is identified and the chart.draw method is called with the data array and personalised options as parameter arguments.~\cite{GoogleLineChart:online}
 \end{itemize}
 \begin{minted}{JavaScript}
-      var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
+      var chart = new google.visualization.LineChart(
+                  document.getElementById('chart_div'));
 
 chart.draw(data, options);
 \end{minted}
@@ -881,15 +882,79 @@ The below image is a view of the same BootStrap html viewed on a mobile device~\
 \end{figure}
 
 \section{Json}
-JavaScript Object Notation (Json) is a language independent text based representation of data objects. This allows for the marshalling and un-marshalling of data to an object across many differnet programming languages. S
-\begin{minted}{JSON}
+JavaScript Object Notation (Json) is a language independent text based representation of a data object. This allows for the marshalling and un-marshalling of data to an object across many different programming languages. The Json data is written to a file with the .json extension and usually held on a server. The .json file contents are plain text, which are interpreted by a programming language requesting the file from the server. Once the file has been received the data can be un-marshalled to the language specific object~\cite{JSON:online}. In the below example a JavaScript object will be used to explain the process.\\
 
+The .json file structure has  a parent container node named performance. Within this parent node there are two child nodes with key value pairs. The key for each object is named timeStep and reward with numerical values as the value for each key.~\cite{JSONstring:online}\\
+\begin{minted}{JSON}
+{"Performance":[
+{ "timeStep":1, "reward":45 },
+{ "timeStep":2, "reward":100 }
+]}
+\end{minted}
+When the file is requested from the server it needs to be parsed so it can be read as a JavaScript object.
+
+\begin{minted}{JavaScript}
+var obj = JSON.Parse(demo.json);
+\end{minted}
+The variable obj is now converted to a JavaScript object array and can be used as needed within the browser to display the relevant data.
+\begin{minted}{JavaScript}
+["Performance",
+ [
+  "timeStep"
+   [
+    1
+   ]
+ ],
+ [
+  "reward"
+   [
+    45
+   ]
+ ],
+ [
+  "timeStep"
+   [
+    2
+   ]
+ ],
+ [
+  "reward"
+   [
+    100
+   ]
+ ]
+]
 \end{minted}
 \section{CSV}
-A Csv file is used for the storing the Q Table values for each time step completed.
-\begin{minted}{JSON}
+A Comma Separated Value (CSV) file is used for storing data in a tabular format. Each new line within the file represents a new data entry. CSV files can be used to store multiple data types within the same file. It is then up to the program opening the file to interpret the data as needed. Below is a simple example of some numerical data entries within a csv file.~\cite{CSVPython:online} 
 
+\begin{minted}{JavaScript}
+	1,30,80,300
+	2,59,67,-59
+	3,40,22,21
 \end{minted}
+
+To parse this data an ajax call to a server can be used to request the file needed.~\cite{ParsingCSVExample:online}
+\begin{minted}{Javascript}
+$.ajax({
+  type: "GET",
+  url: "static/Data/test.csv",
+  dataType: "text",
+  cache: false,
+  async: true,
+  success: function(data) {
+    // Array of data
+    var data =data;
+
+    $('table').append('<tr class="data"><td>'+data[0] + 
+              '</td><td>'+data[1]+'</td><td>'+data[2] +
+              '</td><td>'+data[3]+'</td></tr>');
+
+  }
+
+});
+\end{minted}
+In the above example once the csv file has been received from the server the data is placed into an array and appended to a html table for rendering the data to the browser page within a table cells~\cite{ParsingCSVExample:online}.
 \section{Google Cloud App Engine}
 The Goolge Cloud app engine was used for the deployment of the application. 
 \begin{itemize}
