@@ -808,19 +808,80 @@ The resulting cell values within the html table now have colour codes mapped to 
 \end{figure}
 
 \subsection{HTML Canvas}
-HTML Canvas was used to present the user with a representation of the environment and agent. HTe canvas is animated based on the data read from the AgentPos.txt file.
-\begin{minted}{JavaScript}
+The html canvas element is used to draw graphics via JavaScript and render the result within a browser page.\\
+All of the drawing commands are written in JavaScript then sent to the empty canvas element for the resulting image to be rendered by the browser.\\
+Below is a simple example of a line drawn using html canvas.~\cite{CanvasDoc:online}\\
+The attributes the canvas element have are the with and height of the canvas view, the ID and optional styling if needed~\cite{CanvasExample:online}.
 
+\begin{minted}{HTML}
+<canvas id="myCanvas" width="200" 
+           height="100" style="border:1px solid #000000;">
+</canvas>
 \end{minted}
+To draw the line firstly a handle is gain on the canvas element with the ID of "myCanvas".\\
+The context of the canvas is then declared as a two dimensional drawing.\\
+The moveTo() method tells the browser where to start the drawing with 0,0 being the x,y coordinates.
+The x,y coordinates 0,0 start at the top left of the canvas which is not the conventional position of bottom left.\\
+The lineTo() method states where to draw a line along the x,y coordinates. In the below example a line is drawn 200 pixels along the x axis and 100 pixels along the y axis giving the result of a diagonal line from the top left to the bottom right of the containing canvas.~\cite{CanvasExample:online,CanvasDoc:online}
+\begin{minted}{JavaScript}
+var c = document.getElementById("myCanvas");
+var ctx = c.getContext("2d");
+ctx.moveTo(0, 0);
+ctx.lineTo(200, 100);
+ctx.stroke();
+\end{minted}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.7\linewidth]{img/canvasLine}
+	\caption{}
+	\label{fig:canvasline}
+\end{figure}
 
 \section{Bootstrap} 
-The CSS framework Boostrap is used to control the layout and browser responsiveness of the front end view. This allowed for the rapid development of the user interface of desktop and mobile devices.
-\begin{minted}{HTML}
+Bootstrap is a CSS framework library that allows for the rapid development of a fully responsive front end user interface.\\
+All css is pre-written with pre-defined class/id names.\\
+To utilise the BootStrap framework all that is required is to assign the html elements a class name or ID matching the class names or ID within the Bootstrap CSS file~\cite{Bootstrap:online}.
+In the below example a simple grid layout is used by declaring three types of div with the class names of:
+\begin{itemize}
+	\item "container" the wrapper class that controls the responsiveness of all containing divs.
+	\item "row" the class that identifies a section of the horizontal view within the browser.
+	\item "col-sm" the class that identifies each column. col-sm is used in this example but the width can be set by adding a value at the end of the class name. col-sm-12 will give the column a full width of the browser window. If no numeric value is given the column width is decided by dividing the number of col class names by 12. In the below example each column is assigned a width of four as there are three divs with the class name of "col-sm".
+\end{itemize} 
 
+\begin{minted}{HTML}
+<div class="container">
+	<div class="row">
+		<div class="col-sm">
+		One of three columns
+		</div>
+		<div class="col-sm">
+		One of three columns
+		</div>
+		<div class="col-sm">
+		One of three columns
+		</div>
+	</div>
+</div>
 \end{minted}
+
+The above BootStrap html will produce the following result in a browser view on a desktop at full screen~\cite{BootstrapGridExample:online}.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.7\linewidth]{img/BootstrapFullScreen}
+	\caption{}
+	\label{fig:bootstrapfullscreen}
+\end{figure}
+
+The below image is a view of the same BootStrap html viewed on a mobile device~\cite{BootstrapGridExample:online}.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.7\linewidth]{img/BootstrapMobile}
+	\caption{}
+	\label{fig:bootstrapmobile}
+\end{figure}
+
 \section{Json}
-The Json format is used to store the data holding  the agents total reward for each episode completed.
-This is used in conjunction with Google charts for displaying the data.
+JavaScript Object Notation (Json) is a language independent text based representation of data objects. This allows for the marshalling and un-marshalling of data to an object across many differnet programming languages. S
 \begin{minted}{JSON}
 
 \end{minted}
