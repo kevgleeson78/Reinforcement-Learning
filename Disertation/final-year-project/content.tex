@@ -34,12 +34,12 @@ The Markov decision process has the requirement of being in a present state all 
 $P[S_{t}+1 | S_{t}] = P[S_{t}+1 | S_{1}, ..... , S_{t}]$\\\\
 
 The above equation simply states that the current state holds all of the past cumulative values where future actions can be decided.
-Where $P$ is the probability of taking a future action $St+1$  from a current state $St$. Therefore there is no need to keep track of the entire history of the actions taken for every state. The Markov decision process is used in reinforcement learning to allow the agent to only observe it's current state and choose a future action based on the total reward values from previous states observed.
+Where $P$ is the probability of taking a future action $St+1$  from a current state $St$. Therefore there is no need to keep track of the entire history of the actions taken for every state. The Markov decision process is used in reinforcement learning to allow the agent to only observe it's current state and choose a future action based on the total reward values from previous states observed~\cite[p.~67]{sutton_barto_2018}.
 
 \section{Belmann Equation}
 $V(s) = max_{a}(R(s,a)+\gamma V(s'))$\\\\
 
-The Belmann equation is used in conjunction with the Markov decision process where $V$ is a value function, $a$ is an action taken, $R$ is the reward gained, $(s,a))$ represents the state and action taken, $\gamma$ is the discount factor $(s')$ is the next state.
+The Belmann equation is used in conjunction with the Markov decision process where $V$ is a value function, $a$ is an action taken, $R$ is the reward gained, $(s,a))$ represents the state and action taken, $\gamma$ is the discount factor $(s')$ is the next state~\cite[p.~75]{sutton_barto_2018}.
 \\
 
 This is a recursive function where the maximum reward for the current state and action is assigned to the next state. A discount factor is applied where the future cumulative rewards are assigned. The closer gamma is to the value one the updated value will be directly related to the adjacent state. With a gamma value closer to zero will take into consideration the future rewards for the next n states.
