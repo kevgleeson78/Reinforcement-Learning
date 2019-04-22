@@ -996,7 +996,7 @@ Flask==0.12.4
 Werkzeug<0.13.0,>=0.12.0
 \end{minted}
 	\item Google Cloud SDK:
-	The Google SDK must be installed locally to enable the deployment of the project to the app engine. Once the SDK has been installed open the command line tool and change to the root directory of the project folder. Once inside the directory type teh following command to deploy the application~\cite{FlaskAppGoolge:online}.
+	The Google SDK must be installed locally to enable the deployment of the project to the app engine. Once the SDK has been installed open the command line tool and change to the root directory of the project folder. Once inside the directory type the following command to deploy the application~\cite{FlaskAppGoolge:online}.
 \end{itemize}
 \begin{figure}[H]
 	\centering
@@ -1008,23 +1008,65 @@ Once the deployment has completed the application will be available at appname.a
 
 
 \chapter{System Design}
-As many pages as needed.
-\begin{itemize}
-\item Architecture, UML etc. An overview of the different components of the system. Diagrams etc… Screen shots etc.
-\end{itemize}
+This chapter will examine the overall architecture and individual system components. These will be discussed at a high level view for the main structure of the system. The major functional components will then be broken down into a more fine grain view for examination. In addition the interaction between the components will be explained in further detail.
 
-\begin{table}[h]
-  \centering
-  \begin{tabular}{x{2cm}p{3cm}}
-    \toprule \\
-    Column 1 & Column 2 \\
-    \midrule \\
-    Rows 2.1 & Row 2.2 \\
-    \bottomrule
-  \end{tabular}
-  \caption{A table.}
-  \label{table:mytable}
-\end{table}
+\section{System Architecture}
+This system is client server based architecture with all of the system resources held on a server. The client interacts with the server via a resource http requests. When the client first enters the root URL of the application address a request is made for the "Index.hmtl" web page. If found the index page along with any other JavaScript or CSS files are sent back to the browser for rendering.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.7\linewidth]{img/Architecture}
+	\caption{Architectural Diagram}
+	\label{fig:architecture}
+\end{figure}
+
+In the following images the server will be launched locally. A request will be then sent to the server for the root resource. Finally the home page will be sent back to the browser to render the page to the user.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.9\linewidth]{img/flaskCmd}
+	\caption{Starting the server}
+	\label{fig:flaskcmd}
+\end{figure}
+The above image is the flask server running and listening for requests at http://127.0.0.1:5000/.\\
+Once the URL has been entered to the address bar of the browser. 
+The resource root method is called in the main Flask server file.
+\begin{minted}{Python}
+@app.route('/')
+def index():
+# Return the main home page when the route resource is requested
+return render_template('index.html')
+\end{minted}
+The above root method returns the index.hmtl file within the response body to be read by the browser.
+
+If everything is ok and all resources can be retrieved a status message of 200 is sent to the browser.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.9\linewidth]{img/http200}
+	\caption{http 200}
+	\label{fig:http200}
+\end{figure}
+
+Finally the home page is rendered to the user.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.9\linewidth]{img/homePage}
+	\caption{Rendered Home Page}
+	\label{fig:homepage}
+\end{figure}
+When the highlighted url is entered to the browser address. The index html page is sent back to the browser along with any CSS and JAvaScript files needed.
+
+This example is a brief introduction of the overall architecture of the application. A more in depth investigation of each system component will be discussed in the next chapter.
+
+\section{System Components}
+
+\section{Component Interaction}
+
+\section{Data Flow}
+
+\section{deployment}
+
+
 
 \chapter{System Evaluation}
 As many pages as needed.
