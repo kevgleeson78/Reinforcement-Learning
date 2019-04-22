@@ -1059,6 +1059,305 @@ When the highlighted url is entered to the browser address. The index html page 
 This example is a brief introduction of the overall architecture of the application. A more in depth investigation of each system component will be discussed in the next chapter.
 
 \section{System Components}
+The following subsections will explain how each component operates within the application.
+
+\subsection{Environment File}
+The environment.py python file holds all of the agent logic, environment space, algorithmic operations and file creation for the application.
+
+\subsubsection{Grid Item Variables}
+There are four environment objects within each grid of an agent, a trap, an empty space an the goal.
+These are represented by single characters and are placed within the grids below as needed.
+\begin{minted}{Python}
+"""
+Declare Agent, Goal, Empty and trap chars.
+To be used for the environment space
+"""
+AGENT = 'A'
+GOAL = 'G'
+EMPTY = '*'
+TRAP = '#'
+\end{minted}
+\subsubsection{Environment Grid Types}
+For this application the user can choose which grid they want to use for the agent to explore.
+Below there is a grid initialised to all empty characters and a further two grids of different configurations.
+\begin{minted}{Python}
+"""
+Initialise the initial grid with all empty variables.
+"""
+grid = [
+[EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY],
+[EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY],
+[EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY],
+[EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY],
+[EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY],
+[EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY],
+]
+"""
+The Cliff environment.
+"""
+grid_cliff = [
+[EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY],
+[EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY],
+[EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY],
+[EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY],
+[EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY],
+[AGENT, TRAP, TRAP, TRAP, TRAP, GOAL],
+]
+"""
+The standard environment.
+"""
+grid_standard = [
+[EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, GOAL],
+[EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, TRAP],
+[EMPTY, EMPTY, TRAP, EMPTY, EMPTY, EMPTY],
+[EMPTY, EMPTY, TRAP, EMPTY, TRAP, EMPTY],
+[EMPTY, EMPTY, EMPTY, EMPTY, TRAP, EMPTY],
+[AGENT, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY],
+]
+\end{minted}
+
+Depending on which grid the user has chosen the empty grid gets assigned to the chosen gird.
+\begin{minted}{Python}
+
+if environment_form == "grid_cliff":
+grid = grid_cliff
+
+if environment_form == "grid_standard":
+grid = grid_standard
+\end{minted}
+\subsubsection{State Class}
+The State class is used to keep track of the agents position once the script has run.
+\begin{minted}{Python}
+class State:
+# Initialise the class variables of grid and agent position
+def __init__(self, grid, agent_pos):
+self.grid = grid
+self.agent_pos = agent_pos
+
+def __eq__(self, other):
+return isinstance(other, State) and self.grid == other.grid \
+and self.agent_pos == other.agent_pos
+\end{minted}
+\subsubsection{Hyper Parameters}
+The hyper parameters below are taken from the submitted form apart from the MIN ALPHA value. This value is used to ensure that the alpha value will not fall below zero when decaying after each episode.
+\begin{minted}{Python}
+#The max number of episodes
+N_EPISODES = int(episodes_form)
+# Set the maximum number of steps per episode
+MAX_EPISODE_STEPS = int(max_steps_form)
+MIN_ALPHA = 0.0001
+# Learning rate value
+alpha = float(alpha_form)
+# Future reward value
+gamma = float(gamma_form)  # .8
+# Random action proability
+eps = float(epsilon_form)  # .09
+# Decay the alpha value for every completed episode
+alphaDecay = float(alpha_form_decay)
+# Set an array of equal values deviding alpha by the number of episodes.
+alphas = np.linspace(alpha, MIN_ALPHA, N_EPISODES)
+# The random action decay rate for every completed episode.
+epsilon_decay = float(epsilon_form_decay)
+\end{minted}
+\subsubsection{Agent Actions}
+The agent actions of up, down, left and right are given numerical values and placed in an array named actions. This will later be used by the choose action function.
+\begin{minted}{Python}
+UP = 0
+DOWN = 1
+LEFT = 2
+RIGHT = 3
+ACTIONS = [UP, DOWN, LEFT, RIGHT]
+
+start_state = State(grid=grid, agent_pos=[5, 0])
+\end{minted}
+\subsubsection{Choosing Agent Actions}
+This method checks if the epsilon value is greater than a randomly generated
+floating point number between 0 and 1.
+With the epsilon  value at .8  there is an 80\% chance of the 
+agent choosing a random action.
+This will force the agent to explore the environment and seek 
+out all possible paths to the goal.
+This values decays after each episode gradually minimising the
+chance of the agent choosing a random choice.
+\begin{minted}{Python}
+# Choosing an action based on the epsilon value
+def choose_action(state):
+if random.uniform(0, 1) < eps:
+# choose a random action of up, down , left or right.
+return random.choice(ACTIONS)
+# If epsilon is less than the random number choosed the maximun
+# value for the next state.
+else:
+return np.argmax(q(state))
+\end{minted}
+\subsubsection{Defining Agent Actions}
+The below code is a snippet of a method that move the agent position. It checks the action taken of up, down left or right and moves the agent in the direction needed. 
+\begin{minted}{Python}
+# A deep copy of the state classs agent position to prevent
+# an unwanted change in data.
+p = deepcopy(state.agent_pos)
+if action == UP:
+# Move up and Limit the movememt to the top of the grid
+p[0] = max(0, p[0] - 1)
+elif action == DOWN:
+# Move down and limit the movement to the bottom of the grid
+p[0] = min(len(state.grid) - 1, p[0] + 1)
+elif action == LEFT:
+# Move left and limit the movement to the far left of the grid
+p[1] = max(0, p[1] - 1)
+elif action == RIGHT:
+# Move right and limit the movement to the far right of the grid
+p[1] = min(len(state.grid[0]) - 1, p[1] + 1)
+\end{minted}
+\subsubsection{Checking the agent position}
+In the below code snippet the agent position is checked for a Trap of a Goal. (Empty and Agent have been omitted for brevity). If the agent is occupying either of these grid items a final reward is given and the episode is terminated. A new episode is started if the maximum number of episodes has not been exceeded.
+\begin{minted}{Python}
+# Condition to check if the grid item is a trap 
+if grid_item == TRAP:
+# assign the reward signal from the value set in hte form
+reward = int(trap_reward)
+# done to end the iteration
+is_done = True
+# palce the agent back to the start position
+new_grid[p[0]][p[1]] += AGENT
+# Check if the goal has been reached
+elif grid_item == GOAL:
+# assign the reward value set from the front end form
+reward = int(goal_reward)
+# Set the episode to done to restart another new episode
+is_done = True
+\end{minted}
+\subsubsection{Q-Table}
+The Q-Table is a dictionary that is initialised to all zero values when the script is first run.
+\begin{minted}{Python}
+# Q-Table dictionary
+q_table = dict()
+# set the state to zeros within the Q-Table
+q_table[state] = np.zeros(len(ACTIONS))
+
+\end{minted}
+\subsubsection{Q-Learning Algorithm}
+The Q-Learning algorithm is defined as an off policy strategy whereby the current q values are partially updated from the next state maximum q value.
+With this implementation of the Q-Learning algorithm there is an outer loop for every episode.
+The inner loop is every time step for each episode.
+With each iteration of the inner loop the Q-Table is updated with the Q-Learning formula as discussed in chapter one\\
+$Q^{new}(s_{t},a_{t})\leftarrow Q(s_{t},a_{t}) + \alpha[r_{t} + \gamma  \max _{a}Q(s_{t+1},a) - Q(s, a)]$~\cite{Qlearnin52:online}.\\ This updates the current sates value for the action taken based on the maximum value of all actions in the next state.The inner loop continues until it either reaches the maximum number of steps set by the user or a terminal state has been reached.
+\begin{minted}{Python}
+for e in range(N_EPISODES):
+state = start_state
+# Inner loop for executing every step of the agent within each episode.
+for _ in range(MAX_EPISODE_STEPS):
+# choose an action for each step taken
+action = choose_action(state)
+# assign the returned parameters from the act function
+(next_state, reward, done) = act(state, action)
+# assign the returned decay rate to alpha and epsilon from
+# the check_terminal_state faunction
+alpha, eps = check_terminal_state(done, alpha, eps)
+"""
+Q-Learning Algorithm
+"""
+# Get the max value from the next action used for updating the
+# current states q value.
+max_next_action = np.max(q(next_state))
+# Formula for Q Learning
+# Q(s, a) = Q(s, a) + alpha[r+ y * max_next_action - Q(s, a)]
+# The above formula has been broken into three statements
+target = reward + gamma * max_next_action
+end_eq = target - q(state)[action]
+q(state)[action] += alpha * end_eq
+# add to total reward
+total_reward += reward
+# The next new stae assigned to the current state.
+state = next_state
+# Increment the number of steps
+number_of_steps += 1
+if done:
+break
+
+
+\end{minted}
+\subsubsection{SARSA Algorithm}
+The SARSA and Q-Learning algorithms look almost identical at first glance but the way in which the q values are updated are very different. The SARSA algorithm $Q(s_{t},a_{t})\leftarrow Q(s_{t},a_{t})+\alpha [r_{t}+\gamma Q(s_{t+1},a_{t+1})-Q(s_{t},a_{t})]$~\cite{Stateac29:online}\\ is defined as on policy whereby its q value is partially updated based on the next state and next action unlike Q-Learning using the maximum q value from the next state. The inner and outer loops are similar to the Q-Learning example above, with the difference being an action is chosen at the start of every episode and the next action is chosen from the next state only. The next state and next action are also updated within the inner loop. The difference in performance between the two algorithms will be examined in the next chapter.
+\begin{minted}{Python}
+if algorithm_form == "sarsa":
+# Start the outer episode loop
+for e in range(N_EPISODES):
+# Get the initial start state of the agent
+state = start_state
+# Choose an action
+# This differs from the q learning algorithm
+# An action is chosen at the start of every episode
+action = choose_action(state)
+# Inner loop for every agent time step
+for _ in range(MAX_EPISODE_STEPS):
+# assign the returned parameters from the act function
+(next_state, reward, done) = act(state, action)
+
+# the next action based on the next random or max state
+# This differs from q learning as the q table is update just by this action
+# not the max value of all possible next actions
+next_action = choose_action(next_state)
+# For decaying alpha and epsilon
+alpha, eps = check_terminal_state(done, alpha, eps)
+# Formula for SARSA
+# Q(s,a) = Q(s,a) + alpha[r + yQ(s',a') - Q(s,a)]
+# Broken down into three statements
+target = reward + gamma * q(next_state)[next_action]
+eq_end = target - q(state)[action]
+q(state)[action] += alpha * eq_end
+# Set the current action to the next action
+action = next_action
+# set the current state to the next state
+state = next_state
+# add the current reward to the total reward
+total_reward += reward
+# increment the number of steps
+number_of_steps += 1
+if done:
+break
+
+\end{minted}
+\subsubsection{Writing Agent Position to File}
+For each step the agent takes the coordinates are written to a text file using the open python method.
+\begin{minted}{Python}
+completeName = os.path.join('static/Data', 'agentPos.txt')
+# Open the file or create one if it doesn't exist
+f = open(completeName, 'w+')
+\end{minted}
+From there the agent position can be written out to a text file wherever is needed using the f.write python method.
+
+\begin{minted}{Python}
+f.write('%d,' % p[0])
+f.write('%d,' % p[1])
+\end{minted}
+As the algorithms are episodic the agent x,y coordinates will be written out to a text file for every step the agent takes. This file can then be read via JavaScript to animate a shape representing the agent within a HTML canvas.
+In addition the file will be overwritten when a new request has been made ensuring that only the latest data is present.
+\subsubsection{Writing Q-Table Values to CSV File}
+To store the Q-Table values as they are being generated the dictionary holding the Q-Table is converted to a python list and then a pandas data frame. Once the Q-Table is represented as a data frame it can be converted and written to a csv file. This allows the data to be displayed within a HTML table and updated as needed. A new version of the Q-Table is appended to the csv file for every step the agent takes within the inner loop of the Q-Learning or SARSA algorithms. This supplies complete history of every q value update as the algorithm runs. Terminal states were removed from the q table as they were all zero and of no use for the front end table data.
+
+\begin{minted}{Python}
+# check for a row in the dictionary that sums to zero
+# If it does sum to zero store in empty keys
+empty_keys = {k: v for k, v in q_table.items() if sum(v) == 0}
+# iterate through empty_keys
+for k in empty_keys:
+# delete all rows with zeros
+del q_table[k]
+# open the Q-TAble csv file is it exits. If it doesn't exist create one.
+with open('static/Data/Q_Table.csv', 'a', newline='') as f1:
+#Write out and append to a dataframe the q table values
+f1.write(pd.DataFrame(list(q_table.values())).to_csv(header=None))
+\end{minted}
+\subsubsection{Writing Algorithm Rewards to Json File}
+
+\subsection{Data Files}
+
+\subsection{HTML Files}
+
+\subsection{JavaScript Files}
+
+\subsection{Bootstrap}
 
 \section{Component Interaction}
 

@@ -81,7 +81,7 @@ def init():
     ]
     """
     Condition to check the user input from the form drop down.
-    If its grid_cliff set the gris to grid_cliff.
+    If its grid_cliff set the grid to grid_cliff.
     """
     if environment_form == "grid_cliff":
         grid = grid_cliff
@@ -169,7 +169,7 @@ def init():
             # Return the copy of the class
             return p
 
-        # Get teh returned values from new_agent_pos function
+        # Get the returned values from new_agent_pos function
         p = new_agent_pos(state, action)
         # Write out the new agent position to agentPos.txt
         # This is used for animating the agent on the front end canvas
