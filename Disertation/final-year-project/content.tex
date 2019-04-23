@@ -1349,32 +1349,363 @@ with open('static/Data/Q_Table.csv', 'a', newline='') as f1:
 #Write out and append to a dataframe the q table values
 f1.write(pd.DataFrame(list(q_table.values())).to_csv(header=None))
 \end{minted}
-\subsubsection{Writing Algorithm Rewards to Json File}
+\subsubsection{Writing Rewards to Json File}
+With each episode completed: 
+\begin{itemize}
+	\item The total rewards gained are stored in a list array
+\begin{minted}{Python}
+q_learning_list = []
+q_learning_list.append(total_reward)
+\end{minted}
 
+	\item The list is converted to a pandas data frame
+\begin{minted}{Python}
+df = pd.DataFrame(q_learning_list).
+\end{minted}
+	\item The data frame is converted to Json
+\begin{minted}{Python}
+df.to_json()
+\end{minted}
+	\item The Json data is written out to a Json file using pandas toJson() method
+\begin{minted}{Python}
+
+with open('static/Data/q_learning.json', 'w') as al:
+# write the dataframe out to a json file
+al.write(df.to_json())
+\end{minted}
+\end{itemize}
+ 
 \subsection{Data Files}
+When the script has completed the following files are created:\\
+\textbf{Q\_Learning.json:}\\
+The data is structured with each episode number and total reward gained as key value pairs.
+\begin{minted}{Json}
+{"0":{"0":-119.0,"1":-106.0,"2":-110.0,"3":-118.0,"4":-110.0,"5":-178.0}}
+\end{minted}
+\textbf{Agent\_Pos.txt:}\\
+Within this file every multiple of two values represent the x, y coordinates of the agent position.
+These values will be later split into tuples for animating a shape representing the agent.
+\begin{minted}{JAVA}
+5,0,5,0,4,0,4,0,3,0,4,0,3,0,2,0
+\end{minted}
+\textbf{Q\_Table.csv:}\\
+The contents of this file holds the q-table values for every step the agent has taken for the duration of the chosen algorithm. The below data is the final q-table of the csv file with the state number and q values for each states action. This table is a representation of the final step the agent has taken. The file generated can be very large depending on how many episodes the user has selected. With every time step the agent takes within each episode a new version of the below table is appended to the csv file. Each time the script is run the file is deleted and then recreated to ensure that the latest data is only present.
 
-\subsection{HTML Files}
+\begin{table}[H]
+	\hskip-2.0cm\begin{tabular}{lllll}
+		State & Up & Down & Left & Right\\
+		0  & 22.52511999999982   & 15.312135367563133   & 14.289668672248755   & -99.71113772079485   \\
+		1  & 3.960936623865009   & 13.617460700938727   & 17.95734718463899    & 29.40639999999984    \\
+		2  & -1.878271117634098  & -2.012313902784331   & -1.8815576932847637  & 15.243839125901262   \\
+		3  & -1.5295742726218287 & -0.6651108864555006  & -1.453991195638845   & -1.3454791885513238  \\
+		4  & -1.3298856168452398 & -1.3782276976507892  & -1.4810440112176881  & -1.4009042382447756  \\
+		5  & -1.3404449880448084 & -1.236788766027146   & -1.2436143067994825  & -1.2819022725009503  \\
+		6  & -1.257981734927635  & -1.3173966251263058  & -1.4462891399381745  & -1.301105125926431   \\
+		7  & -1.0987670989925822 & -1.2414790942150584  & -1.125976271967187   & -0.9656125664425864  \\
+		8  & -1.1551614289269732 & -0.9918947873425943  & -1.0312728318577251  & -1.0777704347717376  \\
+		9  & -0.8293603632964249 & -1.0161329114408177  & -0.85828502336085    & -1.0220599125373369  \\
+		10 & -0.98961            & -0.7783057291019736  & -0.7112311527378622  & -0.748887226749499   \\
+		11 & -0.8319             & -0.7464912046893787  & -0.582               & -0.582               \\
+		12 & -0.582              & 0.05138677455413032  & -0.8028881891543086  & -0.534987435270541   \\
+		13 & -0.7853614648496994 & -0.7543131835324851  & 5.5357476588926735   & -0.7267475254392772  \\
+		14 & -0.6374463101903487 & 30.48445789559959    & -0.04147787369938402 & -0.1835066667305324  \\
+		15 & 6.1008142164208214  & 59.57216742404885    & 3.578987325960474    & 20.15045848281535    \\
+		16 & -0.7489549628955137 & 73.3921476146162     & 14.899340036798916   & -0.49569258876485467 \\
+		17 & 44.1636518774165    & 99.99999999999994    & 54.92054424745762    & 68.95364044676266    \\
+		18 & -0.796333333789363  & 0.5075142332201901   & -0.7683226310600988  & -0.582               \\
+		19 & -1.1213878960723254 & -1.0917344464410255  & -1.0386342926259675  & 2.0537214318666543   \\
+		20 & -0.9174273822373968 & -0.34233859769154196 & -1.2038302558215905  & -0.8684927436176264  \\
+		21 & -0.9418047973287629 & -1.4207538670916309  & -1.214509420128951   & -1.0517542749162405  \\
+		22 & 11.488866076827776  & -99.9707299730268    & 14.315620732267625   & 38.007999999999846   \\
+		23 & -1.5425145779800709 & 27.980085861161136   & 0.1955682559630758   & -1.407294795583535   \\
+		24 & -1.238480339898809  & 34.474084517089224   & -1.5855723303517113  & 1.3381376892739045   \\
+		25 & -1.3411399964853334 & -1.3097183035656783  & -1.1600550530407983  & -1.394592539382078   \\
+		26 & 0.5247675921814534  & 7.51784556502975     & 3.8684041759256216   & 30.338944504641102   \\
+		27 & 13.204714294782987  & -92.83844051173776   & 32.35995431002325    & 62.19999999999989    \\
+		28 & 19.127847414768297  & -98.95976848214123   & 21.905625961034534   & 48.75999999999987    \\
+		29 & -1.0351164988463812 & 2.054113774404443    & -0.6847721449750789  & 11.755097177999282   \\
+		30 & 32.17905547303044   & -96.73690973090974   & 29.987489972815574   & 78.9999999999999    
+	\end{tabular}
+\end{table}
 
-\subsection{JavaScript Files}
+\subsection{index.html}:
+Holds the home page with a form for the user to submit. The input fields available to the user are the choice of algorithm and hyper parameters all of which will be bound to the variables held in the environment.py file.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.7\linewidth]{img/homePage}
+	\caption{}
+	\label{fig:homepage}
+\end{figure}
+To bind the form parameters to the environment python script variables, each form input field is given an id.
+\begin{minted}{html}
+<input id="max_steps" name="max_steps" type="number"  min="20"
+max="100" step="20" value="20" class="form-control">
+\end{minted}
+When the from is submitted the form data is sent as a post request and the run method is requested on the severs flask application file.
+\begin{minted}{html}
+<form class="form-horizontal" action="/run" method="post">
+\end{minted}
+Within the flask application file the run method is called and each form input field is bound to the variables within the environment.py file. The waiting.html page is then returned to the browser for rendering.
+\begin{minted}{Python}
+@app.route('/run', methods=['GET', 'POST'])
+def test():	
+if request.method == 'POST':
+environment.environment_form = request.form.get('grid_type')
+environment.algorithm_form = request.form.get('algorithm')
+environment.episodes_form = request.form.get('episode')
+environment.max_steps_form = request.form.get('max_steps')
+environment.per_step_cost = request.form.get('per_step_cost')
+environment.goal_reward = request.form.get('goal_reward')
+environment.gamma_form = request.form.get('gamma')
+environment.epsilon_form = request.form.get('epsilon')
+environment.epsilon_form_decay = request.form.get('epsilon_decay')
+environment.alpha_form = request.form.get('alpha')
+environment.alpha_form_decay = request.form.get('alpha_decay')
+environment.trap_reward = request.form.get('trap_reward')
+return render_template('waiting.html')
+\end{minted}
 
-\subsection{Bootstrap}
 
-\section{Component Interaction}
+\subsection{waiting.html}:
+The waiting page is simply holds an animated gif image that displays until the script has completed running.
+In the background of this page JavaScript is used to send a get request for the run resource. This will run the environment.py file and return a message of 'done' once the file has completed running.
+\begin{minted}{Python}
+# The first request made once teh form has been submitted
+@app.route('/run', methods=['GET', 'POST'])
+def test():
+if request.method == 'GET':
+# Call the init function from the environment.py script
+environment.init()
+return 'done'
+\end{minted}
 
-\section{Data Flow}
+JavaScript is used to ping the server for a return message of "done". Once the message has been successfully returned the success resource is then requested.
+\begin{minted}{JavaScript}
+if (request.status === 200 && request.responseText === 'done') {
+window.location = '/success';
+\end{minted}
+Finally the flask application file returns the result.hmtl page to the browser for rendering. In addition the form input field values are stored in variables that can be used within template holders in the result.html page. This keeps the from data submitted by the user on the home page. This can then be inserted to the form on the result page so the user does not need to remember the original settings. This allows for the tweaking of some parameters and rerunning the application to view the difference in performance. Some of the form input variables have been omitted for brevity.
+\begin{minted}{Python}
+@app.route('/success', methods=['GET', 'POST'])
+def dealy():
+var0 = environment.environment_form
+var1 = environment.algorithm_form
+var2 = environment.epsilon_form
+return render_template("result.html",var0=var0,var1=var1,var2=var2)
+\end{minted}
 
-\section{deployment}
+
+\subsection{result.html}: This file displays all of the rendered data from the files generated by the environment.py file with the following UI elements.\\
+The performance chart uses Google line chart JavaScript library to access the Json files via an Ajax request. There are two files requested, the SARSA and Q-Learning Json file generated by environment.py when run.
+\subsubsection{Google Chart}
+\begin{minted}{JavaScript}
+// Make ajax call
+$.ajax({
+//Request the q learning json file
+url: "/static/Data/q_learning.json",
+dataType: "json",
+// Clear cache for new data after each request
+cache: false,
+async: true,
+success: function (data) {
+
+var data2 = data;
+
+$.ajax({
+//Request the sarsa json file
+url: "/static/Data/sarsa.json",
+dataType: "json",
+cache: false,
+async: true,
+success: function (data1) {
+\end{minted}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\linewidth]{img/performance}
+	\caption{Performance Chart}
+	\label{fig:performance}
+\end{figure}
+\subsubsection{Bootstrap framework}
+The Bootstrap framework was used to style and set the layout of the page elements.
+The html tags were given bootstrap id and class names to enable the forms, canvas elements and charts a responsive design. Below in a image of the result page with the from compressed to a button that will slide down when clicked. the chart and grid have also resized to fit the browser size.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.7\linewidth]{img/responsive}
+	\caption{}
+	\label{fig:responsive}
+\end{figure}
+
+
+
+\subsubsection{Html Canvas}
+The below gird environment uses the HTML canvas to animate the agent from one grid coordinate to the next. The agent position is read from the text file generated by the environment.py script.
+\begin{minted}{JavaScript}
+ //request the agent position text file from the server
+url: "/static/Data/agentPos.txt",
+dataType: "text",
+cache: false,
+async: true,
+success: function (data)
+\end{minted}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=.7\linewidth]{img/grid}
+	\caption{Grid Environment}
+	\label{fig:grid}
+\end{figure}
+Animation of the agent is achieved by a time out function where the canvas is redrawn with the agents updated position.
+\begin{minted}{JavaScript}
+for(let i=0; i<arr.length -2; i+=2){
+// Time out function for animating the agent
+window.setTimeout(function () {
+// Get the x, y coordinates
+x1 = arr[i];
+y1 = arr[i+1];
+// Clear the canvas after each frame is rendered
+context.clearRect(0, 0, 650, 650);
+// Call the draw board function
+drawBoard();
+// Check the grid type set by the form input
+// Flask template variable is used to get the value in the result page
+if(grid_type == "grid_standard") {
+drawShape(5, 0, 'green');
+drawShape(5, 1, 'red');
+drawShape(4, 3, 'red');
+drawShape(4, 4, 'red');
+drawShape(2, 2, 'red');
+drawShape(2, 3, 'red');
+drawShape(y1, x1, 'yellow');
+}
+// Set the frame rate of hte animation
+}, i * 50);
+\end{minted}
+\subsubsection{Q-Table Data update}
+The below image of the Q-Table is populated from the Q\_Table.csv data. The file is requested via an ajax request to the server. Once the file is accessed the data is parsed and fed to a html table. 
+To update the table the data is cleared at every zero index (new q table).
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.7\linewidth]{img/qtable}
+	\caption{Q-Table}
+	\label{fig:qtable}
+\end{figure}
+\begin{minted}{JavaScript}
+// Timeout for parsing the array of data
+window.setTimeout(function () {
+// Get every 5th column for each row
+for(j=0; j< (result[i].length-1) / 5; j++){
+// Store the 5 columns in array
+csvRowCheck = result[i].slice(j * 5, (j + 1) * 5);
+// Clear the data after every zero index
+// Allows for updating the data after every frame
+if(csvRowCheck[0]==0){
+$('.data').remove();
+}
+// Add the data to the html table on the reult page
+// Truncating the point dcimal places to 7 to save space on the page.
+$('table').append('<tr class="data"><td>'+csvRowCheck[0] + 
+'</td><td>'+csvRowCheck[1].toFixed(7) + 
+'</td><td>'+csvRowCheck[2].toFixed(7) + 
+'</td><td>'+csvRowCheck[3].toFixed(7) +
+'</td><td>'+csvRowCheck[4].toFixed(7) + 
+'</td><td>'+arrays[j]+ '</td></tr>');
+\end{minted}
+\subsubsection{Hottie Library}
+The values within the q-table are also colour coded from low (red) to high(green) this was achieved by using the Hottie JavaScript library. The table data is accessed via JQuery selectors and the cells colour is based on theses numerical values from low to high.
+\begin{minted}{JavaScript}
+// The Hottie framework to heatmap the values in the table as they update
+// Adapted from : https://github.com/DLarsen/jquery-hottie
+$("#q_table td:not(:first-child, :last-child)").hottie({
+colorArray : [
+"#F8696B",
+"#FBE983",
+"#63BE7B",
+"#63BE7B",
+"#63BE7B",
+"#63BE7B"
+]
+});
+\end{minted}
+\subsubsection{Form Data Persistence}
+The form data submitted on the home page or the result page is persisted across requests. This is achieved via flask parameter templates. {{var2}} is the second parameter returned from the success resource within the the flask application file. There are eleven other parameters that have been omitted to keep the below example concise.
+\begin{minted}{HTML}
+<input id="epsilon" name="epsilon" type="number" 
+min="0" max="1" step=".1" 
+value="{{ var2 }}" class="form-control">
+\end{minted}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.7\linewidth]{img/result}
+	\caption{Data kept from home page}
+	\label{fig:result}
+\end{figure}
+
+\section{Sequence Digram}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1.2\linewidth]{img/sequence}
+	\caption{}
+	\label{fig:sequence}
+\end{figure}
+
+
+\section{Deployment}
+To deploy the local development environment to a instance of a Google Cloud Application.
+The files app.yaml and reqirements.txt are needed for pushing the application files to the Google application instance.
+
+The yaml file contains the configuration information for the application including the programming language, environment type, time out limit for the server and the flask application file name.
+\begin{minted}{yaml}
+runtime: python
+env: flex
+entrypoint: gunicorn -t 120 -b :$PORT FlaskTest:app
+runtime_config:
+python_version: 3
+\end{minted}
+The requirements text file declares what python packages the application will use.
+\begin{minted}{yaml}
+Click==7.0
+Flask==1.0.2
+gunicorn==19.9.0
+itsdangerous==1.1.0
+Jinja2==2.10
+MarkupSafe==1.1.0
+Werkzeug==0.14.1
+numpy==1.15.1
+pandas==0.23.4
+\end{minted}
+Once an empty application instance has been created on Google cloud platform the locally held files are ready to be pushed to the cloud fro deployment.\\
+The Google sdk command line interface is used with the following command.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\linewidth]{img/DeployCmd}
+	\caption{}
+	\label{fig:deploycmd}
+\end{figure}
+Once completed the application is now live and available to anyone who wishes to access the application.
 
 
 
 \chapter{System Evaluation}
-As many pages as needed.
-\begin{itemize}
-\item Prove that your software is robust. How? Testing etc. 
-\item Use performance benchmarks (space and time) if algorithmic.
-\item Measure the outcomes / outputs of your system / software against the objectives from the Introduction.
-\item Highlight any limitations or opportunities in your approach or technologies used.
-\end{itemize}
+From the objectives identified in the introduction of this document the systems performance will be examined and documented in this chapter.
+\section{Implementing SARSA and Q-learning}
+The difference between the SARSA and Q-Learning algorithms should be evident once the algorithms have completed. The SARSA algorithm should take a longer path to the goal state but have less instances of falling into a negative trap state.
+The resulting graph should show over time that q-learning gains a higher end reward but has more negative trap rewards than SARSA.
+Below is an image of the performance graph of both algorithms using the same input parameters.
+
+
+
+\section{Flask server to handle requests}
+
+\section{Parsing Json, text and csv files via Ajax}
+\section{Agent animation HTML canvas}
+
+\section{Generate dynamic table}
+\section{Add a heat map to the values of table cells}
+\section{Deployment to the Google Cloud Platform}
+	
+
 
 \chapter{Conclusion}
 About three pages.
