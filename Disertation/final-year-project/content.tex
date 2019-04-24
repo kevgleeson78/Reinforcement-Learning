@@ -1611,6 +1611,73 @@ $('table').append('<tr class="data"><td>'+csvRowCheck[0] +
 '</td><td>'+csvRowCheck[4].toFixed(7) + 
 '</td><td>'+arrays[j]+ '</td></tr>');
 \end{minted}
+\subsubsection{Ordered Set of agent positions}
+In addition, as the agent movements are randomly selected based on the epsilon value the agent position for each state will differ each time the script is run. In order to accurately map the agent position, an ordered set of x,y coordinates are needed exclusive of terminal states. This will enable the agent position for each state to be placed in the table with no repeating values. The ordering of the coordinates are not numeric just at what point in time they have been placed in the array.\\
+For example consider an array of x,y coordinates.
+\begin{minted}{JavaScript}
+[[0,0],[0,1],
+ [0,2],[0,3],
+ [0,4],[0,2],
+ [0,1],[0,0],
+ [1,1],[1,2],
+ [2,2],[1,2]]
+\end{minted}
+There are un-needed repeating values of (0,0) (0,1) (0,2) and (1,2).
+in order to get the unique positions the array should look like the following.\\
+\begin{minted}{JavaScript}
+[[0,0],[0,1],
+ [0,2],[0,3],
+ [0,4],[1,1],
+ [1,2],[2,2]]
+\end{minted}
+This was achieved with JavaScript by reading the already created agent position text file. Each coordinate is split into its own array as shown in the above example. This array is then passed to a function where the JavaScript Set \{\} functionality is used. As Set behaviour has no repeating values and the converted text file of agent positions has every agent movement in order. The array can now be parsed as Json and checked as each element is placed into the JavaScript set. This now supplies a total record of unique agent positions in the order visited.
+\begin{minted}{JavaScript}
+// Array to hold the agent position in the q table rows
+var arrays = [], size = 2;
+// Ajax call for the agent position 
+$.ajax({
+  url: "/static/Data/agentPos.txt",
+  dataType: "text",
+  cache: false,
+  async: true,
+  success: function (data) {
+    // slice the data at every ',' into and array 
+    var arrt = data.split(/,/g).slice(0);
+    while (arrt.length > 0) {
+      /* Splice the array into gropus
+       * of single array for every two x, y touples 
+       */
+      arrays.push(arrt.splice(0, size));
+    }
+    /* Function to get ordered set from the array values.
+     * This will allow for the displaying of the position first
+     * visited by the agent within the q table.
+     * As this will change each time the program is run
+     * we need a orderd set of tuples to
+     * accuratley get the correct cordinates for each state visited.
+     */
+    function multiDimensionalUnique(arr3) {
+      // Unique array
+      var uniques = [];
+      // set to hold unique values
+      var itemsFound = {};
+      // loop through the methods param input.
+      for(var i = 0, l = arr3.length; i < l; i++) {
+        // convert the data to json
+        var stringified = JSON.stringify(arr3[i]);
+        // Condition for end of data
+        if(itemsFound[stringified]) { continue; }
+        // put the arrays into the uniques array
+        uniques.push(arr3[i]);
+        // For recursive call of items found
+        itemsFound[stringified] = true;
+      }
+      //return the unique ordered list 
+      return uniques;
+
+
+\end{minted}
+
 \subsubsection{Hottie Library}
 The values within the q-table are also colour coded from low (red) to high(green) this was achieved by using the Hottie JavaScript library. The table data is accessed via JQuery selectors and the cells colour is based on theses numerical values from low to high.
 \begin{minted}{JavaScript}
@@ -1628,7 +1695,7 @@ colorArray : [
 });
 \end{minted}
 \subsubsection{Form Data Persistence}
-The form data submitted on the home page or the result page is persisted across requests. This is achieved via flask parameter templates. {{var2}} is the second parameter returned from the success resource within the the flask application file. There are eleven other parameters that have been omitted to keep the below example concise.
+The form data submitted on the home page or the result page is persisted across requests. This is achieved via flask parameter templates. \{\{var2\}\} is the second parameter returned from the success resource within the the flask application file. There are eleven other parameters that have been omitted to keep the below example concise.
 \begin{minted}{HTML}
 <input id="epsilon" name="epsilon" type="number" 
 min="0" max="1" step=".1" 
@@ -1691,27 +1758,110 @@ Once completed the application is now live and available to anyone who wishes to
 From the objectives identified in the introduction of this document the systems performance will be examined and documented in this chapter.
 \section{Implementing SARSA and Q-learning}
 The difference between the SARSA and Q-Learning algorithms should be evident once the algorithms have completed. The SARSA algorithm should take a longer path to the goal state but have less instances of falling into a negative trap state.
-The resulting graph should show over time that q-learning gains a higher end reward but has more negative trap rewards than SARSA.
+The environment used for this experiment is the cliff environment show below. The red squares represent traps for the yellow agent to avoid. The green square represents the goal state. Drawn on the image below is the optimal path chosen by each algorithm. The red line is the Q-Leaning optimal path chosen. The green Line is the SARSA optimal path chosen.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.7\linewidth]{img/pathOptimal}
+	\caption{Paths Taken}
+	\label{fig:pathoptimal}
+\end{figure}
+
+The resulting graph should show over time that q-learning gains a higher end reward per episode but has more negative trap rewards than SARSA.
 Below is an image of the performance graph of both algorithms using the same input parameters.
+Q-Learning is represented by the red line and SARSA by the green line.
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=1\linewidth]{"img/Q-learning eval"}
+	\caption{Q-Learning reward at 94}
+	\label{fig:q-learning-eval}
+\end{figure}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\linewidth]{img/SarsaEval}
+	\caption{}
+	\label{fig:sarsaeval}
+\end{figure}
 
-
+The resulting graphs show that the Q-Learning algorithm eventually gets a higher reward of 94 per episode by taking a shorter path to the goal state, resulting in an accumulative less per step penalty. However Q-learning falls into traps more frequently than SARSA.  SARSA gains an optimal reward of 92  by taking a longer path than Q-Learning this decreases the risk of randomly falling into a trap resulting in less trap terminal states than Q-learning.
 
 \section{Flask server to handle requests}
+The main Flask application file should handle resource requests as expected.\\
+There are three resources declared within the application file with the following expected responses:
+\begin{enumerate}
+	\item The root resource of '/' should return the home page to the browser for rendering.\\
+	 Result: When the root address of http://127.0.0.1:5000/ is entered to the browser address window the server responds with the message 200. The browser receives and displays the home page as expected.
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.7\linewidth]{img/RootReq}
+		\caption{Root request}
+		\label{fig:rootreq}
+	\end{figure}
+	
+	\item The '/run' resource should except GET and POST requests.\\
+	When the form has been submitted on either the home or result pages, a POST request is made to the '/run' resource. All form field data should be bound to the environment.py variables and the waiting.html page should be returned to the browser for rendering.\\
+	Result:
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.7\linewidth]{img/RunResource}
+		\caption{Post request /run}
+		\label{fig:runresource}
+	\end{figure}
+	
+	On the waiting.html page an ajax GET request should be made for the '/run' resource. This resource should then launch the environment.py script and return the response text of 'done' when the script has completed. Below in the response header the content length is 4 which represents the message 'done'\\
+	Result:
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.7\linewidth]{"img/Run GET"}
+		\caption{Get request /run}
+		\label{fig:run-get}
+	\end{figure}
+	
+	Within the waiting.html page when a response text of 'done' has been received via ajax a new request of '/success' should be made to the server.
+	Result:
+	\begin{figure}[h]
+		\centering
+		\includegraphics[width=0.7\linewidth]{img/SuccessResource}
+		\caption{Get request /success}
+		\label{fig:successresource}
+	\end{figure}
+	
+	\item The '/success' resource should except GET and Post requests.Once either request has been made it should store all of the submitted form input fields into variables so the data can be reproduced within the result page from. It should then return the result.html file along with all saved variables.\\
+	Result: Below is the form submitted from the home page and then displayed on the result page with the same input data via variable binding.
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=1\linewidth]{"img/Form home"}
+		\caption{}
+		\label{fig:form-home}
+	\end{figure}
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.7\linewidth]{img/successForm}
+		\caption{}
+		\label{fig:successform}
+	\end{figure}
+		
+\end{enumerate}
+
+
 
 \section{Parsing Json, text and csv files via Ajax}
+
 \section{Agent animation HTML canvas}
 
 \section{Generate dynamic table}
+
 \section{Add a heat map to the values of table cells}
+
 \section{Deployment to the Google Cloud Platform}
 	
+
 
 
 \chapter{Conclusion}
 About three pages.
 
 \begin{itemize}
-\item Briefly summarise your context and ob-jectives (a few lines).
-\item Highlight your findings from the evalua-tion section / chapter and any opportuni-ties identified.
+\item Briefly summarise your context and objectives (a few lines).
+\item Highlight your findings from the evaluation section / chapter and any opportuni-ties identified.
 \end{itemize}
 

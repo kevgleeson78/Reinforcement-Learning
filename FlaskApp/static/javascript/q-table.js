@@ -27,17 +27,18 @@ $.ajax({
 			// Splice the array into gropus of single array for every two x, y touples 
             arrays.push(arrt.splice(0, size));
         }
-		// Function to get ordered set from teh arrya values.
+		// Function to get ordered set from the array values.
 		// This will allow for the displaying of the position first
 		// visited by the agent within the q table.
 		// As this will change each time the program is run we need a orderd set of tuples to
-		// accuratley get the correct cordinates fro each state visited.
+		// accuratley get the correct cordinates for each state visited.
+		// Adapted from : https://stackoverflow.com/questions/20339466/how-to-remove-duplicates-from-multidimensional-array
         function multiDimensionalUnique(arr3) {
 			// Unique array
             var uniques = [];
 			// set to hold unique values
             var itemsFound = {};
-			// loop through the methos param input.
+			// loop through the methods param input.
             for(var i = 0, l = arr3.length; i < l; i++) {
 				// convert the data to json
                 var stringified = JSON.stringify(arr3[i]);
