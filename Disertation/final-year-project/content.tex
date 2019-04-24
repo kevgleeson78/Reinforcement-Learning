@@ -48,19 +48,20 @@ The agent is an object within the environment that makes decisions based on it's
 \subsection{Episode}
 An episode is the time from when an agent starts its training to when it has reached a positive or negative terminal state. Within each episode an agent takes time steps where each time step is the transition from its current position to the next within the environment.
 \subsection{Environment}
-The environment used for this project will be grid world. The  grid world domain is a two dimensional grid with the agent's start position at the bottom left of the grid and the goal state at the top right of the grid. In addition there are traps that the agent needs to avoid while travelling from the start state to it's goal state.
+The environment used for this project will be grid world. The grid world domain is a two dimensional grid with the agent's start position at the bottom left of the grid and the goal state at the top right of the grid. In addition there are traps that the agent needs to avoid while travelling from the start state to it's goal state.
 For the purpose of this application a  6 * 6 two dimensional grid environment will be used. As the script is running the agent will move from one square in the grid to the next adjacent square of up, below, to the left or the right of its current position. As the agent moves through the environment it gains knowledge via reward signals gathered by transitioning from one state to another based on the action taken from its current state.
 \subsection{Epsilon}
 The Epsilon variable sets the probability of choosing a random action. When set to one it will always choose a random action. If set to .8 it will choose the a random action 80\% of the time. This value is decayed for every episode run to allow for the exploration of the environment.
 \subsection{gamma}
-The discount factor (Gamma) set to .9 is the immediate reward gained for an action taken. The higher the value the more the agent will take an immediate reward with no concern for future rewards.
+The discount factor (Gamma) set to .9 is the immediate reward gained for an action taken. The discount factor is a values between zero and one. The higher the value the more the agent will take an immediate reward with no concern for future rewards.
 \subsection{alpha}
-The learning rate (alpha) is a value between zero and one determines how much the Q value is updated for each action taken. It will be .5 for this example.
+The learning rate (alpha) is a value between zero and one determines how much the Q value is updated for each action taken. It will be .5 for this example. The closer the value is to one the quicker the agent will learn, however it may not take into consideration other possibilities that may eventually lead to a greater reward. A lower learning rate is considered the optimal setting where the agent gradually draws a numeric picture from its entire environment, rather than just gathering information from its immediate state. 
 \subsection{per step cost}
-There is a negative reward cost for each step the agent makes in this case -0.04. This will help in getting the best path to the end state.
+There is a negative reward cost for each step the agent makes in this case -0.04.
+This reward is cumulative and  added to the final reward the agent gains at the end of each episode. This will help in getting the best path to the end state.
 \subsubsection{Q Values}
- Q values are a weighted score attached to an action of a particular state.
- The agents next movement is based on theses weighted scores.
+ Q values are a weighted score attached to an action of up, down, left or right for a particular state.
+ The agents next movement is based on theses weighted scores. With the action taken usually being the highest possible q value. There is however the epsilon variable discussed above that may effect this.
 
 \subsubsection{Updating Q values}
 The agent chooses it's action decision based on what highest reward it can get from the next available states.\\
@@ -1807,7 +1808,7 @@ There are three resources declared within the application file with the followin
 		\label{fig:runresource}
 	\end{figure}
 	
-	On the waiting.html page an ajax GET request should be made for the '/run' resource. This resource should then launch the environment.py script and return the response text of 'done' when the script has completed. Below in the response header the content length is 4 which represents the message 'done'\\
+	On the waiting.html page an Ajax GET request should be made for the '/run' resource. This resource should then launch the environment.py script and return the response text of 'done' when the script has completed. Below in the response header the content length is 4 which represents the message 'done'\\
 	Result:
 	\begin{figure}[H]
 		\centering
@@ -1844,24 +1845,143 @@ There are three resources declared within the application file with the followin
 
 
 
-\section{Parsing Json, text and csv files via Ajax}
+\section{Ajax calls}
+When the results page has been served the following files should be made available via Ajax.
+\begin{enumerate}
+	\item q-table.js
+	\item grid.js
+	\item agentChart.js
+	\item agentPos.txt
+	\item q-learning.json
+	\item Q\_Table.csv
+	\item sarsa.json
+	\item styles.css
+\end{enumerate}
+Result:
+The below images show that all of the file are being retrieved from the server as expected.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\linewidth]{"img/data files"}
+	\caption{}
+	\label{fig:data-files}
+\end{figure}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.7\linewidth]{"img/Ajax files"}
+	\caption{}
+	\label{fig:ajax-files}
+\end{figure}
 
-\section{Agent animation HTML canvas}
+\section{Agent positioning HTML canvas}
+As the agentPos.txt file is read the yellow square representing the agent should correspond to each x ,y coordinate within the updating canvas.
+Result:\\
+Below there are two images of the first two positions the agent has taken. They are the starting position of the bottom left of the grid and a movement of one square up. The movement is behaving as expected.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.7\linewidth]{img/position1}
+	\caption{First Position}
+	\label{fig:position1}
+\end{figure}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.7\linewidth]{img/positon2}
+	\caption{Next Movement}
+	\label{fig:positon2}
+\end{figure}
 
-\section{Generate dynamic table}
+\section{Populate table with q values}
+The table present within the result.hmtl page should be populated with the q values held within the Q\_Table.csv file. As the data is populated the table should update as new values are passed to the table.\\
+Result:\\
+In the resulting two images below, the first image shows the initial values populating the first four rows of the table. The second image shows the updated values to the same table cells.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\linewidth]{img/Qtable1st}
+	\caption{Initial Values}
+	\label{fig:qtable1st}
+\end{figure}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\linewidth]{img/QtableUpdate}
+	\caption{Updated Values}
+	\label{fig:qtableupdate}
+\end{figure}
 
-\section{Add a heat map to the values of table cells}
+\section{Colour coding values of table cells}
+Within the table of the result.hmtl page there are colour coded values ranging from red to green. The lowest value being red and the highest value being green. These colours are defined by the numerical values within the table cells. The table cell with the lowest value should be red and the cell with the highest value should be green. The values in between the highest and lowest value should have a transitioning gradient from red to green based on the distance between the upper and lower values held within the cells.\\
+Result:\\
+The Two images below is the final table split into two portions and demonstrates the colour coding working as expected.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.7\linewidth]{img/colour1}
+	\caption{Table Upper}
+	\label{fig:colour1}
+\end{figure}
+ \begin{figure}[H]
+ 	\centering
+ 	\includegraphics[width=0.7\linewidth]{img/Colour2}
+ 	\caption{Table Lower}
+ 	\label{fig:colour2}
+ \end{figure}
+ 
+\section{Google Cloud Deployment}
+For the application to be fully deployed it should be available at the following URL reinforcementlearning.appspot.com.\\
 
-\section{Deployment to the Google Cloud Platform}
-	
+Result:\\ The below images show the application live and fully working on the Google cloud platform.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.7\linewidth]{img/cloudurl}
+	\caption{URL}
+	\label{fig:cloudurl}
+\end{figure}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.7\linewidth]{img/cloudFullPage}
+	\caption{Cloud Demo}
+	\label{fig:cloudfullpage}
+\end{figure}
 
+\section{System Limitations}
+\subsection{Appending to data frame}
+While converting the Q-Table to a pandas data frame there is a significant impact on the speed the environment.py script runs. This is happening because the data frame is being appended to for every step the agent takes in each episode. For example if 1000 episodes are selected along with 100 steps per episode. There can be up to 100,000 data frames written to the csv file. The csv file can end up being approximately 30 - 40 MB in size~\cite{pandasProblem:online}.\\ This not only has an adverse effect on the speed the script runs but the load time on the browser while not detrimental can be noticeable.I had considered and tested only having the Q-Table converted for each episode which made a dramatic improvement in performance, however I decided that it is more important to have the q values update for every agent movement as this give us a deeper insight into the inner workings of the algorithm.   
 
+\subsection{Limit in Environment size}
+I would have liked to make the environment larger and more complex, but when I attempted to scale up the size of the environment it became extremely slow. With no files to write data to it could manage a reasonably large space without any problems, however this would only be a command line tool and would not have the benefit of a visual reference. 
 
+\subsection{Agent Q-Table coordinates}
+On the rare occasion the agent coordinates for a state in the q-table are incorrect. On investigating this issue I found that it had something to do with Ajax calls to two different files. The q-table gets its data from the Q\_Table.csv file and the agent position from the agentPos.txt file. They are loaded from different Ajax calls and the problem seems to be if the csv file is very large it has to wait longer than the text file with the data from the text file getting read incorrectly. As stated above this only happens on the rare occasion, while it is an issue it does not impact the application enough to be a major concern.
+\subsection{Heat Map colour gradient}
+When the negative and positive terminal rewards are more than a value of 50 away from each other, the colour gradient becomes less obvious. For example a negative and positive reward of -100 and 100 respectfully. The colour gradient transition is more immediate, where values between -20 and 20 there is a dramatic gradual gradient transition between the two colours. This is not a major issue rather one that has a minor impact on the visual representation of the numeric data present within the q-table.
 \chapter{Conclusion}
-About three pages.
+The main purpose of this application is to provide the user with a visual aid to better understand the reinforcement learning process. The user has the ability to interact with the application via a form with inputs to change hyper parameters and a choose one of two algorithms.\\ Once the form is submitted the user will be presented with a web page that shows the agent moving within its environment, a performance chart of both algorithms along with a dynamically updating q-table.
 
+\section{Project Outcomes}
 \begin{itemize}
-\item Briefly summarise your context and objectives (a few lines).
-\item Highlight your findings from the evaluation section / chapter and any opportuni-ties identified.
+	\item Gained a good understanding of the python language
+	\item Implementation of both SARSA and Q-Learning algorithms
+	\item Breaking a complex problem set into modular units of work
+	\item A Restful architecture with the Flask framework
+	\item Reading and parsing different file formats via Ajax requests
+	\item Generating dynamic charts from Json data
+	\item Generating dynamic tables from a csv file
+	\item The colour coding of HTML table data cell values
+	\item Creating and animating objects with HTML Canvas
+	\item Deployment of application to Google cloud platform
 \end{itemize}
+
+\section{Future Development}
+
+In future versions of this application database integration is a real possibility. Each file generated could be stored for the retrieval of past simulations run without the need to run the main python file.\\
+
+There could also be a pause and step functionality where the user can stop the animations at any time and see in more detail when the decisions and values are being updated.\\
+
+The application could be scaled out to a 3d environment with problems such as a rubix cube or a 3d maze to solve. This would take a little more computing power to complete in a reasonable amount of time, but is still a problem that is achievable.\\
+
+More algorithms could also be integrated for comparison. There are, to name a few: double q-learning, deep q-learning, tensorflow with reinforcement learning.  Potentially any number of these could be introduced to this application for comparison.\\
+
+\section{Final Thoughts and Acknowledgements}
+
+
+
+
+
 

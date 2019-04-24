@@ -107,7 +107,7 @@ def init():
             return isinstance(other, State) and self.grid == other.grid \
                    and self.agent_pos == other.agent_pos
 
-        # used for console display and debugging
+        # Getting the agent and grid as strings
         def __hash__(self):
             return hash(str(self.grid) + str(self.agent_pos))
 
@@ -348,7 +348,7 @@ def init():
                 # the check_terminal_state faunction
                 alpha, eps = check_terminal_state(done, alpha, eps)
                 # for testing
-                print(alpha)
+                #print(alpha)
                 """
                 Q-Learning Algorithm
                 
@@ -417,7 +417,7 @@ def init():
             # An action is chosen at the start of every episode
             action = choose_action(state)
             #Debug the alpha decay
-            print(alpha)
+            #print(alpha)
             total_reward = 0
             number_of_steps = 0
             # eps = epsis[e]
