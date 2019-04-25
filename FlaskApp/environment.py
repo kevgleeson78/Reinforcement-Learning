@@ -3,6 +3,17 @@ File Name: Environment.py
 Version: 1.0
 Author: Kevin Gleeson
 Date: 09/04/2019
+Resources Used:
+https://www.udemy.com/artificial-intelligence-reinforcement-learning-in-python/
+http://amunategui.github.io/reinforcement-learning/
+https://docs.python.org/3/tutorial/classes.html
+https://stackoverflow.com/questions/1945920/why-doesnt-os-path-join-work-in-this-case
+https://www.curiousily.com/posts/solving-an-mdp-with-q-learning-from-scratch/
+https://docs.scipy.org/doc/numpy/reference/generated/numpy.random.uniform.html
+https://stackoverflow.com/questions/20490274/how-to-reset-index-in-a-pandas-data-frame
+https://stackoverflow.com/questions/22649693/drop-rows-with-all-zeros-in-pandas-data-frame
+https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.to_csv.html
+https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.to_json.html
 """
 # Import deep copy library
 from copy import deepcopy
@@ -96,7 +107,6 @@ def init():
     """
     A class to hold the current state of the environment and agent position.
     """
-
     class State:
         # Initialise the class variables of grid and agent position
         def __init__(self, grid, agent_pos):
@@ -117,7 +127,7 @@ def init():
 
     # used for writing out the agent position to a text file.
     # The file gets overwritten when the init() function gets called from the html form.
-    # Adapted from : https://stackoverflow.com/questions/1945920/why-doesnt-os-path-join-work-in-this-case
+  
     completeName = os.path.join('static/Data', 'agentPos.txt')
     # Open the file or create one if it doesn't exist
     f = open(completeName, 'w+')
@@ -144,7 +154,6 @@ def init():
     The new state.
     Boolean if the episode is over (done). 
     """
-
     def act(state, action):
         # The updated new agent position once transitioned
         def new_agent_pos(state, action):
@@ -278,10 +287,6 @@ def init():
         return q_table[state][action]
 
 
-    # For controlling the random value.
-    # Time.now can be used here
-    # random.seed(145)
-    # Choosing an action based on the epsilon value
 
     def choose_action(state):
 
@@ -292,7 +297,7 @@ def init():
         This will force the agent to explore the environment and seek out all possible paths to teh goal.
         This values decays after each episode gradually minimising the chance of the agent choosing a random choice.
         """
-
+		
         if random.uniform(0, 1) < eps:
             # choose a random action of up, down , left or right.
             return random.choice(ACTIONS)
@@ -347,8 +352,6 @@ def init():
                 # assign the returned decay rate to alpha and epsilon from
                 # the check_terminal_state faunction
                 alpha, eps = check_terminal_state(done, alpha, eps)
-                # for testing
-                #print(alpha)
                 """
                 Q-Learning Algorithm
                 
@@ -377,9 +380,6 @@ def init():
                 # To remove a row with all zero values in a dataframe
                 # Every terminal state was adding a new row with all zero values to the Q-TAble
                 # We only need to view the last actions value before the agent reaches the terminal state
-                # Adapted from https://stackoverflow.com/questions/20490274/how-to-reset-index-in-a-pandas-data-frame
-                # Adapted from https://stackoverflow.com/questions/22649693/drop-rows-with-all-zeros-in-pandas-data-frame
-
                 # check for a row in the dictionary that sums to zero
                 # If it does sum to zero store in empty keys
                 empty_keys = {k: v for k, v in q_table.items() if sum(v) == 0}
@@ -456,9 +456,6 @@ def init():
 
                 # To remove a row with all zero values in a dataframe
                 # Every terminal state was adding a new row with all zero  values
-                # Adapted from https://stackoverflow.com/questions/20490274/how-to-reset-index-in-a-pandas-data-frame
-                # Adapted from https://stackoverflow.com/questions/22649693/drop-rows-with-all-zeros-in-pandas-data-frame
-
                 # check for a row in the dictionary that sums to zero
                 # If it does sum to zero store in empty keys
                 empty_keys = {k: v for k, v in q_table.items() if sum(v) == 0}

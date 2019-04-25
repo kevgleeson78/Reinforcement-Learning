@@ -1,3 +1,9 @@
+/*
+*@ Author: Kevin Gleeson
+*Version: 1.0
+*
+*/
+
 //Adapted from : https://stackoverflow.com/questions/11735856/draw-grid-table-on-canvas-html5
 // Box width
 var bw = 450;
@@ -54,13 +60,15 @@ $.ajax({
 		// Red for traps 
 		// Green for the goal
 		// Yellow for the agent
+		//adapted from: https://stackoverflow.com/questions/4172246/grid-drawn-using-a-canvas-element-looking-stretched
         function drawShape(x , y,colour){
             context.strokeRect(p + gridX,p,gridX,gridY);
             context.fillStyle = colour;
             context.fillRect(p + gridX * x,p+ gridY * y,gridX,gridY);
         }
 		// loop through the x, y coordinate array
-		// Two elemetns at a time 
+		// Two elemetns at a time
+		//adapted from: https://stackoverflow.com/questions/25760688/drawing-shapes-on-a-html-canvas-on-bases-of-grid
         for(let i=0; i<arr.length -2; i+=2){
 			// Time out function for animating the agent
             window.setTimeout(function () {

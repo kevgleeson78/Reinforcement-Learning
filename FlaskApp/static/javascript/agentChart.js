@@ -1,3 +1,9 @@
+/*
+*@ Author: Kevin Gleeson
+*Version: 1.0
+*
+*/
+//Adapted from: https://developers.google.com/chart/interactive/docs/gallery/linechart
 google.charts.load('current', {packages: ['corechart', 'line']});
 google.charts.setOnLoadCallback(drawLineColors);
 

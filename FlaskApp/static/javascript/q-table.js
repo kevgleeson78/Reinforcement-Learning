@@ -1,4 +1,9 @@
-// Array to chaeck each row in the q table
+/*
+*@ Author: Kevin Gleeson
+*Version: 1.0
+*
+*/
+// Array to check each row in the q table
 var csvRowCheck=[];
 // Array to hold the agent position in the q table rows
 var arrays = [], size = 2;
