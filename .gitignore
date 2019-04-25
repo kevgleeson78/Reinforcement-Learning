@@ -108,4 +108,7 @@ venv.bak/
 *.iml
 
 # Folder holding Generated Files
-Data/
+agentPos.txt
+Q_Table.csv
+q_learning.json
+sarsa.json
