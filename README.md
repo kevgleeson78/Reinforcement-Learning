@@ -31,9 +31,6 @@ git clone https://github.com/kevgleeson78/Reinforcement-Learning.git
 ```
 This will clone the entire repository with all of the files needed to run this application.
 #### Running the application
-* As the data generated is quite large it has been omitted from the repository. 
-  Once you have the repository cloned navigate to the static folder.
-  Then create an empty folder named exactly "Data".
 *	Download and install anaconda python [Click here](https://www.anaconda.com/distribution/)
 * Open a command line tool and change directory into the FlaskApp folder of the cloned repository.
 * Type the command "python FlaskTest.py" and press enter. This will start the server at the local address http://127.0.0.1:5000/
