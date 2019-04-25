@@ -3,7 +3,7 @@
 \chapter*{About this project}
 \paragraph{Abstract}
 
-This project will help to explain the temporal difference reinforcement learning process by displaying an agent's behaviour, performance and Q-Table (memory) as it interacts within its environment. The application is a browser based visual tool where a user can tweak parameters within a form before running the application. Once the form is submitted, it will then make a request to run the application held on a server. Once the script has completed, the user will be presented with and animation of the agent moving through it's environment. In addition, a graph of the agent performance and the q-table will presented to the user for examination. There are two different temporal difference algorithms for the user to choose being Q learning, an off policy strategy and SARSA (State Action Reward Action), an on policy strategy. The performance of these two algorithms will be presented to the user for examination within a linear chart.
+This project will help to explain the temporal difference reinforcement learning process by displaying an agent's behaviour, performance and Q-Table (memory) as it interacts within its environment. The application is a browser based visual tool where a user can tweak parameters within a form before running the application. Once the form is submitted, it will then make a request to run the application held on a server. Once the script has completed, the user will be presented with and animation of the agent moving through its environment. In addition, a graph of the agent performance and the q-table will presented to the user for examination. There are two different temporal difference algorithms for the user to choose being Q learning, an off policy strategy and SARSA (State Action Reward Action), an on policy strategy. The performance of these two algorithms will be presented to the user for examination within a linear chart.
 This will aid the user in better understanding the concept of reinforcement learning.
 
 \paragraph{Authors}
@@ -21,7 +21,7 @@ Kevin Gleeson, 4th year student studying Software Development at GMIT Galway.
 
 \end{figure}
 Reinforcement Learning is an unsupervised machine-learning technique that allows an agent to explore and learn from its environment without any prior knowledge of the domain. 
-An agent transitions from one state to another by choosing an action with the highest reward value. The reward can be either positive or negative, based on the decisions made by the agent, as it transitions from it's current state to the next chosen state.\\
+An agent transitions from one state to another by choosing an action with the highest reward value. The reward can be either positive or negative, based on the decisions made by the agent, as it transitions from its current state to the next chosen state.\\
 For example, if a puppy has no knowledge of the sit command, it will not perform the desired action on the first attempt. Each time the puppy sits when commanded, its decision is reinforced with a positive treat/reward. If the puppy does not sit, the reward is negative (no treat). Eventually after many iterations of training, the dog will associate a treat/reward with that specific command and eventually learn that sitting will get them a treat. 
 The puppy, in essence, is taking actions to maximise rewards while exploring an unknown environment.\\
 With reinforcement machine learning, the technique is used to train an agent to learn about its environment through trial and error. It will eventually learn the optimal path to a goal after many training episodes have been completed.
@@ -34,7 +34,7 @@ The Markov decision process has the requirement of being in a present state all 
 $P[S_{t}+1 | S_{t}] = P[S_{t}+1 | S_{1}, ..... , S_{t}]$\\\\
 
 The above equation simply states that the current state holds all of the past cumulative values where future actions can be decided.
-Where $P$ is the probability of taking a future action $St+1$  from a current state $St$. Therefore there is no need to keep track of the entire history of the actions taken for every state. The Markov decision process is used in reinforcement learning to allow the agent to only observe it's current state and choose a future action based on the total reward values from previous states observed~\cite[p.~67]{sutton_barto_2018}.
+Where $P$ is the probability of taking a future action $St+1$  from a current state $St$. Therefore there is no need to keep track of the entire history of the actions taken for every state. The Markov decision process is used in reinforcement learning to allow the agent to only observe its current state and choose a future action based on the total reward values from previous states observed~\cite[p.~67]{sutton_barto_2018}.
 
 \section{Bellman Equation}
 $V(s) = max_{a}(R(s,a)+\gamma V(s'))$\\\\
@@ -44,11 +44,11 @@ The Bellman equation is used in conjunction with the Markov decision process whe
 
 This is a recursive function where the maximum reward for the current state and action is assigned to the next state. A discount factor is applied where the future cumulative rewards are assigned. The closer gamma is to the value one, the updated value will be directly related to the adjacent state. With a gamma value closer to zero it will take into consideration the future rewards for the next n states.
 \subsection{Agent}
-The agent is an object within the environment that makes decisions based on it's current state space and possible rewards gained by choosing an action. For this application, the agent is placed in a two dimensional environment. The possible actions that can be taken by the agent are up, down, left or right~\cite{nwana_1996}.\\
+The agent is an object within the environment that makes decisions based on its current state space and possible rewards gained by choosing an action. For this application, the agent is placed in a two dimensional environment. The possible actions that can be taken by the agent are up, down, left or right~\cite{nwana_1996}.\\
 \subsection{Episode}
 An episode is the time from when an agent starts its training to when it has reached a positive or negative terminal state. Within each episode an agent takes time steps where each time step is the transition from its current position to the next within the environment~\cite{Watkins1992}.
 \subsection{Environment}
-The environment used for this project will be grid world. The grid world domain is a two dimensional grid with the agent's start position at the bottom left of the grid and the goal state at the top right of the grid. In addition there are traps that the agent needs to avoid while travelling from the start state to it's goal state.
+The environment used for this project will be grid world. The grid world domain is a two dimensional grid with the agent's start position at the bottom left of the grid and the goal state at the top right of the grid. In addition there are traps that the agent needs to avoid while travelling from the start state to its goal state.
 For the purpose of this application a  6 * 6 two dimensional grid environment will be used. As the script is running the agent will move from one square in the grid to the next adjacent square of up, below, to the left or the right of its current position. As the agent moves through the environment it gains knowledge via reward signals gathered by transitioning from one state to another based on the action taken from its current state.
 \subsection{Epsilon}
 The Epsilon variable sets the probability of choosing a random action. When set to one, it will always choose a random action. If set to .8 it will choose the a random action 80\% of the time. This value is decayed for every episode run to allow for the exploration of the environment~\cite{LITTMAN1994157}.
@@ -64,7 +64,7 @@ This reward is cumulative and  added to the final reward the agent gains at the 
  The agents next movement is based on theses weighted scores. With the action taken usually being the highest possible q value. There is however the epsilon variable discussed above that may effect this~\cite{LITTMAN1994157}.
 
 \subsubsection{Updating Q values}
-The agent chooses it's action decision based on what highest reward it can get from the next available states.\\
+The agent chooses its action decision based on what highest reward it can get from the next available states.\\
 
 With the Q Learning algorithm each time step and action taken by the agent the following formula is used to update the Q values within the Q Table. This is considered an off policy optimistic approach as the maximum value from all possible actions in the next state are use to update the current Q value for the agents action taken~\cite{Watkins1992}\\\\
 $ Q^{new}(s_{t},a_{t})\leftarrow Q(s_{t},a_{t}) + \alpha[r_{t} + \gamma  \max _{a}Q(s_{t+1},a) - Q(s, a)]$~\cite{Qlearnin52:online}\\\\
@@ -194,7 +194,7 @@ The Main objectives of this project are:
 	\item Parsing Json, text and csv files generated via Ajax
 	\item Use the parsed data to animate the agent in HTML canvas
 	\item Google chart for graphing the agent performance
-	\item Generate an dynamic table that updates from the csv file
+	\item Generate a dynamic table that updates from the csv file
 	\item Add a heat map to the values of the table as it updates
 	\item Deploying the application to Google Cloud Platform
 
