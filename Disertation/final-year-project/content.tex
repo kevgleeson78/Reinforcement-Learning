@@ -3,11 +3,11 @@
 \chapter*{About this project}
 \paragraph{Abstract}
 
-This project will help to explain the temporal difference reinforcement learning process by displaying an agents behaviour, performance and Q-Table (memory) as it interacts within its environment. The application is a browser based visual tool where a user can tweak parameters within a form before running the application. Once the form is submitted it will then make a request to run the application held on a server. Once the script has completed the user will be presented with and animation of the agent moving through it's environment. In addition a graph of the agent performance and the q-table will presented to the user for examination. There are two different temporal difference algorithms for the user to choose from being Q learning, an off policy strategy and SARSA (State Action Reward Action), an on policy strategy. The performance of these two algorithms will be presented to the user for examination within a linear chart.
+This project will help to explain the temporal difference reinforcement learning process by displaying an agent's behaviour, performance and Q-Table (memory) as it interacts within its environment. The application is a browser based visual tool where a user can tweak parameters within a form before running the application. Once the form is submitted, it will then make a request to run the application held on a server. Once the script has completed, the user will be presented with and animation of the agent moving through it's environment. In addition, a graph of the agent performance and the q-table will presented to the user for examination. There are two different temporal difference algorithms for the user to choose being Q learning, an off policy strategy and SARSA (State Action Reward Action), an on policy strategy. The performance of these two algorithms will be presented to the user for examination within a linear chart.
 This will aid the user in better understanding the concept of reinforcement learning.
 
 \paragraph{Authors}
-Kevin Gleeson 4th year student studying Software Development at GMIT Galway.
+Kevin Gleeson, 4th year student studying Software Development at GMIT Galway.
 
 
 
@@ -21,10 +21,10 @@ Kevin Gleeson 4th year student studying Software Development at GMIT Galway.
 
 \end{figure}
 Reinforcement Learning is an unsupervised machine-learning technique that allows an agent to explore and learn from its environment without any prior knowledge of the domain. 
-An agent transitions from one state to another by choosing an action with the highest reward value. The reward can be either positive or negative based on the decisions made by the agent as it transitions from it's current state to the next chosen state.\\
-For example, if a puppy has no knowledge of the sit command it will not perform the desired action on the first attempt. Each time the puppy sits when commanded its decision is reinforced with a positive treat/reward. If the puppy does not sit the reward is negative (no treat). Eventually after many iterations of training, the dog will associate a treat/reward with that specific command and eventually learn that sitting will get them a treat. 
-The puppy in essence is taking actions to maximise rewards while exploring an unknown environment.\\
-With reinforcement machine learning, this technique is used to train an agent to learn about its environment through trial and error. It will eventually learn the optimal path to a goal after many training episodes have completed.
+An agent transitions from one state to another by choosing an action with the highest reward value. The reward can be either positive or negative, based on the decisions made by the agent, as it transitions from it's current state to the next chosen state.\\
+For example, if a puppy has no knowledge of the sit command, it will not perform the desired action on the first attempt. Each time the puppy sits when commanded, its decision is reinforced with a positive treat/reward. If the puppy does not sit, the reward is negative (no treat). Eventually after many iterations of training, the dog will associate a treat/reward with that specific command and eventually learn that sitting will get them a treat. 
+The puppy, in essence, is taking actions to maximise rewards while exploring an unknown environment.\\
+With reinforcement machine learning, the technique is used to train an agent to learn about its environment through trial and error. It will eventually learn the optimal path to a goal after many training episodes have been completed.
 
 \section{Components}
 This application will have the following reinforcement learning components.
@@ -36,51 +36,51 @@ $P[S_{t}+1 | S_{t}] = P[S_{t}+1 | S_{1}, ..... , S_{t}]$\\\\
 The above equation simply states that the current state holds all of the past cumulative values where future actions can be decided.
 Where $P$ is the probability of taking a future action $St+1$  from a current state $St$. Therefore there is no need to keep track of the entire history of the actions taken for every state. The Markov decision process is used in reinforcement learning to allow the agent to only observe it's current state and choose a future action based on the total reward values from previous states observed~\cite[p.~67]{sutton_barto_2018}.
 
-\section{Belmann Equation}
+\section{Bellman Equation}
 $V(s) = max_{a}(R(s,a)+\gamma V(s'))$\\\\
 
-The Belmann equation is used in conjunction with the Markov decision process where $V$ is a value function, $a$ is an action taken, $R$ is the reward gained, $(s,a))$ represents the state and action taken, $\gamma$ is the discount factor $(s')$ is the next state~\cite[p.~75]{sutton_barto_2018}.
+The Bellman equation is used in conjunction with the Markov decision process where $V$ is a value function, $a$ is an action taken, $R$ is the reward gained, $(s,a))$ represents the state and action taken, $\gamma$ is the discount factor $(s')$ is the next state~\cite[p.~75]{sutton_barto_2018}.
 \\
 
-This is a recursive function where the maximum reward for the current state and action is assigned to the next state. A discount factor is applied where the future cumulative rewards are assigned. The closer gamma is to the value one the updated value will be directly related to the adjacent state. With a gamma value closer to zero will take into consideration the future rewards for the next n states.
+This is a recursive function where the maximum reward for the current state and action is assigned to the next state. A discount factor is applied where the future cumulative rewards are assigned. The closer gamma is to the value one, the updated value will be directly related to the adjacent state. With a gamma value closer to zero it will take into consideration the future rewards for the next n states.
 \subsection{Agent}
-The agent is an object within the environment that makes decisions based on it's current state space and possible rewards gained by choosing an action. For this application the agent is placed in a two dimensional environment. The possible actions that can be taken by the agent are up, down, left or right.\\
+The agent is an object within the environment that makes decisions based on it's current state space and possible rewards gained by choosing an action. For this application, the agent is placed in a two dimensional environment. The possible actions that can be taken by the agent are up, down, left or right~\cite{nwana_1996}.\\
 \subsection{Episode}
-An episode is the time from when an agent starts its training to when it has reached a positive or negative terminal state. Within each episode an agent takes time steps where each time step is the transition from its current position to the next within the environment.
+An episode is the time from when an agent starts its training to when it has reached a positive or negative terminal state. Within each episode an agent takes time steps where each time step is the transition from its current position to the next within the environment~\cite{Watkins1992}.
 \subsection{Environment}
 The environment used for this project will be grid world. The grid world domain is a two dimensional grid with the agent's start position at the bottom left of the grid and the goal state at the top right of the grid. In addition there are traps that the agent needs to avoid while travelling from the start state to it's goal state.
 For the purpose of this application a  6 * 6 two dimensional grid environment will be used. As the script is running the agent will move from one square in the grid to the next adjacent square of up, below, to the left or the right of its current position. As the agent moves through the environment it gains knowledge via reward signals gathered by transitioning from one state to another based on the action taken from its current state.
 \subsection{Epsilon}
-The Epsilon variable sets the probability of choosing a random action. When set to one it will always choose a random action. If set to .8 it will choose the a random action 80\% of the time. This value is decayed for every episode run to allow for the exploration of the environment.
+The Epsilon variable sets the probability of choosing a random action. When set to one, it will always choose a random action. If set to .8 it will choose the a random action 80\% of the time. This value is decayed for every episode run to allow for the exploration of the environment~\cite{LITTMAN1994157}.
 \subsection{gamma}
-The discount factor (Gamma) set to .9 is the immediate reward gained for an action taken. The discount factor is a values between zero and one. The higher the value the more the agent will take an immediate reward with no concern for future rewards.
+The discount factor (Gamma) set to .9 is the immediate reward gained for an action taken. The discount factor is a values between zero and one. The higher the value the more the agent will take an immediate reward with no concern for future rewards~\cite{LITTMAN1994157}.
 \subsection{alpha}
-The learning rate (alpha) is a value between zero and one determines how much the Q value is updated for each action taken. It will be .5 for this example. The closer the value is to one the quicker the agent will learn, however it may not take into consideration other possibilities that may eventually lead to a greater reward. A lower learning rate is considered the optimal setting where the agent gradually draws a numeric picture from its entire environment, rather than just gathering information from its immediate state. 
+The learning rate (alpha) is a value between zero and one that determines how much a Q value is updated for each action taken. It will be .5 for this example. The closer the value is to one the quicker the agent will learn, however it may not take into consideration other possibilities that may eventually lead to a greater reward. A lower learning rate is considered the optimal setting, where the agent gradually draws a numeric picture from its entire environment, rather than just gathering information from its immediate state~\cite{LITTMAN1994157}. 
 \subsection{per step cost}
 There is a negative reward cost for each step the agent makes in this case -0.04.
-This reward is cumulative and  added to the final reward the agent gains at the end of each episode. This will help in getting the best path to the end state.
+This reward is cumulative and  added to the final reward the agent gains at the end of each episode. This will help in getting the best path to the end state~\cite{LITTMAN1994157}.
 \subsubsection{Q Values}
  Q values are a weighted score attached to an action of up, down, left or right for a particular state.
- The agents next movement is based on theses weighted scores. With the action taken usually being the highest possible q value. There is however the epsilon variable discussed above that may effect this.
+ The agents next movement is based on theses weighted scores. With the action taken usually being the highest possible q value. There is however the epsilon variable discussed above that may effect this~\cite{LITTMAN1994157}.
 
 \subsubsection{Updating Q values}
 The agent chooses it's action decision based on what highest reward it can get from the next available states.\\
 
-With the Q Learning algorithm each time step and action taken by the agent the following formulae is used to update the Q values within the Q Table. This is considered an off policy optimistic approach as the maximum value from all possible actions in the next state are use to update the current Q value for the agents action taken \\\\
+With the Q Learning algorithm each time step and action taken by the agent the following formula is used to update the Q values within the Q Table. This is considered an off policy optimistic approach as the maximum value from all possible actions in the next state are use to update the current Q value for the agents action taken~\cite{Watkins1992}\\\\
 $ Q^{new}(s_{t},a_{t})\leftarrow Q(s_{t},a_{t}) + \alpha[r_{t} + \gamma  \max _{a}Q(s_{t+1},a) - Q(s, a)]$~\cite{Qlearnin52:online}\\\\
-This above formulae can be broken can be simplified as:\\\\
+This above formula can be broken can be simplified as:\\\\
 Q (current state, action) += alpha *[reward + gamma* max value of Q (next state, all possible actions) – Q (current state, action)]\\\\
 
-The SARSA algorithm is considered an on policy pessimistic approach as the Q value is updated from the actual action taken from the current state and the maximum value as Q Learning does. There is just a small difference between the two algorithms but has a significant impact on the behaviour of the agent. This will be evaluated later in the System Evaluation chapter of this document.\\\\
+The SARSA algorithm is considered an on policy pessimistic approach as the Q value is updated from the actual action taken from the current state and the maximum value as Q Learning does. There is just a small difference between the two algorithms but it has a significant impact on the behaviour of the agent. This will be evaluated later in the System Evaluation chapter of this document.\\\\
 $Q(s_{t},a_{t})\leftarrow Q(s_{t},a_{t})+\alpha [r_{t}+\gamma Q(s_{t+1},a_{t+1})-Q(s_{t},a_{t})]$~\cite{Stateac29:online}\\\\
-This formulae can be simplified as:\\\\
+This formula can be simplified as:\\\\
 Q (current state, action) += alpha *[reward + gamma*  Q (next state, next action) – Q (current state, action)]\\\\
 
 
 
 \subsection{Q Table}
-The Q table is a historic record of the agent’s actions taken in a given state. The values held within the Q table are used by the agent to choose the next best state transition. During the first episode all values within the Q table are zero (No knowledge of the environment). With every time step taken the Q table is updated with q values from the above formulae. For brevity the below examples will use a smaller q table rather than the one used for this application.
-At the beginning of the learning process the Q Table has all zero values meaning it has no prior knowledge of its domain.
+The Q table is a historic record of the agent’s actions taken in a given state. The values held within the Q table are used by the agent to choose the next best state transition. During the first episode all values within the Q table are zero (No knowledge of the environment). With every time step taken, the Q table is updated with q values from the above formula. For brevity, the below examples will use a smaller q table rather than the one used for this application.
+At the beginning of the learning process the Q Table has all zero values meaning it has no prior knowledge of its domain~\cite{Lanzi2002}.
 \\
 \\
 \begin{tabular}{lllll}
@@ -99,7 +99,7 @@ State & Action left & Action right & Action up & Action down \\
 \end{tabular}
 \\
 \\
-From its initial state a random action is chosen. If the action chosen is to move up one square to state 5 the Q table is updated using the q learning formulae above which looks like   .5 * -.04  + .9 *0 – 0 = -0.02.
+From its initial state a random action is chosen. If the action chosen is to move up one square to state 5 the Q table is updated using the q learning formula above which looks like   .5 * -.04  + .9 *0 – 0 = -0.02.
 It then populates the Q table's row of State one's action of moving up to the q value of -0.02.
 
 \begin{tabular}{lllll}
@@ -138,7 +138,7 @@ State & Action left & Action right & Action up & Action down \\
 \end{tabular}
 \\
 \\
-When back in state one the agent’s best choices (highest value) is down, left or right as they are all 0 and higher the -0.02. This happens for every time step the agent takes. When enough episodes have run, all of the actions of a given state will have a value added including the goal state value. From this the agent will chose the highest value each state as the optimal action to take to the end goal. 
+When back in state one, the agent’s best choices (highest value) is down, left or right as they are all 0 and higher the -0.02. This happens for every time step the agent takes. When enough episodes have run, all of the actions of a given state will have a value added including the goal state value. From this the agent will chose the highest value each state as the optimal action to take to the end goal. 
 Once the agent gets to either end state, the episode is terminated and re-run. When episodes are re-run, the Q-Table will continually update until the optimal path is found and minimal updates will be performed.\\
 
 \begin{tabular}{lllll}
@@ -182,7 +182,7 @@ The application will have the following elements on the Browser:
 \chapter{Context}
 
 \section{Overview}
-The aim of this project is to provide a visual aid that further explains the concept of reinforcement learning. The basic fundamentals of the Q-Learning and SARSA temporal difference algorithms are reasonably straight forward but can seem overly complex and verbose when attempting to verbally explain the topic. This application will help the user visualise where and how the Q-values are stored and how the decision making process is made for the two above algorithms.
+The aim of this project is to provide a visual aid that further explains the concept of reinforcement learning. The basic fundamentals of the Q-Learning and SARSA temporal difference algorithms are reasonably straight-forward but can seem overly complex and verbose when attempting to verbally explain the topic. This application will help the user visualise where and how the Q-values are stored and how the decision making process is made for the two above algorithms.
 
 \section{Objectives}
 The Main objectives of this project are:
@@ -214,7 +214,7 @@ The chapters listed below will have the following elements examined.
 	\item System Evaluation\\
 	The performance of the overall application will be evaluated here. In addition the limitations of the application discovered while in development will be discussed in detail.
 	\item Conclusion\\
-	In this chapter the results of the system evaluation will be discussed along with any new findings that may have occurred.
+	In this chapter, the results of the system evaluation will be discussed along with any new findings that may have occurred.
 \end{itemize}
 \section{Github Repository}
 The below link is the url to the github repository holding my dissertation and software files.\\
@@ -245,16 +245,16 @@ The contents of this repository are:
 	A csv file for the agents Q-Table values
 	A json file for the agent rewards gained for each algorithm
 	\item FlaskApp / Templates\\
-	This folder contains the the initial html page, the waiting page and result page. These pages are serves to the view when http requests are made by the user.
+	This folder contains the the initial html page, the waiting page and result page. These pages are served to the browser view when http requests are made by the client.
 	
 \end{itemize}
 
 \chapter{Methodology}
 \section{Initial Planning}
-At the beginning of this project the over all problem set was broken down into the following areas to allow for a more manageable modular development process:
+At the beginning of this project, the over-all problem set was broken down into the following areas to allow for a more manageable modular development process:
 
 \subsection {Initial Meetings}
-After an initial meeting with Dr. Patrick Mannion a high level view of the project was explored. This gave me a grasp of what components would be needed for the high level structure of the project.
+After an initial meeting with Dr. Patrick Mannion, a high level view of the project was explored. This gave me a grasp of what components would be needed for the high level structure of the project.
 The different components identified were:
 \begin{itemize}
 	\item The Environment should be a two dimensional grid 
@@ -264,10 +264,10 @@ The different components identified were:
 	\item Server side functionality to handle form requests
 \end{itemize}
 
-On further meetings with my project supervisor Mr. Martin Hynes the concepts were further broken down into fine grain units of work with initial milestones set for each phase of development.
+On further meetings with my project supervisor Mr. Martin Hynes, the concepts were further broken down into fine grain units of work with initial milestones set for each phase of development.
 \subsection {Which area of reinforcement learning?}
-After viewing lectures for Temporal Difference Reinforcement Learning I decided that the Q-Learning algorithm would be best suited to the grid world environment. If time permitted I would then implement the SARSA algorithm for a comparison between the performance of the two algorithms.
-The reason I chose these two algorithms for comparison was they are very similar in design but have vastly different outcomes depending on the environment the agent is in. 
+After viewing lectures for Temporal Difference Reinforcement Learning~\cite{Udemy:online}, I decided that the Q-Learning algorithm would be best suited to the grid world environment. If time permitted I would then implement the SARSA algorithm for a comparison between the performance of the two algorithms.
+The reason I chose these two algorithms for comparison was that they are very similar in design but have vastly different outcomes depending on the environment the agent is in. 
 \subsection {Mockup of application}
 \textbf{Reinforcement learning}\\
 \begin{figure}[H]
@@ -278,13 +278,13 @@ The reason I chose these two algorithms for comparison was they are very similar
 \end{figure}
 
 \subsection {User Requirements gathering}
-On meeting with Mr. Hynes the following user requirements were gathered from the mock up created and the high level components identified from the initial meeting with Dr. Patrick Mannion.
+On meeting with Mr. Hynes, the following user requirements were gathered from the mock up created and the high level components identified from the initial meeting with Dr. Patrick Mannion.
 \begin{itemize}
-	\item When the application is launched the user should be presented with a form.
-	\item The form should have input parameters the user can alter
-	\item The user should have the ability to submit the form
-	\item Once the form has been submitted the result page should be displayed 
-	\item Once the result page is displayed the user should be presented with:
+	\item When the application is launched, the user should be presented with a form.
+	\item The form should have input parameters the user can alter;
+	\item The user should have the ability to submit the form;
+	\item Once the form has been submitted, the result page should be displayed ;
+	\item Once the result page is displayed, the user should be presented with;
 	\begin{itemize}
 		\item The grid world environment
 		\item The agent moving within the environment
@@ -323,24 +323,24 @@ Once the user requirements were identified the following mile stones were then s
 	\item Cloud deployment
 \end{itemize}
 \section{Selection criteria of Technologies}
-After the initial user requirements gathering the following technologies were then researched and chosen to begin the development of the application.
+After the initial user requirements gathering, the following technologies were then researched and chosen to begin the development of the application.
 
 \subsection{Programming Languages}
-Java had been considered as the main language but after consideration python was chosen for the ability to rapidly prototype small versions of the system allowing for an agile iterative approach to development.
+Java had been considered as the main language but, after consideration, python was chosen for the ability to rapidly prototype small versions of the system allowing for an agile iterative approach to development.
 
 The possibility of a purely front end JavaScript application was also explored but cross browser compatibility of the scripts needed was a major issue that indicated a different approach was needed. However JavaScript would be used for the front end of the application.
 
 \subsection{Integrated Development Environment}
 The IDE chosen for the development of the application is IntelliJ with the pyCharm plug-in. This plug-in is compatible with all of the frameworks needed for setting up the development environment. Git capabilities are also within the IDE allowing for tracking changes, committing and managing merge conflicts.  
 \subsection{Server Side}
-For server side programming and scripting the Flask python framework was chosen. Flask is a light weight package that allows for the rapid deployment and development of web applications.
+For server side programming and scripting, the Flask python framework was chosen. Flask is a light weight package that allows for the rapid deployment and development of web applications.
 
 The Django python framework was also considered but it was decided that it was not necessary to have a fully blown MVC model seeing as the application has in essence only three pages of Home page, Training Page and result Page.
 
-When testing a simple hello world application Django generated a project that was almost twice the size of a flask application with little or no difference in performance.
+When testing a simple hello world application, Django generated a project that was almost twice the size of a flask application with little or no difference in performance.
 For this reason Flask was chosen. 
 \subsection{Front End}
-For the front end of the application all of the data will be presented within a web browser. The frameworks used for this application are HTML canvas for drawing the grid world environment and animating the agent around this space.
+For the front end of the application, all of the data will be presented within a web browser. The frameworks used for this application are HTML canvas for drawing the grid world environment and animating the agent around this space.
 
 JQuery will be used to make ajax requests to retrieve the files from the server containing the relevant data needed.
 
@@ -353,7 +353,7 @@ The JavaScript library "Hottie" will be used to display the data within the tabl
 \subsection{Cloud Deployment}
 Initially Heroku was chosen for the cloud platform for the application to run on. However there was a problem with the server timing out after 20 seconds once a request has been made. Since the main script can take up to 30 seconds to complete this was a major issue.
 
-The Google cloud application platform was investigated as an alternative solution and while there is a time out limit in place this can be altered if needed. For this reason the Google Cloud application platform was chosen fro deploying the application. 
+The Google cloud application platform was investigated as an alternative solution and, while there is a time out limit in place, this can be altered if needed. For this reason the Google Cloud application platform was chosen fro deploying the application. 
 
 \section {Scheduled meetings}
 Scheduled meetings were held with Mr. Martin Hynes every week to evaluate the progress of assigned tasks along with any problems encountered. These meetings were in the form of the scrum methodology where a quick overview of my progress was presented. In addition any problems I had were discussed along with what tasks needed to be done for the next scrum meeting. 
@@ -362,9 +362,9 @@ These new tasks identified were then assigned for the following week to complete
 \section{Development Approach}
 An iterative development approach was used throughout the construction of this application. The first task was to develop a basic prototype that demonstrated the basic concepts of the algorithm Q-Learning. Once implemented this prototype will be the foundation for each additional feature added with the start of a new iteration.  
 \section{Testing}
-No test suites were used to test this application however there was considerable manual testing done with each iteration completed. Any major bugs found that would stop the development of the project while testing were fixed right away. Minor bugs found such as layout issues could be addressed at a later date as they did not have a detrimental impact on the progress of the project. This testing strategy would be used for every small new feature added while developing. 
+No test suites were used to test this application. However there was considerable manual testing done with each iteration completed. Any major bugs found that would stop the development of the project while testing were fixed right away. Minor bugs found such as layout issues could be addressed at a later date as they did not have a detrimental impact on the progress of the project. This testing strategy would be used for every small new feature added while developing. 
 \section{Use of GitHub}
-Github was used to track my progress of the project. While this is a solo project github would still need to be used for version control allowing for the roll back of the system in the event of a new feature causing unwanted behaviour.
+Github was used to track my progress of the project. While this is a solo project, github would still need to be used for version control allowing for the roll back of the system in the event of a new feature causing unwanted behaviour.
 
 
 
@@ -374,7 +374,7 @@ The following sections in this chapter will discuss the various technologies use
 
 \section{Pyhton}
 The main programming language chosen for this application is Python.
-Python is a high level programming language that allows for the rapid development of a software system from prototyping to final system deployment~\cite{Welcomet74:online}. As python is a high level programming language a significant amount of the low level functionality is isolated from the user. There are many different libraries within the python domain and need to be imported as needed. For example to get the maximum value back from an array we simply use the argmax function from the numpy package. 
+Python is a high level programming language that allows for the rapid development of a software system from prototyping to final system deployment~\cite{Welcomet74:online}. As python is a high level programming language, a significant amount of the low level functionality is isolated from the user. There are many different libraries within the python domain and need to be imported as needed. For example to get the maximum value back from an array we simply use the argmax function from the numpy package. 
 \begin{minted}{python}
 import numpy as np
 
@@ -402,7 +402,7 @@ print(txt)
 
 
 The philosophy behind python is to keep everything as simple and as readable as possible~\cite{PEP20The74:online}.
-One rule of python is that all code must be properly indented. If code is not indented correctly the compiler will throw an error.
+One rule of python is that all code must be properly indented. If code is not indented correctly, the compiler will throw an error.
 In the below example the compiler will throw an error due to no indentation within the defined function. All code with this function must be indented.
 \begin{minted}{python}
 import numpy as np
@@ -442,11 +442,11 @@ def max_element(x)
 max_element(num_list)
 \end{minted}
 
-This philosophy in conjunction with the powerful high level functionality of the Python programming language allows for the rapid development and prototyping of a software system. Three Python packages of Pandas, Numpy and Flask were used for the development of this application and will be discussed in the subsequent sections below.
+This philosophy, in conjunction with the powerful high level functionality of the Python programming language, allows for the rapid development and prototyping of a software system. Three Python packages of Pandas, Numpy and Flask were used for the development of this application and will be discussed in the subsequent sections below.
 
 \subsection{Pandas Data Frame}
 
-The pandas Data Frame is used to convert a Python dictionary or list into a tabular format. In the below example a dictionary is presented with the keys of 'Key1' and 'Key2'. Each of these keys have an array containing four elements as the value.~\cite{IntrotoD8:online}
+The pandas Data Frame is used to convert a Python dictionary or list into a tabular format. In the below example a dictionary is presented with the keys of 'Key1' and 'Key2'. Each of these keys has an array containing four elements as the value.~\cite{IntrotoD8:online}
 \begin{minted}{python}
 import pandas as pd
 
@@ -478,7 +478,7 @@ This will access rows one, two and three inclusively.
 \end{minted} 
 This package is a powerful data manipulation tool that enables the rapid creation of customised data in the structure needed.
 \subsection{Numpy}
-The Numpy Python package is used to rapidly create and manipulate ndarray multi dimensional arrays. Arrays can be created with a dynamically generated range of values and may be reshaped to any dimension needed. A one dimensional array can be reshaped into an n dimensional array. Inversely a multidimensional array can be flattened to a one dimensional array with ease. Some of the functionality of the Numpy package is documented below.~\cite{Quicksta66:online}\\\\
+The Numpy Python package is used to rapidly create and manipulate ndarray multi dimensional arrays. Arrays can be created with a dynamically generated range of values and may be reshaped to any dimension needed. A one dimensional array can be reshaped into an n dimensional array. Inversely, a multidimensional array can be flattened to a one dimensional array with ease. Some of the functionality of the Numpy package is documented below.~\cite{Quicksta66:online}\\\\
 Creating a one dimensional array.
 \begin{minted}{python}
 import numpy as np
@@ -517,7 +517,7 @@ np.ones( (3,4) )
  [ 1, 1, 1, 1],
  [ 1, 1, 1, 1]]
 \end{minted}
-If the requirement is to initialise the array with random noise the empty function can be used. This function generates random 64 bit float point integers for each element within the array.
+If the requirement is to initialise the array with random noise, the empty function can be used. This function generates random 64 bit float point integers for each element within the array.
 \begin{minted}{python}
 import numpy as np
  
@@ -528,7 +528,7 @@ np.empty( (2,3) )
 [[  3.73603959e-262,   6.02658058e-154,   6.55490914e-260],
  [  5.30498948e-313,   3.14673309e-307,   1.00000000e+000]]
 \end{minted}
-A sequence of number can be generated using  the range function. The function takes three parameters,  the starting lower range number, the non-inclusive upper range number and the incremental value.
+A sequence of numbers can be generated using  the range function. The function takes three parameters - the starting lower range number, the non-inclusive upper range number and the incremental value.
 \begin{minted}{python}
 import numpy as np
 
@@ -537,7 +537,7 @@ np.arange( 0, 10, 2 )
 ## Output
 [0,2,4,6,8]
 \end{minted}
-If the need to generate subdivided values the linspace function can be used. The function takes three parameters, the lower bound value, the upper bound inclusive value and the number of divisional values between the lower and upper bounds.
+If the need is to generate subdivided values the linspace function can be used. The function takes three parameters, the lower bound value, the upper bound inclusive value and the number of divisional values between the lower and upper bounds.
 \begin{minted}{python}
 import numpy as np
 
@@ -563,7 +563,7 @@ b.resahpe(3,3)
  [ 6,  7,  8]]
 \end{minted}
 \subsection{Flask}
-Flask is a micro framework for building  web applications using the python programming language. Flask is considered a micro framework as it has the minimum amount of required functionality needed to begin building a web application. When first run there is only the main flask file that contains the following code~\cite{Welcomet92:online}.
+Flask is a micro framework for building  web applications using the python programming language. Flask is considered a micro framework as it has the minimum amount of required functionality needed to begin building a web application. When first run, there is only the main flask file that contains the following code~\cite{Welcomet92:online}.
 \begin{minted}{python}
 from flask import Flask
 app = Flask(__name__)
@@ -576,7 +576,7 @@ if __name__ == "__main__":
 
 	app.run()
 \end{minted}
-This file handles all request resources sent from the browser with the above file handling a single url resource of the root address of the application and return a simple text message. This allows for the creation of custom resources that can have any response we need i.e a html page, result of a calculation or running a entire python script and then returning the result to the user in the response body~\cite{Welcomet92:online}.\\
+This file handles all request resources sent from the browser with the above file handling a single url resource of the root address of the application and return a simple text message. This allows for the creation of custom resources that can have any response we need, i.e a html page, result of a calculation or running a entire python script and then returning the result to the user in the response body~\cite{Welcomet92:online}.\\
 When this file is run from the command line a server is started and run locally on port :5050 by default.
 \begin{figure}[H]
 	\centering
@@ -630,11 +630,11 @@ The main http request methods used within the REST architecture are:
 	\item PUT should be used to update a resource held on the server.
 	\item DELETE should be used to remove a resource from the server.
 \end{itemize}
-Note that should is used in describing the four methods above.
-As rest is not a standard but rather a set of guidelines to follow, the above methods can be used for different functionality but would not be considered a restful application.
+Note that \textit{\textbf{should}} is used in describing the four methods above.
+As the rest architecture is not a standard but rather a set of guidelines to follow, the above methods can be used for different functionality but would not be considered a restful application.
 \section{JavaScript}
 JavaScript is a client side browser based scripting language.
-It can be used to dynamically update information on a static web page in the form of tabular data, 2D/3D animations or session based user information~\cite{JavaScri52:online}, this will be discussed further in the following subsequent subsections. JavaScript can also be used to manipulate html elements with event listeners. In the below example~\cite{fontSize:online} an onClick event listener is used to change the font size of the text contained with the html paragraph element. The element is accessed by document.getElementById('demo'). This parses the document object model DOM of the html file and locates the element with the id of 'demo'. From here  ('demo').style.fontSize='35px' alters the text style font size to 35 pixels.
+It can be used to dynamically update information on a static web page in the form of tabular data, 2D/3D animations or session based user information~\cite{JavaScri52:online}. This will be discussed further in the following subsequent subsections. JavaScript can also be used to manipulate html elements with event listeners. In the below example~\cite{fontSize:online} an onClick event listener is used to change the font size of the text contained with the html paragraph element. The element is accessed by document.getElementById('demo'). This parses the document object model DOM of the html file and locates the element with the id of 'demo'. From here  ('demo').style.fontSize='35px' alters the text style font size to 35 pixels.
 This is all done dynamically via a click event on the web page allowing for the local client side real time manipulation of browser data.
 \begin{minted}{HTML}
 <!DOCTYPE html>
@@ -652,9 +652,9 @@ This is all done dynamically via a click event on the web page allowing for the 
 </html> 
 \end{minted}  
 \subsection{AJAX}
-Asynchronous JavaScript and XML (AJAX) is a front end browser technology wich allows for the retrieval of server side data asynchronously without altering the view or behaviour of the web page. When an asynchronous request is made to the server it simply waits until a response has been returned and can then process the returned data. This method can be used to request specific files held on the server then run any data processing needed once the files have been returned.  AJAX also has the ability to only update partial segments of a web page without reloading the entire page.~\cite{AJAX:online}\\
-In the below example~\cite{AJAXDemo:online} there is a h1 heading with the text "The XMLHttpRequest Object" along with a button holding an onClick event listener. When the button is clicked within the browser the loadDoc() JavaScript function is called.\\
-Within the loadDoc function the onreadystatechange method waits for a http message of 4 and 200 response from the server which indicates the message has been sent correctly. From there the response text form the "ajax info" file is bound to the div with the id of demo changing the on screen text to the text held within the file.\\
+Asynchronous JavaScript and XML (AJAX) is a front end browser technology wich allows for the retrieval of server side data asynchronously without altering the view or behaviour of the web page. When an asynchronous request is made to the server, it simply waits until a response has been returned and can then process the returned data. This method can be used to request specific files held on the server then run any data processing needed once the files have been returned.  AJAX also has the ability to only update partial segments of a web page without reloading the entire page.~\cite{AJAX:online}\\
+In the below example~\cite{AJAXDemo:online} there is a h1 heading with the text "The XMLHttpRequest Object" along with a button holding an onClick event listener. When the button is clicked within the browser, the loadDoc() JavaScript function is called.\\
+Within the loadDoc function, the onreadystatechange method waits for a http message of 4 and 200 response from the server which indicates the message has been sent correctly. From there the response text form the "ajax info" file is bound to the div with the id of demo changing the on screen text to the text held within the file.\\
  
 \begin{minted}{HTML}
 <!DOCTYPE html>
@@ -686,7 +686,7 @@ xhttp.send();
 
 
 \subsection{Google Charts}
-The Google charts API is javaScript charting library that allows for the creation of numerous types of charts to be generated within a browser window. For the purpose of this project a line chart is used to display the agent rewards gained over time. Scalable Vector Graphics (SVG) are used to render the chart image within the browser~\cite{GoogleLineChart:online}.\\
+The Google charts API is javaScript charting library that allows for the creation of numerous types of charts to be generated within a browser window. For the purpose of this project, a line chart is used to display the agent rewards gained over time. Scalable Vector Graphics (SVG) are used to render the chart image within the browser~\cite{GoogleLineChart:online}.\\
 To create a line chart:
 \begin{itemize}
 	\item The library must be imported along with an empty div to hold the final rendered image of the chart~\cite{GoogleLineChart:online}.
@@ -792,7 +792,7 @@ The hottie.js library is a used via JQuery and has the ability to colour code ht
 	</tr>
 </table>
 \end{minted}
-Using JQuery a handle is gained on the table via the ID of "myTable". Three transitional hex colour values are then set from low (red), medium (red + green) to high (green).~\cite{HottieExample:online}
+Using JQuery, a handle is gained on the table via the ID of "myTable". Three transitional hex colour values are then set from low (red), medium (red + green) to high (green).~\cite{HottieExample:online}
 \begin{minted}{JavaScript}
 $("#myTable td").hottie({
 colorArray : [ 
@@ -812,7 +812,7 @@ The resulting cell values within the html table now have colour codes mapped to 
 
 \subsection{HTML Canvas}
 The html canvas element is used to draw graphics via JavaScript and render the result within a browser page.\\
-All of the drawing commands are written in JavaScript then sent to the empty canvas element for the resulting image to be rendered by the browser.\\
+All of the drawing commands are written in JavaScript and then sent to the empty canvas element for the resulting image to be rendered by the browser.\\
 Below is a simple example of a line drawn using html canvas.~\cite{CanvasDoc:online}\\
 The attributes the canvas element have are the with and height of the canvas view, the ID and optional styling if needed~\cite{CanvasExample:online}.
 
@@ -821,11 +821,11 @@ The attributes the canvas element have are the with and height of the canvas vie
            height="100" style="border:1px solid #000000;">
 </canvas>
 \end{minted}
-To draw the line firstly a handle is gain on the canvas element with the ID of "myCanvas".\\
+To draw the line firstly, a handle is gained on the canvas element with the ID of "myCanvas".\\
 The context of the canvas is then declared as a two dimensional drawing.\\
 The moveTo() method tells the browser where to start the drawing with 0,0 being the x,y coordinates.
 The x,y coordinates 0,0 start at the top left of the canvas which is not the conventional position of bottom left.\\
-The lineTo() method states where to draw a line along the x,y coordinates. In the below example a line is drawn 200 pixels along the x axis and 100 pixels along the y axis giving the result of a diagonal line from the top left to the bottom right of the containing canvas.~\cite{CanvasExample:online,CanvasDoc:online}
+The lineTo() method states where to draw a line along the x,y coordinates. In the below example, a line is drawn 200 pixels along the x axis and 100 pixels along the y axis giving the result of a diagonal line from the top left to the bottom right of the containing canvas.~\cite{CanvasExample:online,CanvasDoc:online}
 \begin{minted}{JavaScript}
 var c = document.getElementById("myCanvas");
 var ctx = c.getContext("2d");
@@ -843,7 +843,7 @@ ctx.stroke();
 \section{Bootstrap} 
 Bootstrap is a CSS framework library that allows for the rapid development of a fully responsive front end user interface.\\
 All css is pre-written with pre-defined class/id names.\\
-To utilise the BootStrap framework all that is required is to assign the html elements a class name or ID matching the class names or ID within the Bootstrap CSS file~\cite{Bootstrap:online}.
+To utilise the BootStrap framework, all that is required is to assign the html elements a class name or ID matching the class names or ID within the Bootstrap CSS file~\cite{Bootstrap:online}.
 In the below example a simple grid layout is used by declaring three types of div with the class names of:
 \begin{itemize}
 	\item "container" the wrapper class that controls the responsiveness of all containing divs.
@@ -884,7 +884,7 @@ The below image is a view of the same BootStrap html viewed on a mobile device~\
 \end{figure}
 
 \section{Json}
-JavaScript Object Notation (Json) is a language independent text based representation of a data object. This allows for the marshalling and un-marshalling of data to an object across many different programming languages. The Json data is written to a file with the .json extension and usually held on a server. The .json file contents are plain text, which are interpreted by a programming language requesting the file from the server. Once the file has been received the data can be un-marshalled to the language specific object~\cite{JSON:online}. In the below example a JavaScript object will be used to explain the process.\\
+JavaScript Object Notation (Json) is a language independent text based representation of a data object. This allows for the marshalling and un-marshalling of data to an object across many different programming languages. The Json data is written to a file with the .json extension and is usually held on a server. The .json file contents are plain text, which are interpreted by a programming language requesting the file from the server. Once the file has been received, the data can be un-marshalled to the language specific object~\cite{JSON:online}. In the below example a JavaScript object will be used to explain the process.\\
 
 The .json file structure has  a parent container node named performance. Within this parent node there are two child nodes with key value pairs. The key for each object is named timeStep and reward with numerical values as the value for each key.~\cite{JSONstring:online}\\
 \begin{minted}{JSON}
@@ -893,7 +893,7 @@ The .json file structure has  a parent container node named performance. Within 
 { "timeStep":2, "reward":100 }
 ]}
 \end{minted}
-When the file is requested from the server it needs to be parsed so it can be read as a JavaScript object.
+When the file is requested from the server, it needs to be parsed so it can be read as a JavaScript object.
 
 \begin{minted}{JavaScript}
 var obj = JSON.Parse(demo.json);
@@ -956,7 +956,7 @@ $.ajax({
 
 });
 \end{minted}
-In the above example once the csv file has been received from the server the data is placed into an array and appended to a html table for rendering the data to the browser page within a table cells~\cite{ParsingCSVExample:online}.
+In the above example once the csv file has been received from the server, the data is placed into an array and appended to a html table for rendering the data to the browser page within a table cells~\cite{ParsingCSVExample:online}.
 \section{Google Cloud App Engine}
 The Goolge Cloud app engine is used to deploy and host web applications to a live server.\\
 In the below example a python flask application is used, however a number of different languages can be used for deployment.\\
@@ -1009,10 +1009,10 @@ Once the deployment has completed the application will be available at appname.a
 
 
 \chapter{System Design}
-This chapter will examine the overall architecture and individual system components. These will be discussed at a high level view for the main structure of the system. The major functional components will then be broken down into a more fine grain view for examination. In addition the interaction between the components will be explained in further detail.
+This chapter will examine the overall architecture and individual system components. These will be discussed at a high level view for the main structure of the system. The major functional components will then be broken down into a more fine grain view for examination. In addition, the interaction between the components will be explained in further detail.
 
 \section{System Architecture}
-This system is client server based architecture with all of the system resources held on a server. The client interacts with the server via a resource http requests. When the client first enters the root URL of the application address a request is made for the "Index.hmtl" web page. If found the index page along with any other JavaScript or CSS files are sent back to the browser for rendering.
+This system is client server based architecture with all of the system resources held on a server. The client interacts with the server via a resource http requests. When the client first enters the root URL of the application address, a request is made for the "Index.hmtl" web page. If found, the index page along with any other JavaScript or CSS files are sent back to the browser for rendering.
 
 \begin{figure}[H]
 	\centering
@@ -1040,7 +1040,7 @@ return render_template('index.html')
 \end{minted}
 The above root method returns the index.hmtl file within the response body to be read by the browser.
 
-If everything is ok and all resources can be retrieved a status message of 200 is sent to the browser.
+If everything is ok and all resources can be retrieved, a status message of 200 is sent to the browser.
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.9\linewidth]{img/http200}
@@ -1055,7 +1055,7 @@ Finally the home page is rendered to the user.
 	\caption{Rendered Home Page}
 	\label{fig:homepage}
 \end{figure}
-When the highlighted url is entered to the browser address. The index html page is sent back to the browser along with any CSS and JAvaScript files needed.
+When the highlighted url is entered to the browser address, the index html page is sent back to the browser along with any CSS and JAvaScript files needed.
 
 This example is a brief introduction of the overall architecture of the application. A more in depth investigation of each system component will be discussed in the next chapter.
 
@@ -1066,7 +1066,7 @@ The following subsections will explain how each component operates within the ap
 The environment.py python file holds all of the agent logic, environment space, algorithmic operations and file creation for the application.
 
 \subsubsection{Grid Item Variables}
-There are four environment objects within each grid of an agent, a trap, an empty space an the goal.
+There are four environment objects within each grid - an agent, a trap, an empty space and the goal.
 These are represented by single characters and are placed within the grids below as needed.
 \begin{minted}{Python}
 """
@@ -1079,7 +1079,7 @@ EMPTY = '*'
 TRAP = '#'
 \end{minted}
 \subsubsection{Environment Grid Types}
-For this application the user can choose which grid they want to use for the agent to explore.
+For this application, the user can choose which grid they want to use for the agent to explore.
 Below there is a grid initialised to all empty characters and a further two grids of different configurations.
 \begin{minted}{Python}
 """
@@ -1117,7 +1117,7 @@ grid_standard = [
 ]
 \end{minted}
 
-Depending on which grid the user has chosen the empty grid gets assigned to the chosen gird.
+Depending on which grid the user has chosen, the empty grid gets assigned to the chosen gird.
 \begin{minted}{Python}
 
 if environment_form == "grid_cliff":
@@ -1174,11 +1174,11 @@ start_state = State(grid=grid, agent_pos=[5, 0])
 \subsubsection{Choosing Agent Actions}
 This method checks if the epsilon value is greater than a randomly generated
 floating point number between 0 and 1.
-With the epsilon  value at .8  there is an 80\% chance of the 
+With the epsilon  value at .8, there is an 80\% chance of the 
 agent choosing a random action.
 This will force the agent to explore the environment and seek 
 out all possible paths to the goal.
-This values decays after each episode gradually minimising the
+This values decays after each episode, gradually minimising the
 chance of the agent choosing a random choice.
 \begin{minted}{Python}
 # Choosing an action based on the epsilon value
@@ -1211,7 +1211,7 @@ elif action == RIGHT:
 p[1] = min(len(state.grid[0]) - 1, p[1] + 1)
 \end{minted}
 \subsubsection{Checking the agent position}
-In the below code snippet the agent position is checked for a Trap of a Goal. (Empty and Agent have been omitted for brevity). If the agent is occupying either of these grid items a final reward is given and the episode is terminated. A new episode is started if the maximum number of episodes has not been exceeded.
+In the below code snippet, the agent position is checked for a Trap of a Goal. (Empty and Agent have been omitted for brevity). If the agent is occupying either of these grid items, a final reward is given and the episode is terminated. A new episode is started if the maximum number of episodes has not been exceeded.
 \begin{minted}{Python}
 # Condition to check if the grid item is a trap 
 if grid_item == TRAP:
@@ -1239,9 +1239,9 @@ q_table[state] = np.zeros(len(ACTIONS))
 \end{minted}
 \subsubsection{Q-Learning Algorithm}
 The Q-Learning algorithm is defined as an off policy strategy whereby the current q values are partially updated from the next state maximum q value.
-With this implementation of the Q-Learning algorithm there is an outer loop for every episode.
+With this implementation of the Q-Learning algorithm, there is an outer loop for every episode.
 The inner loop is every time step for each episode.
-With each iteration of the inner loop the Q-Table is updated with the Q-Learning formula as discussed in chapter one\\
+With each iteration of the inner loop the Q-Table is updated with the Q-Learning formula~\cite{LITTMAN1994157} as discussed in chapter one\\
 $Q^{new}(s_{t},a_{t})\leftarrow Q(s_{t},a_{t}) + \alpha[r_{t} + \gamma  \max _{a}Q(s_{t+1},a) - Q(s, a)]$~\cite{Qlearnin52:online}.\\ This updates the current sates value for the action taken based on the maximum value of all actions in the next state.The inner loop continues until it either reaches the maximum number of steps set by the user or a terminal state has been reached.
 \begin{minted}{Python}
 for e in range(N_EPISODES):
@@ -1279,7 +1279,7 @@ break
 
 \end{minted}
 \subsubsection{SARSA Algorithm}
-The SARSA and Q-Learning algorithms look almost identical at first glance but the way in which the q values are updated are very different. The SARSA algorithm $Q(s_{t},a_{t})\leftarrow Q(s_{t},a_{t})+\alpha [r_{t}+\gamma Q(s_{t+1},a_{t+1})-Q(s_{t},a_{t})]$~\cite{Stateac29:online}\\ is defined as on policy whereby its q value is partially updated based on the next state and next action unlike Q-Learning using the maximum q value from the next state. The inner and outer loops are similar to the Q-Learning example above, with the difference being an action is chosen at the start of every episode and the next action is chosen from the next state only. The next state and next action are also updated within the inner loop. The difference in performance between the two algorithms will be examined in the next chapter.
+The SARSA and Q-Learning algorithms look almost identical at first glance but the way in which the q values are updated are very different. The SARSA~\cite{LITTMAN1994157} algorithm $Q(s_{t},a_{t})\leftarrow Q(s_{t},a_{t})+\alpha [r_{t}+\gamma Q(s_{t+1},a_{t+1})-Q(s_{t},a_{t})]$~\cite{Stateac29:online}\\ is defined as on policy whereby its q value is partially updated based on the next state and next action, unlike Q-Learning using the maximum q value from the next state. The inner and outer loops are similar to the Q-Learning example above, with the difference being an action is chosen at the start of every episode and the next action is chosen from the next state only. The next state and next action are also updated within the inner loop~\cite{Watkins1992}. The difference in performance between the two algorithms will be examined in the next chapter.
 \begin{minted}{Python}
 if algorithm_form == "sarsa":
 # Start the outer episode loop
@@ -1332,10 +1332,10 @@ From there the agent position can be written out to a text file wherever is need
 f.write('%d,' % p[0])
 f.write('%d,' % p[1])
 \end{minted}
-As the algorithms are episodic the agent x,y coordinates will be written out to a text file for every step the agent takes. This file can then be read via JavaScript to animate a shape representing the agent within a HTML canvas.
+As the algorithms are episodic, the agent x,y coordinates will be written out to a text file for every step the agent takes. This file can then be read via JavaScript to animate a shape representing the agent within a HTML canvas.
 In addition the file will be overwritten when a new request has been made ensuring that only the latest data is present.
 \subsubsection{Writing Q-Table Values to CSV File}
-To store the Q-Table values as they are being generated the dictionary holding the Q-Table is converted to a python list and then a pandas data frame. Once the Q-Table is represented as a data frame it can be converted and written to a csv file. This allows the data to be displayed within a HTML table and updated as needed. A new version of the Q-Table is appended to the csv file for every step the agent takes within the inner loop of the Q-Learning or SARSA algorithms. This supplies complete history of every q value update as the algorithm runs. Terminal states were removed from the q table as they were all zero and of no use for the front end table data.
+To store the Q-Table values as they are being generated, the dictionary holding the Q-Table is converted to a python list and then a pandas data frame. Once the Q-Table is represented as a data frame it can be converted and written to a csv file. This allows the data to be displayed within a HTML table and updated as needed. A new version of the Q-Table is appended to the csv file for every step the agent takes within the inner loop of the Q-Learning or SARSA algorithms. This supplies a complete history of every q value update as the algorithm runs. Terminal states were removed from the q table as they were all zero and of no use for the front end table data.
 
 \begin{minted}{Python}
 # check for a row in the dictionary that sums to zero
@@ -1384,13 +1384,13 @@ The data is structured with each episode number and total reward gained as key v
 {"0":{"0":-119.0,"1":-106.0,"2":-110.0,"3":-118.0,"4":-110.0,"5":-178.0}}
 \end{minted}
 \textbf{Agent\_Pos.txt:}\\
-Within this file every multiple of two values represent the x, y coordinates of the agent position.
+Within this file, every multiple of two values represent the x, y coordinates of the agent position.
 These values will be later split into tuples for animating a shape representing the agent.
 \begin{minted}{JAVA}
 5,0,5,0,4,0,4,0,3,0,4,0,3,0,2,0
 \end{minted}
 \textbf{Q\_Table.csv:}\\
-The contents of this file holds the q-table values for every step the agent has taken for the duration of the chosen algorithm. The below data is the final q-table of the csv file with the state number and q values for each states action. This table is a representation of the final step the agent has taken. The file generated can be very large depending on how many episodes the user has selected. With every time step the agent takes within each episode a new version of the below table is appended to the csv file. Each time the script is run the file is deleted and then recreated to ensure that the latest data is only present.
+The contents of this file holds the q-table values for every step the agent has taken for the duration of the chosen algorithm. The below data is the final q-table of the csv file with the state number and q values for each states action. This table is a representation of the final step the agent has taken. The file generated can be very large depending on how many episodes the user has selected. With every time step, the agent takes within each episode, a new version of the below table is appended to the csv file. Each time the script is run the file is deleted and then recreated to ensure that the latest data is only present.
 
 \begin{table}[H]
 	\hskip-2.0cm\begin{tabular}{lllll}
@@ -1446,7 +1446,7 @@ When the from is submitted the form data is sent as a post request and the run m
 \begin{minted}{html}
 <form class="form-horizontal" action="/run" method="post">
 \end{minted}
-Within the flask application file the run method is called and each form input field is bound to the variables within the environment.py file. The waiting.html page is then returned to the browser for rendering.
+Within the flask application file, the run method is called and each form input field is bound to the variables within the environment.py file. The waiting.html page is then returned to the browser for rendering.
 \begin{minted}{Python}
 @app.route('/run', methods=['GET', 'POST'])
 def test():	
@@ -1468,8 +1468,8 @@ return render_template('waiting.html')
 
 
 \subsection{waiting.html}:
-The waiting page is simply holds an animated gif image that displays until the script has completed running.
-In the background of this page JavaScript is used to send a get request for the run resource. This will run the environment.py file and return a message of 'done' once the file has completed running.
+The waiting page simply holds an animated gif image that displays until the script has completed running.
+In the background of this page, JavaScript is used to send a get request for the run resource. This will run the environment.py file and return a message of 'done' once the file has completed running.
 \begin{minted}{Python}
 # The first request made once teh form has been submitted
 @app.route('/run', methods=['GET', 'POST'])
@@ -1485,7 +1485,7 @@ JavaScript is used to ping the server for a return message of "done". Once the m
 if (request.status === 200 && request.responseText === 'done') {
 window.location = '/success';
 \end{minted}
-Finally the flask application file returns the result.hmtl page to the browser for rendering. In addition the form input field values are stored in variables that can be used within template holders in the result.html page. This keeps the from data submitted by the user on the home page. This can then be inserted to the form on the result page so the user does not need to remember the original settings. This allows for the tweaking of some parameters and rerunning the application to view the difference in performance. Some of the form input variables have been omitted for brevity.
+Finally the flask application file returns the result.hmtl page to the browser for rendering. In addition, the form input field values are stored in variables that can be used within template holders in the result.html page. This preserves all from data submitted by the user on the home page. This can then be inserted to the form on the result page so the user does not need to remember the original settings. This allows for the tweaking of some parameters and rerunning the application to view the difference in performance. Some of the form input variables have been omitted for brevity.
 \begin{minted}{Python}
 @app.route('/success', methods=['GET', 'POST'])
 def dealy():
@@ -1582,7 +1582,7 @@ drawShape(y1, x1, 'yellow');
 }, i * 50);
 \end{minted}
 \subsubsection{Q-Table Data update}
-The below image of the Q-Table is populated from the Q\_Table.csv data. The file is requested via an ajax request to the server. Once the file is accessed the data is parsed and fed to a html table. 
+The below image of the Q-Table is populated from the Q\_Table.csv data. The file is requested via an ajax request to the server. Once the file is accessed, the data is parsed and fed to a html table. 
 To update the table the data is cleared at every zero index (new q table).
 
 \begin{figure}[H]
@@ -1613,7 +1613,7 @@ $('table').append('<tr class="data"><td>'+csvRowCheck[0] +
 '</td><td>'+arrays[j]+ '</td></tr>');
 \end{minted}
 \subsubsection{Ordered Set of agent positions}
-In addition, as the agent movements are randomly selected based on the epsilon value the agent position for each state will differ each time the script is run. In order to accurately map the agent position, an ordered set of x,y coordinates are needed exclusive of terminal states. This will enable the agent position for each state to be placed in the table with no repeating values. The ordering of the coordinates are not numeric just at what point in time they have been placed in the array.\\
+In addition, as the agent movements are randomly selected based on the epsilon value the agent position for each state will differ each time the script is run. In order to accurately map the agent position, an ordered set of x,y coordinates are needed exclusive of terminal states. This will enable the agent position for each state to be placed in the table with no repeating values. The ordering of the coordinates are not numeric, just at what point in time they have been placed in the array.\\
 For example consider an array of x,y coordinates.
 \begin{minted}{JavaScript}
 [[0,0],[0,1],
@@ -1680,7 +1680,7 @@ $.ajax({
 \end{minted}
 
 \subsubsection{Hottie Library}
-The values within the q-table are also colour coded from low (red) to high(green) this was achieved by using the Hottie JavaScript library. The table data is accessed via JQuery selectors and the cells colour is based on theses numerical values from low to high.
+The values within the q-table are also colour coded from low (red) to high(green). This was achieved by using the Hottie JavaScript library. The table data is accessed via JQuery selectors and the cells colour is based on theses numerical values from low to high.
 \begin{minted}{JavaScript}
 // The Hottie framework to heatmap the values in the table as they update
 // Adapted from : https://github.com/DLarsen/jquery-hottie
@@ -1719,7 +1719,7 @@ value="{{ var2 }}" class="form-control">
 
 
 \section{Deployment}
-To deploy the local development environment to a instance of a Google Cloud Application.
+For the deployment of a local development environment, the following two files are needed.
 The files app.yaml and reqirements.txt are needed for pushing the application files to the Google application instance.
 
 The yaml file contains the configuration information for the application including the programming language, environment type, time out limit for the server and the flask application file name.
@@ -1742,7 +1742,7 @@ Werkzeug==0.14.1
 numpy==1.15.1
 pandas==0.23.4
 \end{minted}
-Once an empty application instance has been created on Google cloud platform the locally held files are ready to be pushed to the cloud fro deployment.\\
+Once an empty application instance has been created on Google cloud platform, the locally held files are ready to be pushed to the cloud fro deployment.\\
 The Google sdk command line interface is used with the following command.
 
 \begin{figure}[H]
@@ -1756,7 +1756,7 @@ Once completed the application is now live and available to anyone who wishes to
 
 
 \chapter{System Evaluation}
-From the objectives identified in the introduction of this document the systems performance will be examined and documented in this chapter.
+From the objectives identified in the introduction of this document, the systems performance will be examined and documented in this chapter.
 \section{Implementing SARSA and Q-learning}
 The difference between the SARSA and Q-Learning algorithms should be evident once the algorithms have completed. The SARSA algorithm should take a longer path to the goal state but have less instances of falling into a negative trap state.
 The environment used for this experiment is the cliff environment show below. The red squares represent traps for the yellow agent to avoid. The green square represents the goal state. Drawn on the image below is the optimal path chosen by each algorithm. The red line is the Q-Leaning optimal path chosen. The green Line is the SARSA optimal path chosen.
@@ -1767,7 +1767,7 @@ The environment used for this experiment is the cliff environment show below. Th
 	\label{fig:pathoptimal}
 \end{figure}
 
-The resulting graph should show over time that q-learning gains a higher end reward per episode but has more negative trap rewards than SARSA.
+The resulting graph should show that over time q-learning gains a higher end reward per episode but has more negative trap rewards than SARSA.
 Below is an image of the performance graph of both algorithms using the same input parameters.
 Q-Learning is represented by the red line and SARSA by the green line.
 \begin{figure}[h]
@@ -1798,7 +1798,7 @@ There are three resources declared within the application file with the followin
 		\label{fig:rootreq}
 	\end{figure}
 	
-	\item The '/run' resource should except GET and POST requests.\\
+	\item The '/run' resource should accept GET and POST requests.\\
 	When the form has been submitted on either the home or result pages, a POST request is made to the '/run' resource. All form field data should be bound to the environment.py variables and the waiting.html page should be returned to the browser for rendering.\\
 	Result:
 	\begin{figure}[H]
@@ -1808,7 +1808,7 @@ There are three resources declared within the application file with the followin
 		\label{fig:runresource}
 	\end{figure}
 	
-	On the waiting.html page an Ajax GET request should be made for the '/run' resource. This resource should then launch the environment.py script and return the response text of 'done' when the script has completed. Below in the response header the content length is 4 which represents the message 'done'\\
+	On the waiting.html page, an Ajax GET request should be made for the '/run' resource. This resource should then launch the environment.py script and return the response text of 'done' when the script has completed. Below in the response header the content length is 4 which represents the message 'done'\\
 	Result:
 	\begin{figure}[H]
 		\centering
@@ -1826,7 +1826,7 @@ There are three resources declared within the application file with the followin
 		\label{fig:successresource}
 	\end{figure}
 	
-	\item The '/success' resource should except GET and Post requests.Once either request has been made it should store all of the submitted form input fields into variables so the data can be reproduced within the result page from. It should then return the result.html file along with all saved variables.\\
+	\item The '/success' resource should accept GET and Post requests.Once either request has been made it should store all of the submitted form input fields into variables so the data can be reproduced within the result page from. It should then return the result.html file along with all saved variables.\\
 	Result: Below is the form submitted from the home page and then displayed on the result page with the same input data via variable binding.
 	\begin{figure}[H]
 		\centering
@@ -1970,18 +1970,44 @@ The main purpose of this application is to provide the user with a visual aid to
 
 \section{Future Development}
 
-In future versions of this application database integration is a real possibility. Each file generated could be stored for the retrieval of past simulations run without the need to run the main python file.\\
+In future versions of this application database integration is a real possibility. Each file generated could be stored for the retrieval of past simulations run, without the need to run the main python file.\\
 
 There could also be a pause and step functionality where the user can stop the animations at any time and see in more detail when the decisions and values are being updated.\\
 
-The application could be scaled out to a 3d environment with problems such as a rubix cube or a 3d maze to solve. This would take a little more computing power to complete in a reasonable amount of time, but is still a problem that is achievable.\\
+The application could be scaled out to a 3d environment with problems such as a rubix cube or 3d maze to solve. This would take a little more computing power to complete in a reasonable amount of time, but is still a problem that is achievable.\\
 
-More algorithms could also be integrated for comparison. There are, to name a few: double q-learning, deep q-learning, tensorflow with reinforcement learning.  Potentially any number of these could be introduced to this application for comparison.\\
+More algorithms could also be integrated for comparison.\\ There are, to name a few: double q-learning, deep q-learning, tensorflow integration with reinforcement learning.  Potentially any number of these could be introduced to this application for comparison.\\
 
 \section{Final Thoughts and Acknowledgements}
+\subsection{Final Thoughts}
+During the development of this project, while it was challenging, I found the learning process most enjoyable. In the beginning it took a little time to research the basic concepts of reinforcement learning, but this helped greatly while later coding the algorithms needed for the application.\\
+The Python programming language was also new to me, however with my prior experience of other languages, I was quickly able to pick up the basics and learn more advanced features as I needed them.\\
+I particularly enjoyed working with the flask framework. I found the minimal base structure of a new application allowed for an easier understanding of how the each element is coupled.\\
+In addition my experience of working with Google products has been a positive one. Prior to this project i've only had minimal experience with their cloud platform. When deploying the application and integrating line charts, their documentation quickly helped me to solve any problems I may have had.\\
+In summation during the development process of this project, the overall experience has been a very positive one for me. There have been some road blocks along the way but once they were solved the end goal of the project has been even more rewarding.
+\subsection{Acknowledgements}
+I would like to take this opportunity to thank the following people:\\
+My project supervisor Mr. Martin Hynes, who's advice and feedback given during weekly meetings was invaluable for the entire project life cycle.\\
+Dr. Patrick Mannion, who gave me the original idea for the project and held a lecture on the topic which was most helpful.\\
+Finally to my wife Michelle, without her understanding and support, all of this would not have been possible.\\\\
+\appendix
+\chapter{}
+\section{GitHub Repository}
+The following URL is a link to my GitHub repository holding all of the application resources.\\
+\href{https://github.com/kevgleeson78/Reinforcement-Learning}{https://github.com/kevgleeson78/Reinforcement-Learning}.
 
+\section{Installation Instruction}
+You can access this application at the following URL:\\
+\href{https://reinforcementlearning.appspot.com/}{https://reinforcementlearning.appspot.com/}\\
 
-
-
-
-
+Alternatively you can clone the repository and run the application locally by following the below instructions:\\
+\subsection{Local installation}
+\begin{itemize}
+	\item Clone the above repository
+	\item As the data generated is quite large it has been omitted from the repository. Once you have the repository cloned navigate to the static folder.
+	Then create an empty folder named exactly "Data".
+	\item Download and install anaconda python \href{https://www.anaconda.com/distribution/}{Click here}
+	\item Open a command line tool and change directory into the FlaskApp folder of the cloned repository.
+	\item Type the command "python FlaskTest.py" and press enter. This will start the server at the local address http://127.0.0.1:5000/
+	\item Copy the above address into a browser window of your choice and press enter. This will now run the application within a local environment for you to interact with.
+\end{itemize} 
