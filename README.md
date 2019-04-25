@@ -23,8 +23,13 @@ You can access this application at the following URL:
 
 Alternatively you can clone the repository and run the application locally by following the below instructions:
 ### Local installation
-
-* Clone this repostiory
+#### Cloning the application
+* To clone this repository ensure you have git installed on your machine. You can download and install it [here](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
+* Open a command line tool of your choice and type the following command :
+```bash
+git clone 
+```
+#### Running the application
 * As the data generated is quite large it has been omitted from the repository. 
   Once you have the repository cloned navigate to the static folder.
   Then create an empty folder named exactly "Data".
