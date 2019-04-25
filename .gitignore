@@ -108,8 +108,4 @@ venv.bak/
 *.iml
 
 # Folder holding Generated Files
-# exclude everything
-Data/*
-
-# exception to the rule
-!Data/.gitkeep 
+Data/
