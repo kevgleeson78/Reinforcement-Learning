@@ -2,6 +2,9 @@
 ### 4th Year Final Project
 ### By Kevin Gleeson
 ### Student at: [GMIT](www.gmit.ie) Galway
+### Video Demonstration
+A video demonstration of the application can be found at the below link.</br>
+### [Click here to view youtube video](https://youtu.be/j7Teclzo3lY)
 ## Project outline 
 This project will help to explain the temporal difference reinforcement learning process by displaying an agent's behaviour, performance and Q-Table (memory) as it interacts within its environment. The application is a browser based visual tool where a user can tweak parameters within a form before running the application. Once the form is submitted, it will then make a request to run the application held on a server. Once the script has completed, the user will be presented with and animation of the agent moving through its environment. In addition, a graph of the agent performance and the q-table will presented to the user for examination. There are two different temporal difference algorithms for the user to choose being Q learning, an off policy strategy and SARSA (State Action Reward Action), an on policy strategy. The performance of these two algorithms will be presented to the user for examination within a linear chart.
 This will aid the user in better understanding the concept of reinforcement learning.
