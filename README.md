@@ -22,7 +22,7 @@ This will aid the user in better understanding the concept of reinforcement lear
 
 ## Installation Instructions
 You can access this application at the following URL: 
-[https://reinforcementlearning.appspot.com/](https://reinforcementlearning.appspot.com/)
+[https://reinforcementlearning.appspot.com/](https://reinforcementlearning2.appspot.com/)
 
 Alternatively you can clone the repository and run the application locally by following the below instructions:
 ### Local installation
